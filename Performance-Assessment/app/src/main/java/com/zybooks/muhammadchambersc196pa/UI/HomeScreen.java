@@ -1,14 +1,16 @@
-package com.zybooks.muhammadchambersc196pa;
+package com.zybooks.muhammadchambersc196pa.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.zybooks.muhammadchambersc196pa.R;
+
+public class HomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_screen);
     }
 }

@@ -1,4 +1,4 @@
-package com.zybooks.muhammadchambersc196pa;
+package com.myapplication;
 
 import org.junit.Test;
 

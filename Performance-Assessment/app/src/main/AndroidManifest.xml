@@ -10,35 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MuhammadChambersC196PA"
+        android:theme="@style/Theme.MuhammadChambersC196"
         tools:targetApi="31">
         <activity
-            android:name=".UI.DetailedAssessmentView"
-            android:label="Detailed Assessment View"
-            android:exported="false" />
-        <activity
-            android:name=".UI.DetailedTermView"
-            android:label="Detailed Term View"
-            android:exported="false" />
-        <activity
-            android:name=".UI.DetailedCourseView"
-            android:label="Detailed Course View"
-            android:exported="false" />
-        <activity
-            android:name=".UI.ListOfAssessments"
-            android:label="List of Assessments"
-            android:exported="false" />
-        <activity
-            android:name=".UI.ListOfCourses"
-            android:label="List of Courses"
-            android:exported="false" />
-        <activity
-            android:name=".UI.ListOfTerms"
-            android:label="List of Terms"
-            android:exported="false" />
-        <activity
-            android:name=".UI.HomeScreen"
-            android:label="Home Screen"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

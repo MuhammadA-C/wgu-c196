@@ -1,4 +1,4 @@
-package com.zybooks.muhammadchambersc196pa;
+package com.myapplication;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.zybooks.muhammadchambersc196pa", appContext.getPackageName());
+        assertEquals("com.myapplication", appContext.getPackageName());
     }
 }

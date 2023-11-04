@@ -25,11 +25,11 @@ Date:
 ## Database Design
 
 ### Tables
-* Term
-* Course
-* Assessment
-* CourseInstructor
-* CourseNote
+* Terms
+* Courses
+* Assessments
+* CourseInstructors
+* CourseNotes
 
 ---
 

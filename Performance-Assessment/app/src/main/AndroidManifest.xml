@@ -13,25 +13,32 @@
         android:theme="@style/Theme.MuhammadChambersC196"
         tools:targetApi="31">
         <activity
-            android:name=".UI.DetailedAssessmentViewActivity"
+            android:name=".controller.DetailedAssessmentViewActivity"
+            android:label="Detailed Assessment View"
             android:exported="false" />
         <activity
-            android:name=".UI.DetailedTermViewActivity"
+            android:name=".controller.DetailedTermViewActivity"
+            android:label="Detailed Term View"
             android:exported="false" />
         <activity
-            android:name=".UI.DetailedCourseViewActivity"
+            android:name=".controller.DetailedCourseViewActivity"
+            android:label="Detailed Course View"
             android:exported="false" />
         <activity
-            android:name=".UI.ListOfAssessmentsActivity"
+            android:name=".controller.ListOfAssessmentsActivity"
+            android:label="List of Assessments"
             android:exported="false" />
         <activity
-            android:name=".UI.ListOfCoursesActivity"
+            android:name=".controller.ListOfCoursesActivity"
+            android:label="List of Courses"
             android:exported="false" />
         <activity
-            android:name=".UI.ListOfTermsActivity"
+            android:name=".controller.ListOfTermsActivity"
+            android:label="List of Terms"
             android:exported="false" />
         <activity
-            android:name=".UI.HomeScreenActivity"
+            android:name=".controller.HomeScreenActivity"
+            android:label="Home Screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

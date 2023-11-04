@@ -1,4 +1,4 @@
-package com.muhammadchambersc196.UI;
+package com.muhammadchambersc196.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 

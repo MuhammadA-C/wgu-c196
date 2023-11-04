@@ -1,4 +1,4 @@
-package com.muhammadchambersc196.UI;
+package com.muhammadchambersc196.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.muhammadchambersc196.R;
 
-public class ListOfAssessmentsActivity extends AppCompatActivity {
+public class ListOfCoursesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_of_assessments);
+        setContentView(R.layout.activity_list_of_courses);
     }
 }

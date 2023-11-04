@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.muhammadchambersc196;
 
 import org.junit.Test;
 

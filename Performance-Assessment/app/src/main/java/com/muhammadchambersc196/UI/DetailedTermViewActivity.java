@@ -1,14 +1,16 @@
-package com.myapplication;
+package com.muhammadchambersc196.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.muhammadchambersc196.R;
+
+public class DetailedTermViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detailed_term_view);
     }
 }

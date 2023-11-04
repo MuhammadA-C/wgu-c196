@@ -46,3 +46,5 @@ Date:
 * Version Control: Git & GitHub
 * Database: Room (SQLite)
 * Lucidchart
+* MVC Pattern
+* DAO Pattern

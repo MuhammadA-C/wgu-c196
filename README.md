@@ -39,13 +39,14 @@ WGU C196 Mobile Application Development
 
 ---
 
-## Tools Used
+## Tools/Skills Used
 
-* Java
-* XML
-* Android Studio
+* Programming Language: Java
+* GUI/UI: XML
+* IDE: Android Studio
 * Version Control: Git & GitHub
 * Database: Room (SQLite)
-* Lucidchart
-* MVC Pattern
-* DAO Pattern
+* UML Diagram: Lucidchart
+* Model-View-Controller (MVC) Pattern
+* Data-Access-Object (DAO) Pattern
+* Object-Oriented Programming (OOP)

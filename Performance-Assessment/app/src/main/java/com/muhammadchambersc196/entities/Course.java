@@ -1,6 +1,7 @@
 package com.muhammadchambersc196.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "courses")
@@ -20,6 +21,17 @@ public class Course {
 
     public Course(int courseID, String title, String status, String information, String startDate, String endDate, int termID, int courseInstructorID) {
         this.setCourseID(courseID);
+        this.setTitle(title);
+        this.setStatus(status);
+        this.setInformation(information);
+        this.setStartDate(startDate);
+        this.setEndDate(endDate);
+        this.setTermID(termID);
+        this.setCourseInstructorID(courseInstructorID);
+    }
+
+    @Ignore
+    public Course(String title, String status, String information, String startDate, String endDate, int termID, int courseInstructorID) {
         this.setTitle(title);
         this.setStatus(status);
         this.setInformation(information);

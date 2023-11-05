@@ -1,6 +1,7 @@
 package com.muhammadchambersc196.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "terms")
@@ -18,6 +19,14 @@ public class Term {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
     }
+
+    @Ignore
+    public Term(String title, String startDate, String endDate) {
+        this.setTitle(title);
+        this.setStartDate(startDate);
+        this.setEndDate(endDate);
+    }
+
 
     public void setTermID(int termID) {
         this.termID = termID;

@@ -2,7 +2,9 @@ package com.muhammadchambersc196.helper;
 
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
+import com.muhammadchambersc196.entities.Term;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,5 +88,44 @@ public class Helper {
         }
         return assessmentsForCourse;
     }
+
+    //Method below will be used to prevent duplicate terms from being added to the database
+    public static boolean isTermInDatabase(Term valueToAdd, List<Term> termList) {
+        for(Term termInList : termList) {
+            if(valueToAdd.getTitle().toLowerCase().equals(termInList.getTitle().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Method below will be used to prevent duplicate course instructors from being added to the database
+    public static boolean isCourseInstructorInDatabase(CourseInstructor valueToAdd, List<CourseInstructor> courseInstructorList) {
+        for(CourseInstructor courseInstructorInList : courseInstructorList) {
+            if(valueToAdd.getName().toLowerCase().equals(courseInstructorInList.getName().toLowerCase()) &&
+                valueToAdd.getPhoneNumber().equals(courseInstructorInList.getPhoneNumber()) &&
+                valueToAdd.getEmail().equals(courseInstructorInList.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Method below will be used to prevent duplicate courses for the same term
+    //Note: The user most likely shouldn't be able to add a duplicate course for the same term
+    public static boolean doesCourseExistForTerm(Course valueToAdd, ArrayList<Course> listOfCoursesForTerm) {
+        for(Course course : listOfCoursesForTerm) {
+            if(valueToAdd.getTitle().toLowerCase().equals(course.getTitle().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+        Note:
+            - Need to add code to check if the end date is on the same day or after the start date
+
+     */
 
 }

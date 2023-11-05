@@ -10,7 +10,7 @@ import com.muhammadchambersc196.entities.CourseInstructor;
 
 public class HomeScreenActivity extends AppCompatActivity {
     //Used to add items to the database
-    Repository repository;
+    //Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
 
         //Used to add items to the database
-        repository = new Repository(getApplication());
+        //repository = new Repository(getApplication());
 
 
 

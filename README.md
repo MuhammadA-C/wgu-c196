@@ -3,15 +3,16 @@ WGU C196 Mobile Application Development
 
 ---
 
+* University: Western Governors University
+* Degree: Bachelor of Science in Software Development
+* Class: C196 Mobile Application Development
+* Date: 
+
+---
+
 # Overview
 
-University: Western Governors University
 
-Degree: Bachelor of Science in Software Development
-
-Class: C196 Mobile Application Development
-
-Date: 
 
 
 

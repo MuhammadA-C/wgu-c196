@@ -96,4 +96,139 @@ public class Repository {
 
         return mAllTerms;
     }
+
+    public void insert(Term term) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mTermDAO.insert(term);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void insert(Course course) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseDAO.insert(course);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void insert(Assessment assessment) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.insert(assessment);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void insert(CourseNote courseNote) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseNoteDAO.insert(courseNote);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void insert(CourseInstructor courseInstructor) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseInstructorDAO.insert(courseInstructor);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void update(Term term) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mTermDAO.update(term);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void update(Course course) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseDAO.update(course);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void update(Assessment assessment) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.update(assessment);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void update(CourseNote courseNote) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseNoteDAO.update(courseNote);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void update(CourseInstructor courseInstructor) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseInstructorDAO.update(courseInstructor);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void delete(Term term) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mTermDAO.delete(term);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void delete(Assessment assessment) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mAssessmentDAO.delete(assessment);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void delete(Course course) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseDAO.delete(course);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void delete(CourseNote courseNote) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseNoteDAO.delete(courseNote);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
+
+    public void delete(CourseInstructor courseInstructor) throws InterruptedException {
+        databaseExecutor.execute(() -> {
+            mCourseInstructorDAO.delete(courseInstructor);
+        });
+
+        //This is needed to give the database time to retrieve the information
+        Thread.sleep(1000);
+    }
 }

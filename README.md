@@ -39,6 +39,10 @@ WGU C196 Mobile Application Development
 
 ---
 
+## Future Improvements
+
+---
+
 ## Tools/Skills Used
 
 * Programming Language: Java

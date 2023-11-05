@@ -50,3 +50,10 @@ WGU C196 Mobile Application Development
 * Model-View-Controller (MVC) Pattern
 * Data-Access-Object (DAO) Pattern
 * Object-Oriented Programming (OOP)
+
+---
+
+## Software Packages
+
+*Note: Below are the versions of the software that were used*
+

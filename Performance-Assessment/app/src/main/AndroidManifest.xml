@@ -13,33 +13,57 @@
         android:theme="@style/Theme.MuhammadChambersC196"
         tools:targetApi="31">
         <activity
-            android:name=".controller.DetailedAssessmentViewActivity"
-            android:label="Detailed Assessment View"
-            android:exported="false" />
+            android:name=".controller.update.UpdateAssessmentActivity"
+            android:exported="false"
+            android:label="Update Assessment View" />
         <activity
-            android:name=".controller.DetailedTermViewActivity"
-            android:label="Detailed Term View"
-            android:exported="false" />
+            android:name=".controller.update.UpdateTermActivity"
+            android:exported="false"
+            android:label="Update Term View" />
         <activity
-            android:name=".controller.DetailedCourseViewActivity"
-            android:label="Detailed Course View"
-            android:exported="false" />
+            android:name=".controller.update.UpdateCourseActivity"
+            android:exported="false"
+            android:label="Update Course View" />
         <activity
-            android:name=".controller.ListOfAssessmentsActivity"
-            android:label="List of Assessments"
-            android:exported="false" />
+            android:name=".controller.create.CreateAssessmentActivity"
+            android:exported="false"
+            android:label="Create Assessment View" />
         <activity
-            android:name=".controller.ListOfCoursesActivity"
-            android:label="List of Courses"
-            android:exported="false" />
+            android:name=".controller.create.CreateCourseActivity"
+            android:exported="false"
+            android:label="Create Course View" />
         <activity
-            android:name=".controller.ListOfTermsActivity"
-            android:label="List of Terms"
-            android:exported="false" />
+            android:name=".controller.create.CreateTermActivity"
+            android:exported="false"
+            android:label="Create Term View" />
+        <activity
+            android:name=".controller.detailed.DetailedAssessmentViewActivity"
+            android:exported="false"
+            android:label="Detailed Assessment View" />
+        <activity
+            android:name=".controller.detailed.DetailedTermViewActivity"
+            android:exported="false"
+            android:label="Detailed Term View" />
+        <activity
+            android:name=".controller.detailed.DetailedCourseViewActivity"
+            android:exported="false"
+            android:label="Detailed Course View" />
+        <activity
+            android:name=".controller.list.ListOfAssessmentsActivity"
+            android:exported="false"
+            android:label="List of Assessments" />
+        <activity
+            android:name=".controller.list.ListOfCoursesActivity"
+            android:exported="false"
+            android:label="List of Courses" />
+        <activity
+            android:name=".controller.list.ListOfTermsActivity"
+            android:exported="false"
+            android:label="List of Terms" />
         <activity
             android:name=".controller.HomeScreenActivity"
-            android:label="Home Screen"
-            android:exported="true">
+            android:exported="true"
+            android:label="Home Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

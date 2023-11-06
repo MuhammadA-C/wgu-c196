@@ -1,4 +1,4 @@
-package com.muhammadchambersc196.controller;
+package com.muhammadchambersc196.controller.list;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.muhammadchambersc196.R;
 
-public class DetailedTermViewActivity extends AppCompatActivity {
+public class ListOfCoursesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_term_view);
+        setContentView(R.layout.activity_list_of_courses);
     }
 }

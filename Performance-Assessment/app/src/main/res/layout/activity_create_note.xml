@@ -22,7 +22,7 @@
         android:id="@+id/create_note_details"
         android:layout_width="413dp"
         android:layout_height="230dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:autofillHints="no"
         android:ems="10"
         android:hint="@string/write_note_here_hint"

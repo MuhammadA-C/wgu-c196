@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/detailed_term_term_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
@@ -33,7 +33,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView27"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,7 +41,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/detailed_term_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -55,7 +54,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -64,7 +62,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView30"
+                android:id="@+id/detailed_term_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -87,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView3"
+        android:id="@+id/detailed_term_classes_list"
         android:layout_width="408dp"
         android:layout_height="454dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/detailed_term_add_class_btn"
         android:layout_width="412dp"
         android:layout_height="69dp"
         android:layout_marginBottom="24dp"
@@ -107,24 +105,24 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/detailed_term_delete_class_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="@string/delete_course"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toEndOf="@+id/button6"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+        app:layout_constraintStart_toEndOf="@+id/detailed_term_view_class_btn"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_term_classes_list" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/detailed_term_view_class_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
         android:text="@string/view_course"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+        app:layout_constraintTop_toBottomOf="@+id/detailed_term_classes_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

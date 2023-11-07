@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.HomeScreenActivity;
-import com.muhammadchambersc196.helper.Helper;
+import com.muhammadchambersc196.entities.Term;
+import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class CreateTermActivity extends AppCompatActivity {
@@ -38,16 +39,26 @@ public class CreateTermActivity extends AppCompatActivity {
                 createTermStartDate = findViewById(R.id.create_term_start_date);
                 createTermEndDate = findViewById(R.id.create_term_end_date);
 
-
-                if(Helper.isInputFieldEmpty(createTermName) || Helper.isInputFieldEmpty(createTermStartDate) || Helper.isInputFieldEmpty(createTermEndDate)) {
+                //Checks to ensure that the input fields are NOT empty
+                if(InputValidation.isInputFieldEmpty(createTermName) || InputValidation.isInputFieldEmpty(createTermStartDate) || InputValidation.isInputFieldEmpty(createTermEndDate)) {
                     return;
                 }
 
+                //Checks to ensure that the start and end dates are formatted correctly
+                if(!DateValidation.isDateFormattedCorrect(createTermStartDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(createTermEndDate.getText().toString())) {
+                    return;
+                }
 
+                //Checks to ensure start date is the same or before the end date
+                if(!DateValidation.isStartDateTheSameOrBeforeEndDate(createTermStartDate.getText().toString(), createTermEndDate.getText().toString())) {
+                    return;
+                }
+
+                Term term = new Term(createTermName.getText().toString(), createTermStartDate.getText().toString(), createTermEndDate.getText().toString());
+
+                //Need to add term to the database
 
                 goToNewScreen(SwitchScreen.getActvityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
-
-
             }
         });
     }

@@ -125,13 +125,6 @@ public class Helper {
         return false;
     }
 
-    public static boolean isInputFieldEmpty(EditText editText) {
-        if(editText.getText().toString().length() == 0) {
-            return true;
-        }
-        return false;
-    }
-
 
     /*
         Note:

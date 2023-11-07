@@ -30,7 +30,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextText12"
+                android:id="@+id/update_assessment_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autofillHints="no"
@@ -46,7 +46,7 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/update_assessment_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -68,7 +68,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextDate5"
+                android:id="@+id/update_assessment_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -94,7 +94,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextDate6"
+                android:id="@+id/update_assessment_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -120,7 +120,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextDate7"
+                android:id="@+id/update_assessment_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -133,7 +133,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button18"
+        android:id="@+id/update_assessment_save_btn"
         android:layout_width="414dp"
         android:layout_height="62dp"
         android:layout_marginBottom="28dp"

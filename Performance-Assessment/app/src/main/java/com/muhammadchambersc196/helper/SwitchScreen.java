@@ -33,7 +33,7 @@ public class SwitchScreen {
     public static final String  CREATE_TERM_ACTIVITY = "CreateTermActivity";
 
 
-    public static Class getActvityClass(String activityName) {
+    public static Class getActivityClass(String activityName) {
         Class className = null;
 
         switch (activityName) {

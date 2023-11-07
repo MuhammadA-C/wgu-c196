@@ -56,9 +56,11 @@ public class CreateTermActivity extends AppCompatActivity {
 
                 Term term = new Term(createTermName.getText().toString(), createTermStartDate.getText().toString(), createTermEndDate.getText().toString());
 
-                //Need to add term to the database
+                /*
+                    Note: Need to add term to the database prior to switching screens
+                 */
 
-                goToNewScreen(SwitchScreen.getActvityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
+                goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
             }
         });
     }

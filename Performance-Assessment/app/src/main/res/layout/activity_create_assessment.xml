@@ -24,7 +24,7 @@
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"
+                android:text="@string/title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="Project"
+                android:hint="@string/assessment_title"
                 android:inputType="text"
                 android:textSize="24sp" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Information:"
+                android:text="@string/information"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="add details"
+                android:hint="@string/add_details_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start Date:"
+                android:text="@string/start_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -101,7 +101,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="09/10/2023"
+                android:hint="@string/start_date_txt_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="End Date:"
+                android:text="@string/end_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -127,7 +127,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="10/10/2023"
+                android:hint="@string/end_date_txt_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>

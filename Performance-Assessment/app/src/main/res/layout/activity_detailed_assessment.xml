@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Title:"
+                android:text="@string/title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Type:"
+                android:text="@string/type"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start Date:"
+                android:text="@string/start_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="End Date:"
+                android:text="@string/end_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -114,7 +114,8 @@
         android:layout_width="411dp"
         android:layout_height="69dp"
         android:layout_marginBottom="48dp"
-        android:text="Edit"
+        android:text="@string/edit_txt"
+        android:textAllCaps="true"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

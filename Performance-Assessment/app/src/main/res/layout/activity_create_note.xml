@@ -37,7 +37,7 @@
         android:layout_width="410dp"
         android:layout_height="73dp"
         android:layout_marginBottom="32dp"
-        android:text="Save"
+        android:text="@string/save_txt"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -37,7 +37,7 @@
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
-          android:hint="Software 1"
+          android:hint="@string/hint_class_title"
           android:inputType="text"
           android:textSize="24sp" />
     </LinearLayout>
@@ -227,7 +227,7 @@
       android:layout_width="397dp"
       android:layout_height="67dp"
       android:layout_marginBottom="28dp"
-      android:text="Save"
+      android:text="@string/save_txt"
       android:textSize="20sp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"

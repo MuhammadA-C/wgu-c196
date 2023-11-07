@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MuhammadChambersC196</string>
+    <string name="hint_class_title">Software 1</string>
+    <string name="save_txt">Save</string>
 </resources>

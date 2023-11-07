@@ -31,7 +31,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextText4"
+          android:id="@+id/create_class_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -57,7 +57,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextText6"
+          android:id="@+id/create_class_info"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -69,7 +69,7 @@
     </LinearLayout>
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/create_class_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -90,7 +90,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextDate3"
+          android:id="@+id/create_class_start_date"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -117,7 +117,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextDate4"
+          android:id="@+id/create_class_end_date"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -155,7 +155,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextText7"
+          android:id="@+id/create_class_ci_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -182,14 +182,14 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextText8"
+          android:id="@+id/create_class_ci_email"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
           android:hint="@string/email_hint"
-          android:inputType="text"
+          android:inputType="textEmailAddress"
           android:textSize="24sp" />
     </LinearLayout>
 
@@ -208,14 +208,14 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editTextText9"
+          android:id="@+id/create_class_ci_phone_number"
           android:layout_width="189dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
           android:hint="@string/number_hint"
-          android:inputType="text"
+          android:inputType="phone"
           android:textSize="24sp" />
 
     </LinearLayout>
@@ -223,7 +223,7 @@
   </LinearLayout>
 
   <Button
-      android:id="@+id/button2"
+      android:id="@+id/create_class_save_btn"
       android:layout_width="397dp"
       android:layout_height="67dp"
       android:layout_marginBottom="28dp"

@@ -39,8 +39,8 @@
 
     <string name="assessment_title_hint">Project</string>
     <string name="class_title_hint">Software 1</string>
-    <string name="start_date_hint">09/10/2023</string>
-    <string name="end_date_hint">10/10/2023</string>
+    <string name="start_date_hint">yyyy-mm-dd</string>
+    <string name="end_date_hint">yyyy-mm-dd</string>
     <string name="course_info_hint">course info</string>
     <string name="email_hint">bob@wgu.edu</string>
     <string name="number_hint">333-333-3333</string>

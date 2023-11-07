@@ -38,13 +38,12 @@ public class CreateTermActivity extends AppCompatActivity {
                 createTermStartDate = findViewById(R.id.create_term_start_date);
                 createTermEndDate = findViewById(R.id.create_term_end_date);
 
-                /*
-                    Code below works! just commented out to easily test screen switching
+
                 if(Helper.isInputFieldEmpty(createTermName) || Helper.isInputFieldEmpty(createTermStartDate) || Helper.isInputFieldEmpty(createTermEndDate)) {
                     return;
                 }
 
-                 */
+
 
                 goToNewScreen(SwitchScreen.getActvityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
 

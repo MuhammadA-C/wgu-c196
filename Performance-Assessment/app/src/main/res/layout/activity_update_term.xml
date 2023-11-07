@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Term Title:"
+                android:text="@string/term_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="Term 1"
+                android:hint="@string/term_title_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start Date:"
+                android:text="@string/start_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="09/10/2023"
+                android:hint="@string/start_date_hint"
                 android:inputType="date"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="End Date:"
+                android:text="@string/end_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -88,7 +88,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="10/10/2023"
+                android:hint="@string/end_date_hint"
                 android:inputType="date"
                 android:textSize="24sp" />
         </LinearLayout>

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Course Title:"
+                android:text="@string/course_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Information:"
+                android:text="@string/information"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="course info"
+                android:hint="@string/course_info_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start Date:"
+                android:text="@string/start_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="09/10/2023"
+                android:hint="@string/start_date_hint"
                 android:inputType="date"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="End Date:"
+                android:text="@string/end_date"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="10/10/2023"
+                android:hint="@string/end_date_hint"
                 android:inputType="date"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -130,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="30dp"
-            android:text="Instructor Information Below"
+            android:text="@string/ci_section"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Name:"
+                android:text="@string/name"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -156,7 +156,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="Bob Smith"
+                android:hint="@string/ci_name_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Email:"
+                android:text="@string/email"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -183,7 +183,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="bob@wgu.edu"
+                android:hint="@string/email_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
 
@@ -199,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Number:"
+                android:text="@string/number"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -210,7 +210,7 @@
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="333-333-3333"
+                android:hint="@string/number_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
 

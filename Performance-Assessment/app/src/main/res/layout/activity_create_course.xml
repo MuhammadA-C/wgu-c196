@@ -96,7 +96,7 @@
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
-          android:hint="@string/start_date_txt_hint"
+          android:hint="@string/start_date_hint"
           android:inputType="date"
           android:textSize="24sp" />
 
@@ -123,7 +123,7 @@
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
-          android:hint="@string/end_date_txt_hint"
+          android:hint="@string/end_date_hint"
           android:inputType="date"
           android:textSize="24sp" />
 

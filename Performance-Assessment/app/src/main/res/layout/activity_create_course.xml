@@ -224,8 +224,8 @@
 
   <Button
       android:id="@+id/button2"
-      android:layout_width="400dp"
-      android:layout_height="55dp"
+      android:layout_width="397dp"
+      android:layout_height="67dp"
       android:layout_marginBottom="28dp"
       android:text="Save"
       android:textSize="20sp"

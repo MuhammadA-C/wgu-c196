@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
-import com.muhammadchambersc196.controller.create.CreateTermActivity;
 import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 
 public class DetailedNoteActivity extends AppCompatActivity {
@@ -32,7 +31,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
 
     void goToNewScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(getApplicationContext(), className);
+        Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
         //Note: Need to always start the activity that you're going to

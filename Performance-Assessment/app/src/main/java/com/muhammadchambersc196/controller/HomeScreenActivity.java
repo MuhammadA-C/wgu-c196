@@ -39,6 +39,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         homeAddTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("Home Screen: " + HomeScreenActivity.class.toString());
                 goToNewScreen(CreateTermActivity.class, "came_from", HomeScreenActivity.class.toString());
             }
         });
@@ -46,7 +47,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     void goToNewScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(getApplicationContext(), className);
+        Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
         //Note: Need to always start the activity that you're going to

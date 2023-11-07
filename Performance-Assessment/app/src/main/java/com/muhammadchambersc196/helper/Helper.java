@@ -1,5 +1,7 @@
 package com.muhammadchambersc196.helper;
 
+import android.widget.EditText;
+
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
@@ -118,6 +120,13 @@ public class Helper {
             if(valueToAdd.getTitle().toLowerCase().equals(course.getTitle().toLowerCase())) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean isInputFieldEmpty(EditText editText) {
+        if(editText.getText().toString().length() == 0) {
+            return true;
         }
         return false;
     }

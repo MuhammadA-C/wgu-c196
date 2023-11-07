@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.muhammadchambersc196.R;
 
-public class DetailedCourseViewActivity extends AppCompatActivity {
+public class DetailedAssessmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_course_view);
+        setContentView(R.layout.activity_detailed_assessment);
     }
 }

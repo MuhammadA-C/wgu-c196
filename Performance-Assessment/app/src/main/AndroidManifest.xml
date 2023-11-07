@@ -48,7 +48,7 @@
             android:exported="false"
             android:label="Create Term View" />
         <activity
-            android:name=".controller.detailed.DetailedAssessmentViewActivity"
+            android:name=".controller.detailed.DetailedAssessmentActivity"
             android:exported="false"
             android:label="Detailed Assessment View" />
         <activity
@@ -56,7 +56,7 @@
             android:exported="false"
             android:label="Detailed Term View" />
         <activity
-            android:name=".controller.detailed.DetailedCourseViewActivity"
+            android:name=".controller.detailed.DetailedCourseActivity"
             android:exported="false"
             android:label="Detailed Course View" />
         <activity

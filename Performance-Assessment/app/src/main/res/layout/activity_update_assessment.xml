@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="@string/assessment_title"
+                android:hint="@string/assessment_title_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
         </LinearLayout>

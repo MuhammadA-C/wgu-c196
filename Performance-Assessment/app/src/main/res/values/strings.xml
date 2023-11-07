@@ -1,27 +1,43 @@
 <resources>
     <string name="app_name">MuhammadChambersC196</string>
-    <string name="hint_class_title">Software 1</string>
     <string name="save_txt">Save</string>
     <string name="edit_txt">Edit</string>
+    <string name="share_note">Share Note</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="view_term">View Term</string>
+    <string name="delete_term">Delete Term</string>
+    <string name="add_term">Add Term</string>
+    <string name="add_course">Add Course</string>
+    <string name="view_course">View Course</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="add_note">Add Note</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="view_note">View Note</string>
+    <string name="view_assignment">View Assignment</string>
+    <string name="delete_assignment">Delete Assignment</string>
+
     <string name="start_date">Start Date:</string>
     <string name="end_date">End Date:</string>
-    <string name="assessment_title">Project</string>
     <string name="title">Title:</string>
     <string name="information">Information:</string>
     <string name="course_title">Course Title:</string>
     <string name="name">Name:</string>
     <string name="email">Email:</string>
     <string name="number">Number:</string>
-    <string name="ci_section">Instructor Information Below</string>
-    <string name="term_title">Term Title:</string>
     <string name="type">Type:</string>
     <string name="note">Note:</string>
-    <string name="share_note">Share Note</string>
-    <string name="edit_note">Edit Note</string>
-    <string name="view_term">View Term</string>
-    <string name="delete_term">Delete Term</string>
-    <string name="add_term">Add Term</string>
+    <string name="term_title">Term Title:</string>
+    <string name="ci_name">Instructor Name:</string>
 
+    <string name="ci_section">Instructor Information Below</string>
+    <string name="courses_section">Courses</string>
+    <string name="assignments_section">Assignments</string>
+
+    <string name="term_name_placeholder">Term Name</string>
+    <string name="course_name_placeholder">Course Name</string>
+
+    <string name="assessment_title_hint">Project</string>
+    <string name="class_title_hint">Software 1</string>
     <string name="start_date_hint">09/10/2023</string>
     <string name="end_date_hint">10/10/2023</string>
     <string name="course_info_hint">course info</string>

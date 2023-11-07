@@ -37,7 +37,7 @@
           android:layout_weight="1"
           android:autofillHints="no"
           android:ems="10"
-          android:hint="@string/hint_class_title"
+          android:hint="@string/class_title_hint"
           android:inputType="text"
           android:textSize="24sp" />
     </LinearLayout>

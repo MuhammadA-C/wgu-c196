@@ -14,7 +14,8 @@
         tools:targetApi="31">
         <activity
             android:name=".controller.detailed.DetailedNoteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Detailed Note View"/>
         <activity
             android:name=".controller.update.UpdateNoteActivity"
             android:exported="false"
@@ -52,7 +53,7 @@
             android:exported="false"
             android:label="Detailed Assessment View" />
         <activity
-            android:name=".controller.detailed.DetailedTermViewActivity"
+            android:name=".controller.detailed.DetailedTermActivity"
             android:exported="false"
             android:label="Detailed Term View" />
         <activity

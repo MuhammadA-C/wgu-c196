@@ -9,23 +9,31 @@ import android.widget.Button;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
-import com.muhammadchambersc196.controller.create.CreateTermActivity;
-import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
+import com.muhammadchambersc196.controller.create.CreateCourseActivity;
 
-public class DetailedNoteActivity extends AppCompatActivity {
-    Button detailedNoteEditNoteBtn;
+public class DetailedTermActivity extends AppCompatActivity {
+    Button detailedTermAddClassBtn;
+    Button detailedTermViewClassBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_note);
+        setContentView(R.layout.activity_detailed_term);
 
-        detailedNoteEditNoteBtn = findViewById(R.id.detailed_note_edit_note_btn);
+        detailedTermAddClassBtn = findViewById(R.id.detailed_term_add_class_btn);
+        detailedTermViewClassBtn = findViewById(R.id.detailed_term_view_class_btn);
 
-        detailedNoteEditNoteBtn.setOnClickListener(new View.OnClickListener() {
+        detailedTermAddClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(UpdateNoteActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(CreateCourseActivity.class, "came_from", HomeScreenActivity.class.toString());
+            }
+        });
+
+        detailedTermViewClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNewScreen(DetailedCourseActivity.class, "came_from", HomeScreenActivity.class.toString());
             }
         });
     }

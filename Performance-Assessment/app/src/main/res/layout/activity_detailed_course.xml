@@ -174,7 +174,7 @@
         android:id="@+id/detailed_class_view_note_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/view_note"
         app:layout_constraintBottom_toBottomOf="parent"

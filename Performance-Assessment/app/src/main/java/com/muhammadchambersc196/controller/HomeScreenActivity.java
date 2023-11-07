@@ -10,6 +10,8 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateTermActivity;
 import com.muhammadchambersc196.controller.list.ListOfTermsActivity;
+import com.muhammadchambersc196.helper.Helper;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class HomeScreenActivity extends AppCompatActivity {
     //Used to add items to the database
@@ -32,15 +34,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         homeViewAllTermsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(ListOfTermsActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(ListOfTermsActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.HOME_SCREEN_ACTIVITY);
             }
         });
 
         homeAddTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Home Screen: " + HomeScreenActivity.class.toString());
-                goToNewScreen(CreateTermActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.HOME_SCREEN_ACTIVITY);
             }
         });
     }

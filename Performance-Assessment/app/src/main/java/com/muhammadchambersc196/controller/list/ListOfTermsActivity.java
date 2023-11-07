@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateTermActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class ListOfTermsActivity extends AppCompatActivity {
     Button listOfTermsAddTermBtn;
@@ -26,14 +27,14 @@ public class ListOfTermsActivity extends AppCompatActivity {
         listOfTermsAddTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateTermActivity.class, "came_from", CreateTermActivity.class.toString());
+                goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);
             }
         });
 
         listOfTermsViewTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedTermActivity.class, "came_from", CreateTermActivity.class.toString());
+                goToNewScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);
             }
         });
     }

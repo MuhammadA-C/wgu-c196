@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.helper.Helper;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class CreateTermActivity extends AppCompatActivity {
     Button createTermBtn;
@@ -28,7 +29,7 @@ public class CreateTermActivity extends AppCompatActivity {
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
-        String activityCameFrom = intent.getStringExtra("came_from");
+        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM);
 
         createTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,18 +39,16 @@ public class CreateTermActivity extends AppCompatActivity {
                 createTermEndDate = findViewById(R.id.create_term_end_date);
 
                 /*
+                    Code below works! just commented out to easily test screen switching
                 if(Helper.isInputFieldEmpty(createTermName) || Helper.isInputFieldEmpty(createTermStartDate) || Helper.isInputFieldEmpty(createTermEndDate)) {
                     return;
                 }
 
                  */
 
-                try {
-                    System.out.println("Create Term Screen: " + activityCameFrom);
-                    goToNewScreen(Class.forName(activityCameFrom), "came_from", CreateTermActivity.class.toString());
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
+                goToNewScreen(SwitchScreen.getActvityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
+
+
             }
         });
     }

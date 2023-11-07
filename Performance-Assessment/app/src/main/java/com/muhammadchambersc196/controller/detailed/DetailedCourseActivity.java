@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Button detailedClassViewAssignmentBtn;
@@ -24,7 +25,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         detailedClassViewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedAssessmentActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
     }

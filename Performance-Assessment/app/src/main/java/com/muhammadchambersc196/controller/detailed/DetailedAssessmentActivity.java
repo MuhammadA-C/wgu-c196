@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateTermActivity;
 import com.muhammadchambersc196.controller.update.UpdateAssessmentActivity;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedAssessmentActivity extends AppCompatActivity {
     Button detailedAssessmentEditBtn;
@@ -24,7 +25,7 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         detailedAssessmentEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(UpdateAssessmentActivity.class, "came_from", CreateTermActivity.class.toString());
+                goToNewScreen(UpdateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_ASSESSMENT_ACTIVITY);
             }
         });
     }

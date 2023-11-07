@@ -2,6 +2,7 @@ package com.muhammadchambersc196.helper;
 
 import android.widget.EditText;
 
+import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
@@ -130,6 +131,7 @@ public class Helper {
         }
         return false;
     }
+
 
     /*
         Note:

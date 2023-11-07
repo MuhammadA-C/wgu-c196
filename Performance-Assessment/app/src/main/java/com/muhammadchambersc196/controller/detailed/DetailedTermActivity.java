@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.controller.create.CreateCourseActivity;
+import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedTermActivity extends AppCompatActivity {
     Button detailedTermAddClassBtn;
@@ -26,14 +27,14 @@ public class DetailedTermActivity extends AppCompatActivity {
         detailedTermAddClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateCourseActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
             }
         });
 
         detailedTermViewClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedCourseActivity.class, "came_from", HomeScreenActivity.class.toString());
+                goToNewScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
             }
         });
     }

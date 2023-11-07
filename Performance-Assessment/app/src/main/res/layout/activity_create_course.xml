@@ -1,10 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.create.CreateCourseActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <LinearLayout
+      android:id="@+id/linearLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toTopOf="@+id/guideline"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView10"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Course Title:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextText4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="Software 1"
+          android:inputType="text"
+          android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView12"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Information:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextText6"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:autofillHints="no"
+          android:ems="10"
+          android:hint="course info"
+          android:inputType="text"
+          android:textSize="20sp" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minHeight="48dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView14"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Start Date:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextDate3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="09/10/2023"
+          android:inputType="date"
+          android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView15"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="End Date:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextDate4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="10/10/2023"
+          android:inputType="date"
+          android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingVertical="30dp"
+        android:text="Instructor Information Below"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView16"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Name:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextText7"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="Bob Smith"
+          android:inputType="text"
+          android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView18"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Email:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextText8"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="bob@wgu.edu"
+          android:inputType="text"
+          android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView19"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Number:"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editTextText9"
+          android:layout_width="189dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="313-000-0000"
+          android:inputType="text"
+          android:textSize="20sp" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/button2"
+      android:layout_width="400dp"
+      android:layout_height="55dp"
+      android:layout_marginBottom="28dp"
+      android:text="Save"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.454"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+      app:layout_constraintVertical_bias="0.947" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="497dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

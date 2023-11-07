@@ -49,14 +49,6 @@
             android:exported="false"
             android:label="Detailed Course View" />
         <activity
-            android:name=".controller.list.ListOfAssessmentsActivity"
-            android:exported="false"
-            android:label="List of Assessments" />
-        <activity
-            android:name=".controller.list.ListOfCoursesActivity"
-            android:exported="false"
-            android:label="List of Courses" />
-        <activity
             android:name=".controller.list.ListOfTermsActivity"
             android:exported="false"
             android:label="List of Terms" />

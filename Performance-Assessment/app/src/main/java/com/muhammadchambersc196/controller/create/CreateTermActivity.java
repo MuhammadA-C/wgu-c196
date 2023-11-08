@@ -26,19 +26,19 @@ public class CreateTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_term);
 
         createTermBtn = findViewById(R.id.create_term_btn);
+        createTermName = findViewById(R.id.create_term_name);
+        createTermStartDate = findViewById(R.id.create_term_start_date);
+        createTermEndDate = findViewById(R.id.create_term_end_date);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM);
 
+
         createTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createTermName = findViewById(R.id.create_term_name);
-                createTermStartDate = findViewById(R.id.create_term_start_date);
-                createTermEndDate = findViewById(R.id.create_term_end_date);
-
                 //Checks to ensure that the input fields are NOT empty
                 if(InputValidation.isInputFieldEmpty(createTermName) || InputValidation.isInputFieldEmpty(createTermStartDate) || InputValidation.isInputFieldEmpty(createTermEndDate)) {
                     return;

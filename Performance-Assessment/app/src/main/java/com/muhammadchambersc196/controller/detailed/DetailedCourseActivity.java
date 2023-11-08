@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.HomeScreenActivity;
-import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
@@ -35,6 +33,17 @@ public class DetailedCourseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
+        //Note: Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    //Will be used to pass the course id to the create assessment view
+    void goToNewScreen(Class className, String keyName1, String value1, String keyName2, String value2) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(keyName1, value1);
+        intent.putExtra(keyName2, value2);
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }

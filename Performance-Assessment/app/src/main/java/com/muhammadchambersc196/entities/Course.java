@@ -31,14 +31,13 @@ public class Course {
     }
 
     @Ignore
-    public Course(String title, String status, String information, String startDate, String endDate, int termID, int courseInstructorID) {
+    public Course(String title, String status, String information, String startDate, String endDate, int termID) {
         this.setTitle(title);
         this.setStatus(status);
         this.setInformation(information);
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
-        this.setCourseInstructorID(courseInstructorID);
     }
 
 

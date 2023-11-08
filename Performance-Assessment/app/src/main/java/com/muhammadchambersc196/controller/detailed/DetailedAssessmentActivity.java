@@ -22,6 +22,7 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
 
         detailedAssessmentEditBtn = findViewById(R.id.detailed_assessment_edit_btn);
 
+
         detailedAssessmentEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

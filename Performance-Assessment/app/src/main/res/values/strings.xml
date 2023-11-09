@@ -32,7 +32,7 @@
 
     <string name="ci_section">Instructor Information Below</string>
     <string name="courses_section">Courses</string>
-    <string name="assignments_section">Assignments</string>
+    <string name="assessments_section">Assessments</string>
 
     <string name="term_name_placeholder">Term Name</string>
     <string name="course_name_placeholder">Course Name</string>

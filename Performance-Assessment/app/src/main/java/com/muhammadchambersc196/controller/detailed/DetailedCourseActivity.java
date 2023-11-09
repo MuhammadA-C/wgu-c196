@@ -1,17 +1,23 @@
 package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Button detailedClassViewAssignmentBtn;
+    TextView startDate;
+    TextView endDate;
+    TextView instructorName;
+    RecyclerView assessmentsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

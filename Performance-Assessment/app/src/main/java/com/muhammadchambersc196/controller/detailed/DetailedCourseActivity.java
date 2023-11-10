@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
+import com.muhammadchambersc196.controller.create.CreateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateNoteActivity;
 import com.muhammadchambersc196.controller.update.UpdateCourseActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
@@ -75,7 +76,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals("Update Course")) {
-            goToNewScreen(UpdateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Course");
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
             goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
@@ -87,6 +88,14 @@ public class DetailedCourseActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+        Note:
+           * For update course I need to pass in the course id
+           * For add assessment I need to pass in the course id
+           * For add note I need to pass in the course id
+           * For view not I need to pass in the selected note id
+           * For view assessment I need to pass in the selected assessment id
+     */
     void goToNewScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
@@ -96,13 +105,25 @@ public class DetailedCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Will be used to pass the course id to the create assessment view
-    void goToNewScreen(Class className, String keyName1, String value1, String keyName2, String value2) {
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
+        Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
-        intent.putExtra(keyName1, value1);
-        intent.putExtra(keyName2, value2);
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        //Note: Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String courseIDKey, int courseIDValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, goToScreen);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        intent.putExtra(courseIDKey, courseIDValue);
+
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }

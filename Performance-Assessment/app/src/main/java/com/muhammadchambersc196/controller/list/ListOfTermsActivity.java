@@ -44,6 +44,10 @@ public class ListOfTermsActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        Note:
+            * For view term I need to pass in the term id
+     */
     void goToNewScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);

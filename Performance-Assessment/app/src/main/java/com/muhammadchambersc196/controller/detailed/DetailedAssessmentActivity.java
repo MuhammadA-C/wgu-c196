@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.update.UpdateAssessmentActivity;
+import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedAssessmentActivity extends AppCompatActivity {
@@ -37,16 +37,21 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(UpdateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_ASSESSMENT_ACTIVITY);
+                goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_ASSESSMENT_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Assessment");
             }
         });
     }
 
-    void goToNewScreen(Class className, String keyName, String value) {
+    /*
+        Note:
+           * For edit assessment I need to pass in the assessment id
+     */
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
+        Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
-        intent.putExtra(keyName, value);
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }

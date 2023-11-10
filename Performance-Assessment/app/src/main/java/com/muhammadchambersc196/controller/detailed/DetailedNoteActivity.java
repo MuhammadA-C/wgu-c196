@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.create.CreateNoteActivity;
 import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -29,16 +30,21 @@ public class DetailedNoteActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(UpdateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_NOTE_ACTIVITY);
+                goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Note");
             }
         });
     }
 
-    void goToNewScreen(Class className, String keyName, String value) {
+    /*
+        Note:
+           * For edit note I need to pass in the note id
+     */
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
+        Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
-        intent.putExtra(keyName, value);
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }

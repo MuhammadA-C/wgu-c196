@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateCourseActivity;
-import com.muhammadchambersc196.controller.update.UpdateTermActivity;
+import com.muhammadchambersc196.controller.create.CreateTermActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedTermActivity extends AppCompatActivity {
@@ -70,17 +70,45 @@ public class DetailedTermActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals("Update Term")) {
-            goToNewScreen(UpdateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
+            goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Term");
             return true;
         }
         return false;
     }
 
+    /*
+        Note:
+           * For update term I need to pass in the term id
+           * For add course I need to pass in the term id
+           * For view course I need to pass in the course id
+     */
     void goToNewScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
+        //Note: Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, goToScreen);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        //Note: Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String courseIDKey, int courseIDValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, goToScreen);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        intent.putExtra(courseIDKey, courseIDValue);
+
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }

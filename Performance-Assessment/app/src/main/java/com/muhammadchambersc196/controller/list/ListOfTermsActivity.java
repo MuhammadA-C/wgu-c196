@@ -1,6 +1,7 @@
 package com.muhammadchambersc196.controller.list;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,25 +14,29 @@ import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class ListOfTermsActivity extends AppCompatActivity {
-    Button listOfTermsAddTermBtn;
-    Button listOfTermsViewTermBtn;
+    Button addBtn;
+    Button viewBtn;
+    Button deleteBtn;
+    RecyclerView termsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_terms);
 
-        listOfTermsAddTermBtn = findViewById(R.id.list_of_terms_add_term_btn);
-        listOfTermsViewTermBtn = findViewById(R.id.list_of_terms_view_term_btn);
+        addBtn = findViewById(R.id.list_of_terms_add_term_btn);
+        viewBtn = findViewById(R.id.list_of_terms_view_term_btn);
+        deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
+        termsList = findViewById(R.id.list_of_terms_list);
 
-        listOfTermsAddTermBtn.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);
             }
         });
 
-        listOfTermsViewTermBtn.setOnClickListener(new View.OnClickListener() {
+        viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);

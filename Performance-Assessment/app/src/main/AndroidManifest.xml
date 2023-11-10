@@ -15,6 +15,7 @@
         <activity
             android:name=".controller.detailed.DetailedNoteActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Detailed Note View"/>
         <activity
             android:name=".controller.update.UpdateNoteActivity"
@@ -23,6 +24,7 @@
         <activity
             android:name=".controller.create.CreateNoteActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Create Note View" />
         <activity
             android:name=".controller.update.UpdateAssessmentActivity"
@@ -31,14 +33,17 @@
         <activity
             android:name=".controller.update.UpdateTermActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedTermActivity"
             android:label="Update Term View" />
         <activity
             android:name=".controller.update.UpdateCourseActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Update Course View" />
         <activity
             android:name=".controller.create.CreateAssessmentActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Create Assessment View" />
         <activity
             android:name=".controller.create.CreateCourseActivity"
@@ -51,18 +56,22 @@
         <activity
             android:name=".controller.detailed.DetailedAssessmentActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Detailed Assessment View" />
         <activity
             android:name=".controller.detailed.DetailedTermActivity"
             android:exported="false"
+            android:parentActivityName=".controller.list.ListOfTermsActivity"
             android:label="Detailed Term View" />
         <activity
             android:name=".controller.detailed.DetailedCourseActivity"
             android:exported="false"
+            android:parentActivityName=".controller.detailed.DetailedTermActivity"
             android:label="Detailed Course View" />
         <activity
             android:name=".controller.list.ListOfTermsActivity"
             android:exported="false"
+            android:parentActivityName=".controller.HomeScreenActivity"
             android:label="List of Terms" />
         <activity
             android:name=".controller.HomeScreenActivity"

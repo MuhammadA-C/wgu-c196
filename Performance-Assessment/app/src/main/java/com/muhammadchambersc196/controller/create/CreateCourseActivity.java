@@ -26,6 +26,7 @@ public class CreateCourseActivity extends AppCompatActivity {
     EditText instructorEmail;
     EditText instructorPhoneNumber;
     Button saveBtn;
+    Button cancelBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         instructorEmail = findViewById(R.id.create_class_ci_email);
         instructorPhoneNumber = findViewById(R.id.create_class_ci_phone_number);
         saveBtn = findViewById(R.id.create_class_save_btn);
+        cancelBtn = findViewById(R.id.create_class_cancel_btn);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();

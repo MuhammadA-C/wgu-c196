@@ -18,7 +18,7 @@ import com.muhammadchambersc196.controller.update.UpdateTermActivity;
 public class SwitchScreen {
     public static final String CAME_FROM = "came_from";
     public static final String LIST_OF_TERMS_ACTIVITY = "ListOfTermsActivity";
-    public static final String  HOME_SCREEN_ACTIVITY = "HomeScreenActivity";
+    public static final String HOME_SCREEN_ACTIVITY = "HomeScreenActivity";
     public static final String DETAILED_TERM_ACTIVITY = "DetailedTermActivity";
     public static final String DETAILED_NOTE_ACTIVITY = "DetailedNoteActivity";
     public static final String DETAILED_COURSE_ACTIVITY = "DetailedCourseActivity";

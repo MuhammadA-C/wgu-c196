@@ -215,17 +215,26 @@
   </LinearLayout>
 
   <Button
+      android:id="@+id/create_class_cancel_btn"
+      android:layout_width="151dp"
+      android:layout_height="65dp"
+      android:layout_marginBottom="28dp"
+      android:text="@string/cancel_txt"
+      android:textSize="20sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.733"
+      app:layout_constraintStart_toEndOf="@+id/create_class_save_btn" />
+
+  <Button
       android:id="@+id/create_class_save_btn"
-      android:layout_width="397dp"
-      android:layout_height="67dp"
+      android:layout_width="184dp"
+      android:layout_height="64dp"
+      android:layout_marginStart="16dp"
       android:layout_marginBottom="28dp"
       android:text="@string/save_txt"
       android:textSize="20sp"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.454"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-      app:layout_constraintVertical_bias="0.947" />
+      app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.muhammadchambersc196.controller.create;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,8 @@ import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class CreateTermActivity extends AppCompatActivity {
-    Button createTermBtn;
+    Button saveBtn;
+    Button cancelBtn;
     EditText createTermName;
     EditText createTermStartDate;
     EditText createTermEndDate;
@@ -25,10 +27,11 @@ public class CreateTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_term);
 
-        createTermBtn = findViewById(R.id.create_term_btn);
+        saveBtn = findViewById(R.id.create_term_btn);
         createTermName = findViewById(R.id.create_term_name);
         createTermStartDate = findViewById(R.id.create_term_start_date);
         createTermEndDate = findViewById(R.id.create_term_end_date);
+        cancelBtn = findViewById(R.id.create_term_cancel_btn);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
@@ -36,7 +39,7 @@ public class CreateTermActivity extends AppCompatActivity {
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM);
 
 
-        createTermBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Checks to ensure that the input fields are NOT empty

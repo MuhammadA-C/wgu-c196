@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MuhammadChambersC196</string>
     <string name="save_txt">Save</string>
+    <string name="cancel_txt">Cancel</string>
     <string name="share_note">Share Note</string>
     <string name="edit_txt">Edit</string>
     <string name="edit_note">Edit Note</string>
@@ -47,4 +48,9 @@
     <string name="term_title_hint">Term 1</string>
     <string name="write_note_here_hint">Write note here</string>
     <string name="add_details_hint">add details</string>
+
+    <string name="menu_update_term">Update Term</string>
+    <string name="menu_add_note">Add Note</string>
+    <string name="menu_add_assessment">Add Assessment</string>
+    <string name="menu_update_course">Update Course</string>
 </resources>

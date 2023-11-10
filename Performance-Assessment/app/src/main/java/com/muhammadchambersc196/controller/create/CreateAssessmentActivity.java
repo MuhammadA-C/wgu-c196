@@ -24,6 +24,7 @@ public class CreateAssessmentActivity extends AppCompatActivity {
     EditText endDate;
     Spinner assessmentType;
     Button saveBtn;
+    Button cancelBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class CreateAssessmentActivity extends AppCompatActivity {
         endDate = findViewById(R.id.create_assessment_end_date);
         assessmentType = findViewById(R.id.create_assessment_type);
         saveBtn = findViewById(R.id.create_assessment_save_btn);
+        cancelBtn = findViewById(R.id.create_assessment_cancel_btn);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();

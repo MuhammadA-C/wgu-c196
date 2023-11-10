@@ -16,7 +16,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     //Note: Need to correctly set the course id by taking the value passed from the course page
     int courseId;
     EditText createNoteDetails;
-    Button createNoteBtn;
+    Button saveBtn;
+    Button cancelBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +25,15 @@ public class CreateNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_note);
 
         createNoteDetails = findViewById(R.id.create_note_details);
-        createNoteBtn = findViewById(R.id.create_note_btn);
+        saveBtn = findViewById(R.id.create_note_btn);
+        cancelBtn = findViewById(R.id.create_cancel_btn);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM);
 
-        createNoteBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(InputValidation.isInputFieldEmpty(createNoteDetails)) {

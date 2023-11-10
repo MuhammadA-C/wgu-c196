@@ -1,17 +1,14 @@
 package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 

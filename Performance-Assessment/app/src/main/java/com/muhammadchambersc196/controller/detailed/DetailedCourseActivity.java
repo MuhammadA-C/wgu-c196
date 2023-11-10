@@ -5,11 +5,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
+import com.muhammadchambersc196.controller.create.CreateNoteActivity;
+import com.muhammadchambersc196.controller.update.UpdateCourseActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
@@ -44,6 +49,42 @@ public class DetailedCourseActivity extends AppCompatActivity {
                 goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
+
+        viewNoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNewScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detailed_course, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+            Note: Need this check because .getTitle() can return null and this can cause the
+            .equals() check to crash the app
+         */
+        if (item.getTitle() == null) {
+            return false;
+        }
+
+        if (item.getTitle().equals("Update Course")) {
+            goToNewScreen(UpdateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            return true;
+        } else if (item.getTitle().equals("Add Assessment")) {
+            goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            return true;
+        } else if (item.getTitle().equals("Add Note")) {
+            goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            return true;
+        }
+        return false;
     }
 
     void goToNewScreen(Class className, String keyName, String value) {

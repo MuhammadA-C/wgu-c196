@@ -1,12 +1,14 @@
 package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
@@ -14,16 +16,20 @@ import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedNoteActivity extends AppCompatActivity {
-    Button detailedNoteEditNoteBtn;
+    Button editBtn;
+    Button shareBtn;
+    TextView note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_note);
 
-        detailedNoteEditNoteBtn = findViewById(R.id.detailed_note_edit_note_btn);
+        editBtn = findViewById(R.id.detailed_note_edit_note_btn);
+        note = findViewById(R.id.detailed_note_note);
+        shareBtn = findViewById(R.id.detailed_note_share_note_btn);
 
-        detailedNoteEditNoteBtn.setOnClickListener(new View.OnClickListener() {
+        editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(UpdateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_NOTE_ACTIVITY);

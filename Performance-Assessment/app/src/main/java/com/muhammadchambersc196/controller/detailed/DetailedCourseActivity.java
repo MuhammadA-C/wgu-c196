@@ -13,20 +13,32 @@ import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
-    Button detailedClassViewAssignmentBtn;
+    Button viewAssignmentBtn;
+    Button deleteAssessmentBtn;
+    Button viewNoteBtn;
+    Button deleteNoteBtn;
     TextView startDate;
     TextView endDate;
     TextView instructorName;
     RecyclerView assessmentsList;
+    RecyclerView notesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_course);
 
-        detailedClassViewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
+       viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
+        startDate = findViewById(R.id.detailed_class_start_date);
+        endDate = findViewById(R.id.detailed_class_end_date);
+        instructorName = findViewById(R.id.detailed_ci_name);
+        assessmentsList = findViewById(R.id.detailed_class_assessments_list);
+        deleteAssessmentBtn = findViewById(R.id.detailed_class_delete_assignment_btn);
+        viewNoteBtn = findViewById(R.id.detailed_class_view_note_btn);
+        deleteNoteBtn = findViewById(R.id.detailed_class_delete_note_btn);
+        notesList = findViewById(R.id.detailed_class_notes_list);
 
-        detailedClassViewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
+        viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);

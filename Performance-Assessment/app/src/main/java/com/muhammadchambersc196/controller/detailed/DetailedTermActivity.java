@@ -1,11 +1,13 @@
 package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
@@ -13,25 +15,35 @@ import com.muhammadchambersc196.controller.create.CreateCourseActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedTermActivity extends AppCompatActivity {
-    Button detailedTermAddClassBtn;
-    Button detailedTermViewClassBtn;
+    Button addBtn;
+    Button viewBtn;
+    Button deleteBtn;
+    RecyclerView classesList;
+    TextView termName;
+    TextView startDate;
+    TextView endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_term);
 
-        detailedTermAddClassBtn = findViewById(R.id.detailed_term_add_class_btn);
-        detailedTermViewClassBtn = findViewById(R.id.detailed_term_view_class_btn);
+        addBtn = findViewById(R.id.detailed_term_add_class_btn);
+        viewBtn = findViewById(R.id.detailed_term_view_class_btn);
+        deleteBtn = findViewById(R.id.detailed_term_delete_class_btn);
+        classesList = findViewById(R.id.detailed_term_classes_list);
+        termName = findViewById(R.id.detailed_term_term_name);
+        startDate = findViewById(R.id.detailed_term_start_date);
+        endDate = findViewById(R.id.detailed_term_end_date);
 
-        detailedTermAddClassBtn.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
             }
         });
 
-        detailedTermViewClassBtn.setOnClickListener(new View.OnClickListener() {
+        viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);

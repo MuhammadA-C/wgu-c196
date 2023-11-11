@@ -1,8 +1,7 @@
 package com.muhammadchambersc196.helper;
 
-import android.widget.EditText;
+import androidx.annotation.NonNull;
 
-import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
@@ -119,6 +118,19 @@ public class Helper {
     public static boolean doesCourseExistForTerm(Course valueToAdd, ArrayList<Course> listOfCoursesForTerm) {
         for(Course course : listOfCoursesForTerm) {
             if(valueToAdd.getTitle().toLowerCase().equals(course.getTitle().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean doesTermExistInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, String termName) {
+        if (databaseListOfTerms.size() == 0) {
+            return false;
+        }
+
+        for(Term term : databaseListOfTerms) {
+            if (termName.equals(term.getTitle())) {
                 return true;
             }
         }

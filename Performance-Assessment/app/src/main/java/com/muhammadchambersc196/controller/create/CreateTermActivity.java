@@ -10,17 +10,22 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.Helper;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
+
 public class CreateTermActivity extends AppCompatActivity {
+    Repository repository;
     Button saveBtn;
     Button cancelBtn;
-    EditText createTermName;
-    EditText createTermStartDate;
-    EditText createTermEndDate;
+    EditText termName;
+    EditText startDate;
+    EditText endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +33,9 @@ public class CreateTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_term);
 
         saveBtn = findViewById(R.id.create_term_btn);
-        createTermName = findViewById(R.id.create_term_name);
-        createTermStartDate = findViewById(R.id.create_term_start_date);
-        createTermEndDate = findViewById(R.id.create_term_end_date);
+        termName = findViewById(R.id.create_term_name);
+        startDate = findViewById(R.id.create_term_start_date);
+        endDate = findViewById(R.id.create_term_end_date);
         cancelBtn = findViewById(R.id.create_term_cancel_btn);
 
         //Retrieves the intent that was passed to this activity/screen
@@ -43,25 +48,39 @@ public class CreateTermActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Checks to ensure that the input fields are NOT empty
-                if(InputValidation.isInputFieldEmpty(createTermName) || InputValidation.isInputFieldEmpty(createTermStartDate) || InputValidation.isInputFieldEmpty(createTermEndDate)) {
+                if(InputValidation.isInputFieldEmpty(termName) || InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate)) {
                     return;
                 }
 
                 //Checks to ensure that the start and end dates are formatted correctly
-                if(!DateValidation.isDateFormattedCorrect(createTermStartDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(createTermEndDate.getText().toString())) {
+                if(!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     return;
                 }
 
                 //Checks to ensure start date is the same or before the end date
-                if(!DateValidation.isStartDateTheSameOrBeforeEndDate(createTermStartDate.getText().toString(), createTermEndDate.getText().toString())) {
+                if(!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     return;
                 }
 
-                Term term = new Term(createTermName.getText().toString(), createTermStartDate.getText().toString(), createTermEndDate.getText().toString());
+                repository = new Repository(getApplication());
 
-                /*
-                    Note: Need to add term to the database prior to switching screens
-                 */
+                //Checks if term name already exists
+                try {
+                    if (Helper.doesTermExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), termName.getText().toString())) {
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Term term = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
+
+                //Adds term to the database
+                try {
+                    repository.insert(term);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
                 goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_TERM_ACTIVITY);
             }

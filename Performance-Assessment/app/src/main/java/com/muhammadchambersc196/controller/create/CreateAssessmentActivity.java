@@ -76,17 +76,15 @@ public class CreateAssessmentActivity extends AppCompatActivity {
 
                 //Need to add assessment to the database
 
-                goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM, SwitchScreen.CREATE_ASSESSMENT_ACTIVITY);
+                goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom));
             }
         });
     }
 
-    void goToNewScreen(Class className, String keyName, String value) {
+    void goToNewScreen(Class className) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
-        //Specifies the data to pass to the new activity/screen
-        intent.putExtra(keyName, value);
-        //Note: Need to always start the activity that you're going to
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 }

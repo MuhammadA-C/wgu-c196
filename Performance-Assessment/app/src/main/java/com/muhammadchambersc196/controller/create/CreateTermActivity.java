@@ -62,17 +62,21 @@ public class CreateTermActivity extends AppCompatActivity {
                 }
 
                 repository = new Repository(getApplication());
+                Term term = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
 
-                //Checks if term name already exists
                 try {
-                    if (Helper.doesTermExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), termName.getText().toString())) {
+                    //Doesn't allow term to be added if the term name already exists in the database
+                    if (Helper.doesTermExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), term)) {
+                        return;
+                    }
+
+                    //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
+                    if (Helper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), term)) {
                         return;
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
-                Term term = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
 
                 //Adds term to the database
                 try {
@@ -81,6 +85,13 @@ public class CreateTermActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
+                goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom));
+            }
+        });
+        
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 goToNewScreen(SwitchScreen.getActivityClass(activityCameFrom));
             }
         });

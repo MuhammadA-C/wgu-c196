@@ -9,6 +9,7 @@ import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.entities.Term;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,17 +125,42 @@ public class Helper {
         return false;
     }
 
-    public static boolean doesTermExistInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, String termName) {
+    public static boolean doesTermExistInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, Term term) {
         if (databaseListOfTerms.size() == 0) {
             return false;
         }
 
-        for(Term term : databaseListOfTerms) {
-            if (termName.equals(term.getTitle())) {
+        for (Term termInDatabase : databaseListOfTerms) {
+            if (term.getTitle().equals(termInDatabase.getTitle())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static boolean doesTermDateOverlapWithTermInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, Term term) {
+        if (databaseListOfTerms.size() == 0) {
+            return false;
+        }
+
+        LocalDate startDate = LocalDate.parse(term.getStartDate());
+        LocalDate endDate = LocalDate.parse(term.getEndDate());
+
+        for (Term termInDatabase : databaseListOfTerms) {
+            LocalDate dbStartDate = LocalDate.parse(termInDatabase.getStartDate());
+            LocalDate dbEndDate = LocalDate.parse(termInDatabase.getEndDate());
+
+            if (endDate.isEqual(startDate)) {
+                return false;
+            } else if (endDate.isBefore(dbStartDate)) {
+                return false;
+            } else if(startDate.isEqual(dbEndDate)) {
+                return false;
+            } else if (startDate.isAfter(dbEndDate)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static Term retrieveTermFromDatabaseByTermID(@NonNull ArrayList<Term> databaseListOfTerms, int termId) {

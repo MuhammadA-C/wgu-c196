@@ -38,24 +38,32 @@ public class ListOfTermsActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
         termsList = findViewById(R.id.list_of_terms_list);
 
-        List<Term> allTerms = null;
-
-        try {
-            allTerms = repository.getmAllTerms();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        final TermAdapter termAdapter = new TermAdapter(this);
-
-        termsList.setAdapter(termAdapter);
-        termsList.setLayoutManager(new LinearLayoutManager(this));
-        termAdapter.setTerms(allTerms);
+        setList();
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SelectedListItem.getSelectedTerm() == null) {
+                    return;
+                }
+
+                Term term = SelectedListItem.getSelectedTerm();
+                SelectedListItem.setSelectedTerm(null);
+
+                try {
+                    repository.delete(term);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                setList();
             }
         });
 
@@ -101,5 +109,21 @@ public class ListOfTermsActivity extends AppCompatActivity {
         intent.putExtra(termIdKey, termIdValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
+    }
+
+    void setList() {
+        List<Term> allTerms;
+
+        try {
+            allTerms = repository.getmAllTerms();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        final TermAdapter termAdapter = new TermAdapter(this);
+
+        termsList.setAdapter(termAdapter);
+        termsList.setLayoutManager(new LinearLayoutManager(this));
+        termAdapter.setTerms(allTerms);
     }
 }

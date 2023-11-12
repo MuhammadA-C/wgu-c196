@@ -15,13 +15,21 @@ import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateNoteActivity;
+import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
+
 public class DetailedCourseActivity extends AppCompatActivity {
+    Repository repository;
+    int courseId;
     Button viewAssignmentBtn;
     Button deleteAssessmentBtn;
     Button viewNoteBtn;
     Button deleteNoteBtn;
+    TextView className;
     TextView startDate;
     TextView endDate;
     TextView instructorName;
@@ -33,6 +41,11 @@ public class DetailedCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_course);
 
+        repository = new Repository(getApplication());
+        Intent intent = getIntent();
+        courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+
+        className = findViewById(R.id.detailed_class_name);
         viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
         startDate = findViewById(R.id.detailed_class_start_date);
         endDate = findViewById(R.id.detailed_class_end_date);
@@ -125,5 +138,24 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
+    }
+
+    void setScreenInfo(int termId) {
+        Course course;
+
+        try {
+            course = CourseHelper.retrieveCourseFromDatabaseByTermID((ArrayList<Course>) repository.getmAllCourses(), courseId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (course == null) {
+            return;
+        }
+
+        className.setText(course.getTitle());
+        startDate.setText(course.getStartDate());
+        endDate.setText(course.getEndDate());
+        //instructorName.setText(course.getIn);
     }
 }

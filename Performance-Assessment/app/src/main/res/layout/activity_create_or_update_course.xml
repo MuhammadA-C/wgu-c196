@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <Spinner
-        android:id="@+id/create_class_status"
+        android:id="@+id/create_class_select_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -125,92 +125,11 @@
 
     </LinearLayout>
 
-    <TextView
+    <Spinner
+        android:id="@+id/create_class_select_ci"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingVertical="30dp"
-        android:text="@string/ci_section"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/name"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_ci_name"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/ci_name_hint"
-          android:inputType="text"
-          android:textSize="24sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/email"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_ci_email"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/email_hint"
-          android:inputType="textEmailAddress"
-          android:textSize="24sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/number"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_ci_phone_number"
-          android:layout_width="189dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/number_hint"
-          android:inputType="phone"
-          android:textSize="24sp" />
-
-    </LinearLayout>
+        android:layout_height="48dp"
+        android:layout_weight="1" />
 
   </LinearLayout>
 
@@ -236,5 +155,29 @@
       android:textSize="20sp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
+
+  <TextView
+      android:id="@+id/textView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="@string/create_instructor_note"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+  <Button
+      android:id="@+id/create_class_add_ci_btn"
+      android:layout_width="193dp"
+      android:layout_height="60dp"
+      android:layout_marginTop="24dp"
+      android:text="@string/create_instructor"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.058"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

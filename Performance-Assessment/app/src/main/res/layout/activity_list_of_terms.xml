@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/list_of_terms_add_term_btn"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="61dp"
         android:layout_marginBottom="28dp"
         android:text="@string/add_term"

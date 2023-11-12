@@ -16,10 +16,11 @@ public class Course {
 
     //Foreign Keys
     private int termID;
-    private int courseInstructorID;
+    private String courseInstructorName;
+    private String courseInstructorEmail;
 
 
-    public Course(int courseID, String title, String status, String information, String startDate, String endDate, int termID, int courseInstructorID) {
+    public Course(int courseID, String title, String status, String information, String startDate, String endDate, int termID, String courseInstructorName, String courseInstructorEmail) {
         this.setCourseID(courseID);
         this.setTitle(title);
         this.setStatus(status);
@@ -27,7 +28,8 @@ public class Course {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
-        this.setCourseInstructorID(courseInstructorID);
+        this.setCourseInstructorName(courseInstructorName);
+        this.setCourseInstructorEmail(courseInstructorEmail);
     }
 
     @Ignore
@@ -38,6 +40,8 @@ public class Course {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
+        this.setCourseInstructorName(courseInstructorName);
+        this.setCourseInstructorEmail(courseInstructorEmail);
     }
 
 
@@ -69,8 +73,12 @@ public class Course {
         this.termID = termID;
     }
 
-    public void setCourseInstructorID(int courseInstructorID) {
-        this.courseInstructorID = courseInstructorID;
+    public void setCourseInstructorName(String courseInstructorName) {
+        this.courseInstructorName = courseInstructorName;
+    }
+
+    public void setCourseInstructorEmail(String courseInstructorEmail) {
+        this.courseInstructorName = courseInstructorEmail;
     }
 
     public int getCourseID() {
@@ -81,8 +89,12 @@ public class Course {
         return this.termID;
     }
 
-    public int getCourseInstructorID() {
-        return this.courseInstructorID;
+    public String getCourseInstructorName() {
+        return this.courseInstructorName;
+    }
+
+    public String getCourseInstructorEmail() {
+        return this.courseInstructorEmail;
     }
 
     public String getTitle() {

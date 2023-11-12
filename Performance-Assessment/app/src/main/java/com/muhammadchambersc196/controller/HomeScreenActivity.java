@@ -14,7 +14,8 @@ import com.muhammadchambersc196.helper.SwitchScreen;
 public class HomeScreenActivity extends AppCompatActivity {
     //Used to add items to the database
     //Repository repository;
-    Button homeViewAllTermsBtn;
+    Button viewAllTermsBtn;
+    Button viewAllInstructorsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,20 @@ public class HomeScreenActivity extends AppCompatActivity {
         //Used to add items to the database
         //repository = new Repository(getApplication());
 
-        homeViewAllTermsBtn = findViewById(R.id.home_view_all_terms_btn);
+        viewAllTermsBtn = findViewById(R.id.home_view_all_terms_btn);
+        viewAllInstructorsBtn = findViewById(R.id.home_view_all_instructors_btn);
 
-        homeViewAllTermsBtn.setOnClickListener(new View.OnClickListener() {
+        viewAllTermsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToNewScreen(ListOfTermsActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.HOME_SCREEN_ACTIVITY);
+            }
+        });
+
+        viewAllInstructorsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

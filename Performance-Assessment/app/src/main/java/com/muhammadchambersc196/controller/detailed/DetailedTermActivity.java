@@ -43,10 +43,9 @@ public class DetailedTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_term);
 
-        Intent intent = getIntent();
-        //Need to pass the term id in
-        termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
         repository = new Repository(getApplication());
+        Intent intent = getIntent();
+        termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
 
         addCourseBtn = findViewById(R.id.detailed_term_add_class_btn);
         viewCourseBtn = findViewById(R.id.detailed_term_view_class_btn);
@@ -108,29 +107,6 @@ public class DetailedTermActivity extends AppCompatActivity {
             return true;
         }
         return false;
-    }
-
-    /*
-        Note:
-           * For view course I need to pass in the course id
-     */
-    void switchScreen(Class className, String keyName, String value) {
-        //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
-        //Specifies the data to pass to the new activity/screen
-        intent.putExtra(keyName, value);
-        //Note: Need to always start the activity that you're going to
-        startActivity(intent);
-    }
-
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String termIdKey, String termIdValue) {
-        //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, goToScreen);
-        //Specifies the data to pass to the new activity/screen
-        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
-        intent.putExtra(termIdKey, termIdValue);
-        //Need to always start the activity that you're going to
-        startActivity(intent);
     }
 
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {

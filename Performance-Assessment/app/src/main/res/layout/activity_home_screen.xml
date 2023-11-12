@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/home_view_all_terms_btn"
-        android:layout_width="238dp"
-        android:layout_height="61dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="296dp"
         android:text="@string/view_all_terms"
         android:textSize="20sp"
@@ -17,5 +17,17 @@
         app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/home_view_all_instructors_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/view_all_cis"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_view_all_terms_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

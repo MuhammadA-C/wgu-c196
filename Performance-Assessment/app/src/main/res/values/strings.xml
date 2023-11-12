@@ -4,7 +4,6 @@
     <string name="cancel_txt">Cancel</string>
     <string name="share_note">Share Note</string>
     <string name="edit_txt">Edit</string>
-    <string name="edit_note">Edit Note</string>
     <string name="add_term">Add Term</string>
     <string name="add_course">Add Course</string>
     <string name="add_note">Add Note</string>
@@ -55,4 +54,9 @@
     <string name="menu_update_course">Update Course</string>
 
     <string name="list_item">List Item</string>
+    <string name="create_instructor_note">Note: Add Instructor if no names populate or cannot find instructors name</string>
+    <string name="create_instructor">Add Instructor</string>
+    <string name="view_all_cis">View All Instructors</string>
+    <string name="view_ci">View Instructor</string>
+    <string name="delete_ci">Delete Instructor</string>
 </resources>

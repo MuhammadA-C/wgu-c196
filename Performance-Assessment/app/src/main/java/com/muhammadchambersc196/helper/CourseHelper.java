@@ -1,5 +1,7 @@
 package com.muhammadchambersc196.helper;
 
+import androidx.annotation.NonNull;
+
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.Term;
 
@@ -68,5 +70,14 @@ public class CourseHelper {
             }
         }
         return coursesForTerm;
+    }
+
+    public static Course retrieveCourseFromDatabaseByTermID(@NonNull ArrayList<Course> databaseListOfCourses, int courseId) {
+        for (Course course : databaseListOfCourses) {
+            if (course.getCourseID() == courseId) {
+                return course;
+            }
+        }
+        return null;
     }
 }

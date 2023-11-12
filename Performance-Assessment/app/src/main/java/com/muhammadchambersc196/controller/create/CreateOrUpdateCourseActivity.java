@@ -28,11 +28,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Spinner classStatus;
     EditText startDate;
     EditText endDate;
-    EditText instructorName;
-    EditText instructorEmail;
-    EditText instructorPhoneNumber;
     Button saveBtn;
     Button cancelBtn;
+    Button addCIBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +49,15 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         setTitle(addOrUpdate);
 
         //Gets references to the activities input fields
-        classStatus = findViewById(R.id.create_class_status);
+
+        classStatus = findViewById(R.id.create_class_select_status);
         className = findViewById(R.id.create_class_name);
         classInfo = findViewById(R.id.create_class_info);
         startDate = findViewById(R.id.create_class_start_date);
         endDate = findViewById(R.id.create_class_end_date);
-        instructorName = findViewById(R.id.create_class_ci_name);
-        instructorEmail = findViewById(R.id.create_class_ci_email);
-        instructorPhoneNumber = findViewById(R.id.create_class_ci_phone_number);
         saveBtn = findViewById(R.id.create_class_save_btn);
         cancelBtn = findViewById(R.id.create_class_cancel_btn);
+        addCIBtn = findViewById(R.id.create_class_add_ci_btn);
 
         //Sets the class status spinner
         classStatus.setAdapter(createStatusListAdapter());
@@ -70,8 +67,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
                     if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
-                            InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) || InputValidation.isInputFieldEmpty(instructorName) ||
-                            InputValidation.isInputFieldEmpty(instructorEmail) || InputValidation.isInputFieldEmpty(instructorPhoneNumber))  {
+                            InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate))  {
                         return;
                     }
 
@@ -98,6 +94,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(), termId), termId, addCourse)) {
                             return;
                         }
+                        /*
+                            Need to redesign this to use a spinner to select course instructors, or create a new one
+                         */
 
                         repository.insert(addCourse);
                     } catch (InterruptedException e) {
@@ -141,5 +140,21 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         intent.putExtra(termIdKey, termIdValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
+    }
+
+    void setScreenInfo(String addOrUpdate, Intent intent) throws InterruptedException {
+        if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
+            return;
+        }
+
+        Course course = CourseHelper.retrieveCourseFromDatabaseByTermID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+
+        if (course == null) {
+            return;
+        }
+
+        className.setText(course.getTitle());
+        startDate.setText(course.getStartDate());
+        endDate.setText(course.getEndDate());
     }
 }

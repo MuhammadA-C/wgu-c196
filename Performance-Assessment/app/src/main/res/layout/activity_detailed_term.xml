@@ -94,7 +94,7 @@
 
     <Button
         android:id="@+id/detailed_term_add_class_btn"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="69dp"
         android:layout_marginBottom="24dp"
         android:text="@string/add_course"

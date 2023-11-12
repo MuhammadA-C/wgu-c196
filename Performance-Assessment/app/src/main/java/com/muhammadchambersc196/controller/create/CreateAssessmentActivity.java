@@ -60,8 +60,8 @@ public class CreateAssessmentActivity extends AppCompatActivity {
                     return;
                 }
 
-                //Checks to ensure start date is the same or before the end date
-                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                //Checks to ensure start date is before the end date
+                if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     return;
                 }
 

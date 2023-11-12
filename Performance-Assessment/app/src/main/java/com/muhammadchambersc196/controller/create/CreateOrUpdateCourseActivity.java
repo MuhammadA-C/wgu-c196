@@ -78,7 +78,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                    return;
                 }
                 /*
@@ -92,6 +92,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                  */
 
                 Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId);
+
+                System.out.println("Course Status: " + addCourse.getStatus());
 
                 //Need to test code below
                 try {

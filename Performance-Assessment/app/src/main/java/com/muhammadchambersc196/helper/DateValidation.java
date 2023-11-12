@@ -61,13 +61,11 @@ public class DateValidation {
         return false;
     }
 
-    public static boolean isStartDateTheSameOrBeforeEndDate(String startDateStr, String endDateStr) {
+    public static boolean isStartDateBeforeEndDate(String startDateStr, String endDateStr) {
         LocalDate startDate = LocalDate.parse(startDateStr);
         LocalDate endDate = LocalDate.parse(endDateStr);
 
-        if(startDate.isEqual(endDate)) {
-            return true;
-        } else if (startDate.isBefore(endDate)) {
+        if (startDate.isBefore(endDate)) {
             return true;
         }
         return false;

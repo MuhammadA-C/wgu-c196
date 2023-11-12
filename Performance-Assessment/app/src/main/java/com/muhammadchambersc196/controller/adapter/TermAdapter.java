@@ -1,7 +1,6 @@
 package com.muhammadchambersc196.controller.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.SelectedListItem;
 
@@ -43,8 +41,6 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
                     SelectedListItem.setSelectedTerm(currentTerm);
                 }
             });
-
-
         }
     }
 

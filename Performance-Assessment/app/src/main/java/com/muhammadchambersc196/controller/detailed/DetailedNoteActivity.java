@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateNoteActivity;
-import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedNoteActivity extends AppCompatActivity {

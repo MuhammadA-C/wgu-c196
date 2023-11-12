@@ -103,6 +103,10 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     try {
                         updateTerm = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
 
+                        if (updateTerm == null) {
+                            return;
+                        }
+
                         //Updates the values for the term object
                         updateTerm.setTitle(termName.getText().toString());
                         updateTerm.setStartDate(startDate.getText().toString());
@@ -167,6 +171,10 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         }
 
         Term term = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+
+        if (term == null) {
+            return;
+        }
 
         termName.setText(term.getTitle());
         startDate.setText(term.getStartDate());

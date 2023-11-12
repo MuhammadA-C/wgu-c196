@@ -31,6 +31,11 @@ public class CreateAssessmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_assessment);
 
+        //Retrieves the intent that was passed to this activity/screen
+        Intent intent = getIntent();
+        //Retrieves the data value/string name that was passed to this intent
+        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
+
         assessmentName = findViewById(R.id.create_assessment_name);
         assessmentInfo = findViewById(R.id.create_assessment_info);
         startDate = findViewById(R.id.create_assessment_start_date);
@@ -38,11 +43,6 @@ public class CreateAssessmentActivity extends AppCompatActivity {
         assessmentType = findViewById(R.id.create_assessment_type);
         saveBtn = findViewById(R.id.create_assessment_save_btn);
         cancelBtn = findViewById(R.id.create_assessment_cancel_btn);
-
-        //Retrieves the intent that was passed to this activity/screen
-        Intent intent = getIntent();
-        //Retrieves the data value/string name that was passed to this intent
-        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

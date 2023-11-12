@@ -1,15 +1,10 @@
 package com.muhammadchambersc196.helper;
 
-import androidx.annotation.NonNull;
-
-import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
-import com.muhammadchambersc196.entities.Term;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,23 +72,4 @@ public class Helper {
         }
         return false;
     }
-
-    //Method below will be used to prevent duplicate courses for the same term
-    //Note: The user most likely shouldn't be able to add a duplicate course for the same term
-    public static boolean doesCourseExistForTerm(Course valueToAdd, ArrayList<Course> listOfCoursesForTerm) {
-        for(Course course : listOfCoursesForTerm) {
-            if(valueToAdd.getTitle().toLowerCase().equals(course.getTitle().toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /*
-        Note:
-            - Need to add code to check if the end date is on the same day or after the start date
-
-     */
-
 }

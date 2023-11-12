@@ -144,6 +144,10 @@ public class DetailedTermActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+        if (term == null) {
+            return;
+        }
+
         termName.setText(term.getTitle());
         startDate.setText(term.getStartDate());
         endDate.setText(term.getEndDate());

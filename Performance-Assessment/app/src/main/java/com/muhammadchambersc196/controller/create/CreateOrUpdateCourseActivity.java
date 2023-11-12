@@ -68,37 +68,46 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    Need to add a check for whether this is for creating or updating
-          
-                 */
-                if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
-                InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) || InputValidation.isInputFieldEmpty(instructorName) ||
-                InputValidation.isInputFieldEmpty(instructorEmail) || InputValidation.isInputFieldEmpty(instructorPhoneNumber))  {
-                    return;
-                }
-
-                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
-                    return;
-                }
-
-                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
-                    return;
-                }
-
-                /*
-                    1. Need to add the course object to the database
-                 */
-
-                Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId);
-
-                try {
-                    //Course start and end dates must be within range of the terms start and end dates
-                    if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, (ArrayList<Term>) repository.getmAllTerms())) {
+                if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
+                    if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
+                            InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) || InputValidation.isInputFieldEmpty(instructorName) ||
+                            InputValidation.isInputFieldEmpty(instructorEmail) || InputValidation.isInputFieldEmpty(instructorPhoneNumber))  {
                         return;
                     }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+
+                    if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                        return;
+                    }
+
+                    if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                        return;
+                    }
+
+                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId);
+
+                    try {
+                        //Course start and end dates must be within range of the terms start and end dates
+                        if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, (ArrayList<Term>) repository.getmAllTerms())) {
+                            return;
+                        }
+
+                        /*
+                            Checks to see if the course already exists for the term by comparing the course names.
+                            The assumption here is that there shouldn't be duplicate courses for the same term.
+                         */
+                        if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(), termId), termId, addCourse)) {
+                            return;
+                        }
+
+                        repository.insert(addCourse);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                } else {
+
+                    //This part will be for updating a course
+
                 }
 
                 switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));

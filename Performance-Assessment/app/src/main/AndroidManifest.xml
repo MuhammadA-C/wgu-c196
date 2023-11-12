@@ -41,13 +41,11 @@
             android:parentActivityName=".controller.detailed.DetailedCourseActivity"
             android:label="Create Assessment View" />
         <activity
-            android:name=".controller.create.CreateCourseActivity"
-            android:exported="false"
-            android:label="Create Course View" />
+            android:name=".controller.create.CreateOrUpdateCourseActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.create.CreateOrUpdateTermActivity"
-            android:exported="false"
-            android:label="Create Term View" />
+            android:exported="false" />
         <activity
             android:name=".controller.detailed.DetailedAssessmentActivity"
             android:exported="false"

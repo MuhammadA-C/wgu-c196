@@ -13,9 +13,8 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
-import com.muhammadchambersc196.controller.create.CreateCourseActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateNoteActivity;
-import com.muhammadchambersc196.controller.update.UpdateCourseActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedCourseActivity extends AppCompatActivity {
@@ -75,8 +74,8 @@ public class DetailedCourseActivity extends AppCompatActivity {
             return false;
         }
 
-        if (item.getTitle().equals("Update Course")) {
-            goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Course");
+        if (item.getTitle().equals(SwitchScreen.UPDATE_COURSE_VALUE)) {
+            goToNewScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE);
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
             goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);

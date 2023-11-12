@@ -20,6 +20,11 @@ import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.List;
 
+/*
+
+    NOTE: Need to add error messages and confirmation messages to this class
+ */
+
 public class ListOfTermsActivity extends AppCompatActivity {
     Repository repository;
     Button addBtn;
@@ -48,6 +53,9 @@ public class ListOfTermsActivity extends AppCompatActivity {
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
+            /*
+                Note: Need to add a check to not allow a term to be deleted if it has courses
+             */
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedTerm() == null) {

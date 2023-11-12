@@ -15,6 +15,7 @@ import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.Helper;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
+import com.muhammadchambersc196.helper.TermHelper;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,10 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
     EditText termName;
     EditText startDate;
     EditText endDate;
+
+    /*
+        NOTE: Only need to add error messages for this class
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
         String addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
 
+        //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
 
         try {
@@ -75,12 +81,12 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
 
                     try {
                         //Doesn't allow term to be added if the term name already exists in the database
-                        if (Helper.doesTermExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
+                        if (TermHelper.doesTermNameExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
                             return;
                         }
 
                         //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                        if (Helper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
+                        if (TermHelper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
                             return;
                         }
 
@@ -95,7 +101,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     Term updateTerm;
 
                     try {
-                        updateTerm = Helper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+                        updateTerm = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
 
                         //Updates the values for the term object
                         updateTerm.setTitle(termName.getText().toString());
@@ -103,12 +109,12 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                         updateTerm.setEndDate(endDate.getText().toString());
 
                         //Doesn't allow term to be added if the term name already exists in the database
-                        if (Helper.doesTermExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
+                        if (TermHelper.doesTermNameExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
                             return;
                         }
 
                         //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                        if (Helper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
+                        if (TermHelper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
                             return;
                         }
 
@@ -160,7 +166,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
             return;
         }
 
-        Term term = Helper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+        Term term = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
 
         termName.setText(term.getTitle());
         startDate.setText(term.getStartDate());

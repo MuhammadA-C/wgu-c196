@@ -68,37 +68,33 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
+                    Need to add a check for whether this is for creating or updating
+          
+                 */
                 if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
                 InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) || InputValidation.isInputFieldEmpty(instructorName) ||
                 InputValidation.isInputFieldEmpty(instructorEmail) || InputValidation.isInputFieldEmpty(instructorPhoneNumber))  {
                     return;
                 }
 
-                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     return;
                 }
 
-                if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
-                   return;
+                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                    return;
                 }
-                /*
-                    NOTE: Need to add a check to ensure course start date is the same or after term start date, but before term end date.
-                    And course end date the same or before term end date.
-                 */
 
                 /*
-                    1. Need to create the course object
-                    2. Need to add the course object to the database
+                    1. Need to add the course object to the database
                  */
 
                 Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId);
 
-                System.out.println("Course Status: " + addCourse.getStatus());
-
-                //Need to test code below
                 try {
+                    //Course start and end dates must be within range of the terms start and end dates
                     if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, (ArrayList<Term>) repository.getmAllTerms())) {
-                        System.out.println("Class start and end dates must be within Terms start and end dates");
                         return;
                     }
                 } catch (InterruptedException e) {

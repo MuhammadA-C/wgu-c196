@@ -20,6 +20,10 @@ public class CourseHelper {
             return true;
         } else if (courseStartDate.isAfter(termStartDate) && courseEndDate.isBefore(termEndDate)) {
             return true;
+        } else if (courseStartDate.isEqual(termStartDate) && courseEndDate.isEqual(termStartDate)) {
+            return true;
+        } else if (courseStartDate.isEqual(termEndDate) && courseEndDate.isEqual(termEndDate)) {
+            return true;
         }
         return false;
     }

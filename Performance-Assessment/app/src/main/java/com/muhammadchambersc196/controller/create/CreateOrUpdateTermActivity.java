@@ -12,7 +12,6 @@ import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.DateValidation;
-import com.muhammadchambersc196.helper.Helper;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 import com.muhammadchambersc196.helper.TermHelper;
@@ -37,12 +36,6 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_update_term);
         repository = new Repository(getApplication());
 
-        saveBtn = findViewById(R.id.create_term_btn);
-        termName = findViewById(R.id.create_term_name);
-        startDate = findViewById(R.id.create_term_start_date);
-        endDate = findViewById(R.id.create_term_end_date);
-        cancelBtn = findViewById(R.id.create_term_cancel_btn);
-
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
@@ -51,6 +44,13 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
+
+        //Gets references to the activities input fields
+        saveBtn = findViewById(R.id.create_term_btn);
+        termName = findViewById(R.id.create_term_name);
+        startDate = findViewById(R.id.create_term_start_date);
+        endDate = findViewById(R.id.create_term_end_date);
+        cancelBtn = findViewById(R.id.create_term_cancel_btn);
 
         try {
             setScreenInfo(addOrUpdate, intent);

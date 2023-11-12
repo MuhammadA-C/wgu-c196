@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,10 +20,6 @@ import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
-
-/*
-    Need to create the spinner for the class status
- */
 
 public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Repository repository;
@@ -43,17 +40,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_update_course);
         repository = new Repository(getApplication());
 
-        className = findViewById(R.id.create_class_name);
-        classInfo = findViewById(R.id.create_class_info);
-        classStatus = findViewById(R.id.create_class_status);
-        startDate = findViewById(R.id.create_class_start_date);
-        endDate = findViewById(R.id.create_class_end_date);
-        instructorName = findViewById(R.id.create_class_ci_name);
-        instructorEmail = findViewById(R.id.create_class_ci_email);
-        instructorPhoneNumber = findViewById(R.id.create_class_ci_phone_number);
-        saveBtn = findViewById(R.id.create_class_save_btn);
-        cancelBtn = findViewById(R.id.create_class_cancel_btn);
-
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
@@ -63,6 +49,21 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
+
+        //Gets references to the activities input fields
+        classStatus = findViewById(R.id.create_class_status);
+        className = findViewById(R.id.create_class_name);
+        classInfo = findViewById(R.id.create_class_info);
+        startDate = findViewById(R.id.create_class_start_date);
+        endDate = findViewById(R.id.create_class_end_date);
+        instructorName = findViewById(R.id.create_class_ci_name);
+        instructorEmail = findViewById(R.id.create_class_ci_email);
+        instructorPhoneNumber = findViewById(R.id.create_class_ci_phone_number);
+        saveBtn = findViewById(R.id.create_class_save_btn);
+        cancelBtn = findViewById(R.id.create_class_cancel_btn);
+
+        //Sets the class status spinner
+        classStatus.setAdapter(createStatusListAdapter());
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +113,17 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
+    }
+
+    ArrayAdapter<String> createStatusListAdapter() {
+        ArrayList<String> statusOptionsList = new ArrayList<>();
+
+        statusOptionsList.add("Not Started");
+        statusOptionsList.add("In-Progress");
+        statusOptionsList.add("Completed");
+        statusOptionsList.add("Failed");
+
+        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptionsList);
     }
 
     void switchScreen(Class className, String termIdKey, String termIdValue) {

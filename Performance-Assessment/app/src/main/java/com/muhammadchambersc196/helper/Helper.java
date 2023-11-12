@@ -131,8 +131,9 @@ public class Helper {
         }
 
         for (Term termInDatabase : databaseListOfTerms) {
-            if (term.getTitle().equals(termInDatabase.getTitle())) {
+            if (termInDatabase.getTermID() != term.getTermID() && term.getTitle().equals(termInDatabase.getTitle())) {
                 return true;
+
             }
         }
         return false;
@@ -146,7 +147,14 @@ public class Helper {
         LocalDate startDate = LocalDate.parse(term.getStartDate());
         LocalDate endDate = LocalDate.parse(term.getEndDate());
 
+        int numOfOverlappingDates = 0;
+
         for (Term termInDatabase : databaseListOfTerms) {
+            if (termInDatabase.getTermID() == term.getTermID()) {
+                numOfOverlappingDates--;
+                continue;
+            }
+
             LocalDate dbStartDate = LocalDate.parse(termInDatabase.getStartDate());
             LocalDate dbEndDate = LocalDate.parse(termInDatabase.getEndDate());
 
@@ -159,6 +167,11 @@ public class Helper {
             } else if (startDate.isAfter(dbEndDate)) {
                 return false;
             }
+            numOfOverlappingDates++;
+        }
+
+        if (numOfOverlappingDates <= 0 ) {
+            return false;
         }
         return true;
     }

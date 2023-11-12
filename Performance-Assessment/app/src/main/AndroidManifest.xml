@@ -31,11 +31,6 @@
             android:exported="false"
             android:label="Update Assessment View" />
         <activity
-            android:name=".controller.update.UpdateTermActivity"
-            android:exported="false"
-            android:parentActivityName=".controller.detailed.DetailedTermActivity"
-            android:label="Update Term View" />
-        <activity
             android:name=".controller.update.UpdateCourseActivity"
             android:exported="false"
             android:parentActivityName=".controller.detailed.DetailedCourseActivity"
@@ -50,7 +45,7 @@
             android:exported="false"
             android:label="Create Course View" />
         <activity
-            android:name=".controller.create.CreateTermActivity"
+            android:name=".controller.create.CreateOrUpdateTermActivity"
             android:exported="false"
             android:label="Create Term View" />
         <activity

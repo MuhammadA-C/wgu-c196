@@ -47,7 +47,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
-        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM);
+        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

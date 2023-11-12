@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateCourseActivity;
-import com.muhammadchambersc196.controller.create.CreateTermActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.Helper;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class DetailedTermActivity extends AppCompatActivity {
     Repository repository;
+    int termId;
     Button addBtn;
     Button viewBtn;
     Button deleteBtn;
@@ -36,6 +37,9 @@ public class DetailedTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_term);
 
+        Intent intent = getIntent();
+        //Need to pass the term id in
+        termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
         repository = new Repository(getApplication());
 
         addBtn = findViewById(R.id.detailed_term_add_class_btn);
@@ -46,19 +50,19 @@ public class DetailedTermActivity extends AppCompatActivity {
         startDate = findViewById(R.id.detailed_term_start_date);
         endDate = findViewById(R.id.detailed_term_end_date);
 
-        setScreenInfo();
+        setScreenInfo(termId);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
+                goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY);
             }
         });
 
         viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY);
+                goToNewScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY);
             }
         });
     }
@@ -79,8 +83,8 @@ public class DetailedTermActivity extends AppCompatActivity {
             return false;
         }
 
-        if (item.getTitle().equals("Update Term")) {
-            goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Term");
+        if (item.getTitle().equals(SwitchScreen.UPDATE_TERM_VALUE)) {
+            goToNewScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             return true;
         }
         return false;
@@ -101,13 +105,14 @@ public class DetailedTermActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
+    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String termIdKey, String termIdValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
-        //Note: Need to always start the activity that you're going to
+        intent.putExtra(termIdKey, termIdValue);
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 
@@ -118,15 +123,12 @@ public class DetailedTermActivity extends AppCompatActivity {
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(courseIDKey, courseIDValue);
-
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
     }
 
-    void setScreenInfo() {
+    void setScreenInfo(int termId) {
         Term term;
-        Intent intent = getIntent();
-        int termId = Integer.valueOf(intent.getStringExtra("term_id"));
 
         try {
             term = Helper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), termId);

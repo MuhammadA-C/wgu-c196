@@ -47,14 +47,14 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
 
         viewNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                goToNewScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
     }
@@ -76,13 +76,13 @@ public class DetailedCourseActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals("Update Course")) {
-            goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Course");
+            goToNewScreen(CreateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Course");
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
-            goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         } else if (item.getTitle().equals("Add Note")) {
-            goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         }
         return false;

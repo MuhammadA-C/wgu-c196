@@ -30,7 +30,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN, "Update Note");
+                goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Note");
             }
         });
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.create.CreateTermActivity"
+    tools:context=".controller.create.CreateOrUpdateTermActivity"
     tools:layout_editor_absoluteX="-2dp"
     tools:layout_editor_absoluteY="-5dp">
 

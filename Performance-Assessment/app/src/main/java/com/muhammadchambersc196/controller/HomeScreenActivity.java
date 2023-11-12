@@ -29,7 +29,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         homeViewAllTermsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(ListOfTermsActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.HOME_SCREEN_ACTIVITY);
+                goToNewScreen(ListOfTermsActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.HOME_SCREEN_ACTIVITY);
             }
         });
     }

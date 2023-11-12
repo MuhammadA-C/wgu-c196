@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.TermAdapter;
-import com.muhammadchambersc196.controller.create.CreateTermActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Term;
@@ -43,7 +43,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY);
+                addBtnSwitchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_TERM_VALUE);
             }
         });
 
@@ -83,20 +83,18 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 int termId = SelectedListItem.getSelectedTerm().getTermID();
                 SelectedListItem.setSelectedTerm(null);
 
-                goToNewScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM, SwitchScreen.LIST_OF_TERMS_ACTIVITY, "term_id", String.valueOf(termId));
+                goToNewScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }
 
-    /*
-        Note:
-            * For view term I need to pass in the term id
-     */
-    void goToNewScreen(Class className, String keyName, String value) {
+
+    void addBtnSwitchScreen(Class className, String keyName, String value, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

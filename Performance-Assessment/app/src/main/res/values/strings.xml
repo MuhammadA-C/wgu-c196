@@ -53,4 +53,6 @@
     <string name="menu_add_note">Add Note</string>
     <string name="menu_add_assessment">Add Assessment</string>
     <string name="menu_update_course">Update Course</string>
+
+    <string name="list_item">List Item</string>
 </resources>

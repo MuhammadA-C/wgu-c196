@@ -34,7 +34,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_course);
 
-       viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
+        viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
         startDate = findViewById(R.id.detailed_class_start_date);
         endDate = findViewById(R.id.detailed_class_end_date);
         instructorName = findViewById(R.id.detailed_ci_name);

@@ -2,6 +2,7 @@ package com.muhammadchambersc196.helper;
 
 import androidx.annotation.NonNull;
 
+import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
-
     public static boolean doesTermHaveCourses(int termId, List<Course> courseList) {
         int count = 0;
 
@@ -135,6 +135,15 @@ public class Helper {
             }
         }
         return false;
+    }
+
+    public static Term retrieveTermFromDatabaseByTermID(@NonNull ArrayList<Term> databaseListOfTerms, int termId) {
+        for (Term term : databaseListOfTerms) {
+            if (term.getTermID() == termId) {
+                return term;
+            }
+        }
+        return null;
     }
 
 

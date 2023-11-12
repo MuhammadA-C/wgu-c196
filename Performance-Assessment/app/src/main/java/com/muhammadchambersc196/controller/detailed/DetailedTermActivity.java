@@ -14,9 +14,15 @@ import android.widget.TextView;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateTermActivity;
+import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Term;
+import com.muhammadchambersc196.helper.Helper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
+
 public class DetailedTermActivity extends AppCompatActivity {
+    Repository repository;
     Button addBtn;
     Button viewBtn;
     Button deleteBtn;
@@ -30,6 +36,8 @@ public class DetailedTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_term);
 
+        repository = new Repository(getApplication());
+
         addBtn = findViewById(R.id.detailed_term_add_class_btn);
         viewBtn = findViewById(R.id.detailed_term_view_class_btn);
         deleteBtn = findViewById(R.id.detailed_term_delete_class_btn);
@@ -37,6 +45,8 @@ public class DetailedTermActivity extends AppCompatActivity {
         termName = findViewById(R.id.detailed_term_term_name);
         startDate = findViewById(R.id.detailed_term_start_date);
         endDate = findViewById(R.id.detailed_term_end_date);
+
+        setScreenInfo();
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,5 +121,21 @@ public class DetailedTermActivity extends AppCompatActivity {
 
         //Note: Need to always start the activity that you're going to
         startActivity(intent);
+    }
+
+    void setScreenInfo() {
+        Term term;
+        Intent intent = getIntent();
+        int termId = Integer.valueOf(intent.getStringExtra("term_id"));
+
+        try {
+            term = Helper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), termId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        termName.setText(term.getTitle());
+        startDate.setText(term.getStartDate());
+        endDate.setText(term.getEndDate());
     }
 }

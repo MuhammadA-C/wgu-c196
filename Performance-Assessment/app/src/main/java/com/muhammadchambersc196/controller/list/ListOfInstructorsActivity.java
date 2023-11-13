@@ -14,9 +14,12 @@ import com.muhammadchambersc196.controller.adapter.InstructorAdapter;
 import com.muhammadchambersc196.controller.adapter.TermAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateInstructorActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
+import com.muhammadchambersc196.controller.detailed.DetailedInstructorActivity;
+import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.Term;
+import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.List;
@@ -59,7 +62,20 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         viewCI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SelectedListItem.getSelectedInstructor() == null) {
+                    return;
+                }
 
+                /*
+                    Note: Obtains the instructorId then sets the helper class that holds holds the
+                    reference to the selected instructor to null.
+
+                    This is done to clean up things and not have the reference lingering
+                 */
+                int instructorId = SelectedListItem.getSelectedInstructor().getCourseInstructorID();
+                SelectedListItem.setSelectedInstructor(null);
+
+                switchScreen(DetailedInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_INSTRUCTORS_ACTIVITY, SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
             }
         });
     }
@@ -70,6 +86,16 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void switchScreen(Class className, String classNameKey , String classNameValue, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(classNameKey, classNameValue);
+        intent.putExtra(idKey, idValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

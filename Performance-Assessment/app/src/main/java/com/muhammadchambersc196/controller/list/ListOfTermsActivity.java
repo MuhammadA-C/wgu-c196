@@ -107,12 +107,12 @@ public class ListOfTermsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void switchScreen(Class className, String classNameKey , String classNameValue, String termIdKey, String termIdValue) {
+    void switchScreen(Class className, String classNameKey , String classNameValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(classNameKey, classNameValue);
-        intent.putExtra(termIdKey, termIdValue);
+        intent.putExtra(idKey, idValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

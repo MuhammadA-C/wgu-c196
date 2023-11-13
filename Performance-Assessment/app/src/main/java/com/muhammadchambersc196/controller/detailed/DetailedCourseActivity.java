@@ -59,14 +59,14 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                switchScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
 
         viewNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                switchScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
     }
@@ -88,13 +88,13 @@ public class DetailedCourseActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals(SwitchScreen.UPDATE_COURSE_VALUE)) {
-            goToNewScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE);
+            switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE);
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
-            goToNewScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         } else if (item.getTitle().equals("Add Note")) {
-            goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         }
         return false;
@@ -108,7 +108,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
            * For view not I need to pass in the selected note id
            * For view assessment I need to pass in the selected assessment id
      */
-    void goToNewScreen(Class className, String keyName, String value) {
+    void switchScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
@@ -117,7 +117,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
@@ -128,15 +128,16 @@ public class DetailedCourseActivity extends AppCompatActivity {
     }
 
 
-    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String courseIDKey, int courseIDValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, int idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
+
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
-        intent.putExtra(courseIDKey, courseIDValue);
+        intent.putExtra(idKey, idValue);
 
-        //Note: Need to always start the activity that you're going to
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 

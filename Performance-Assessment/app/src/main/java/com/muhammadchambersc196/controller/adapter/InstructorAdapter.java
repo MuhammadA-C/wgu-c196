@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.entities.CourseInstructor;
+import com.muhammadchambersc196.helper.SelectedListItem;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class InstructorAdapter extends RecyclerView.Adapter<InstructorAdapter.In
                     int position = getAdapterPosition();
                     final CourseInstructor currentInstructor = mInstructors.get(position);
 
-                    //SelectedListItem.setSelectedCourse(currentInstructor);
+                    SelectedListItem.setSelectedInstructor(currentInstructor);
                 }
             });
         }

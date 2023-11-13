@@ -112,10 +112,12 @@ public class DetailedTermActivity extends AppCompatActivity {
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
+
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(idKey, idValue);
+
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

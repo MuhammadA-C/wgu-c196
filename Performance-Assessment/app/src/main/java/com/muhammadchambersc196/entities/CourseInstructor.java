@@ -44,7 +44,7 @@ public class CourseInstructor {
         this.email = email;
     }
 
-    public int courseInstructorID() {
+    public int getCourseInstructorID() {
         return this.courseInstructorID;
     }
 

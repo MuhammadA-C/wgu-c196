@@ -18,6 +18,7 @@ import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InputValidation;
+import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     String activityCameFrom2;
     String addOrUpdate;
     int termId;
+    Intent intent;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
@@ -41,11 +43,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_or_update_course);
         repository = new Repository(getApplication());
 
         //Retrieves the intent that was passed to this activity/screen
-        Intent intent = getIntent();
+        intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
@@ -130,6 +133,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 } else {
                     //This part will be for updating a course
 
+                    System.out.println("Hit 2");
+
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
                             String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                 }
@@ -177,9 +182,43 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+            int instructorId = -1;
+
+            try {
+                instructorId = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            int index = 0;
+
+            try {
+                index = test(intent);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            selectInstructor.setSelection(index);
+
+            try {
+                System.out.println("Instructor for Course: " + InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
+
     ArrayAdapter<String> createStatusListAdapter() {
         ArrayList<String> statusOptionsList = new ArrayList<>();
 
+        //Spinner stores the items in the position that they were added with the same index as the list
         statusOptionsList.add("Not Started");
         statusOptionsList.add("In-Progress");
         statusOptionsList.add("Completed");
@@ -241,16 +280,22 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             return;
         }
 
-        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), termId);
+        //Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), termId);
 
+        /*
         if (course == null) {
             return;
         }
 
+         */
+
+        /*
         className.setText(course.getTitle());
         classInfo.setText(course.getInformation());
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
+
+         */
     }
 
     void setAddOrUpdate(Intent intent) {
@@ -280,5 +325,21 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         } else {
             activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
         }
+    }
+
+    public int test(Intent intent) throws InterruptedException {
+        ArrayList<CourseInstructor> dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+        int instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
+
+        if (dbInstructorList.size() == 0) {
+            return -1;
+        }
+
+        for (int instructorIndex = 0; instructorIndex < dbInstructorList.size(); instructorIndex++) {
+                if (dbInstructorList.get(instructorIndex).getInstructorID() == instructorIDForCourse) {
+                    return instructorIndex;
+                }
+            }
+        return -1;
     }
 }

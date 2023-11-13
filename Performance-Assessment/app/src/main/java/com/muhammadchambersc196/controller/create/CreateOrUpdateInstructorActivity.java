@@ -57,10 +57,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    NOTE: NEED TO PASS IN THE COURSE ID, TERM ID, AND WHETHER THE SCREEN WAS ADD OR UPDATE WHEN SAVING
-                 */
-
                 //Checks to see if the input fields are empty
                 if (InputValidation.isInputFieldEmpty(name) || InputValidation.isInputFieldEmpty(email) ||
                         InputValidation.isInputFieldEmpty(phoneNumber)) {
@@ -91,8 +87,10 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
                         switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY,
                                 SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2,
-                                intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.TERM_ID_KEY,
-                                intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
+                                intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY,
+                                intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY), SwitchScreen.TERM_ID_KEY,
+                                intent.getStringExtra(SwitchScreen.TERM_ID_KEY), SwitchScreen.COURSE_ID_KEY,
+                                intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                     } else {
                         switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                     }

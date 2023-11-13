@@ -34,7 +34,6 @@ public class DetailedTermActivity extends AppCompatActivity {
     Button viewCourseBtn;
     Button deleteCourseBtn;
     RecyclerView classesList;
-    TextView termName;
     TextView startDate;
     TextView endDate;
 
@@ -52,13 +51,23 @@ public class DetailedTermActivity extends AppCompatActivity {
         viewCourseBtn = findViewById(R.id.detailed_term_view_class_btn);
         deleteCourseBtn = findViewById(R.id.detailed_term_delete_class_btn);
         classesList = findViewById(R.id.detailed_term_classes_list);
-        termName = findViewById(R.id.detailed_term_term_name);
         startDate = findViewById(R.id.detailed_term_start_date);
         endDate = findViewById(R.id.detailed_term_end_date);
 
         setScreenInfo(termId);
         setList(termId);
 
+        //Sets the term name at the top in the action bar
+        try {
+            setTitle(TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), termId).getTitle());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*
+            Bug: When using the action bar to travel back, this screen will have a null value for the
+            selected term id...
+         */
         
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +147,6 @@ public class DetailedTermActivity extends AppCompatActivity {
             return;
         }
 
-        termName.setText(term.getTitle());
         startDate.setText(term.getStartDate());
         endDate.setText(term.getEndDate());
     }

@@ -72,7 +72,7 @@ public class CourseHelper {
         return coursesForTerm;
     }
 
-    public static Course retrieveCourseFromDatabaseByTermID(ArrayList<Course> dbCourseList, int courseId) {
+    public static Course retrieveCourseFromDatabaseByCourseID(ArrayList<Course> dbCourseList, int courseId) {
         if (dbCourseList.size() == 0) {
             return null;
         }

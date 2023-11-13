@@ -58,4 +58,5 @@
     <string name="view_all_cis">View All Instructors</string>
     <string name="view_ci">View Instructor</string>
     <string name="delete_ci">Delete Instructor</string>
+    <string name="back_tx">Back</string>
 </resources>

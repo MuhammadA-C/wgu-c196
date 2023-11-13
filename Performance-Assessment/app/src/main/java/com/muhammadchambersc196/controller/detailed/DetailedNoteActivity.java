@@ -27,6 +27,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
         note = findViewById(R.id.detailed_note_note);
         shareBtn = findViewById(R.id.detailed_note_share_note_btn);
 
+        //Need to add back BUTTON
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

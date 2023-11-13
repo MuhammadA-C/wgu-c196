@@ -25,6 +25,9 @@ import java.util.ArrayList;
 public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Repository repository;
     String activityCameFrom;
+    String activityCameFrom2;
+    String addOrUpdate;
+    int termId;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
@@ -45,17 +48,24 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
-        String activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
-        String addOrUpdate;
 
+        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+            try {
+                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            activityCameFrom2 = activityCameFrom;
+        } else {
+            activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
+            termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
+        }
 
         if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
             addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
         } else {
             addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
         }
-
-        int termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
@@ -212,7 +222,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             return;
         }
 
-        Course course = CourseHelper.retrieveCourseFromDatabaseByTermID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), termId);
 
         if (course == null) {
             return;

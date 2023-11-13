@@ -25,8 +25,7 @@
         <activity
             android:name=".controller.detailed.DetailedNoteActivity"
             android:exported="false"
-            android:label="Detailed Note View"
-            android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
+            android:label="Detailed Note View" />
         <activity
             android:name=".controller.create.CreateNoteActivity"
             android:exported="false"
@@ -48,18 +47,14 @@
         <activity
             android:name=".controller.detailed.DetailedAssessmentActivity"
             android:exported="false"
-            android:label="Detailed Assessment View"
-            android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
+            android:label="Detailed Assessment View" />
         <activity
             android:name=".controller.detailed.DetailedTermActivity"
             android:exported="false"
-            android:label="Detailed Term View"
             android:parentActivityName=".controller.list.ListOfTermsActivity" />
         <activity
             android:name=".controller.detailed.DetailedCourseActivity"
-            android:exported="false"
-            android:label="Detailed Course View"
-            android:parentActivityName=".controller.detailed.DetailedTermActivity" />
+            android:exported="false" />
         <activity
             android:name=".controller.list.ListOfTermsActivity"
             android:exported="false"

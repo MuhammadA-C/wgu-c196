@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InstructorHelper {
-    public static CourseInstructor retrieveCourseFromDatabaseByTermID(ArrayList<CourseInstructor> dbInstructorList, int instructorId) {
+    public static CourseInstructor retrieveCourseFromDatabaseByInstructorID(ArrayList<CourseInstructor> dbInstructorList, int instructorId) {
         if (dbInstructorList.size() == 0) {
             return null;
         }

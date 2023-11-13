@@ -32,6 +32,7 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         startDate = findViewById(R.id.detailed_assessment_start_date);
         endDate = findViewById(R.id.detailed_assessment_end_date);
 
+        //NEED TO ADD BACK BUTTON
         /*
             Need to set the text views
          */

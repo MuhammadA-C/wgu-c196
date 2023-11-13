@@ -54,7 +54,7 @@ public class DetailedInstructorActivity extends AppCompatActivity {
         CourseInstructor instructor;
 
         try {
-            instructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId);
+            instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

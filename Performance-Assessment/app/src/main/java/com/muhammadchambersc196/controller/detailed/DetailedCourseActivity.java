@@ -28,8 +28,8 @@ public class DetailedCourseActivity extends AppCompatActivity {
     Button viewAssignmentBtn;
     Button deleteAssessmentBtn;
     Button viewNoteBtn;
+    Button backBtn;
     Button deleteNoteBtn;
-    TextView className;
     TextView startDate;
     TextView endDate;
     TextView instructorName;
@@ -46,7 +46,6 @@ public class DetailedCourseActivity extends AppCompatActivity {
         courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
 
         //Gets references to the activities input fields
-        className = findViewById(R.id.detailed_class_name);
         viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
         startDate = findViewById(R.id.detailed_class_start_date);
         endDate = findViewById(R.id.detailed_class_end_date);
@@ -56,6 +55,15 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewNoteBtn = findViewById(R.id.detailed_class_view_note_btn);
         deleteNoteBtn = findViewById(R.id.detailed_class_delete_note_btn);
         notesList = findViewById(R.id.detailed_class_notes_list);
+        backBtn = findViewById(R.id.detailed_course_back_btn);
+
+        //Sets the course name at the top in the action bar
+        try {
+            setTitle(CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId).getTitle());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
 
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +77,22 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switchScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Need to pass in term id because it is used on the detailed term screen to populate it
+                int termId = -1;
+
+                try {
+                    termId = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId).getTermID();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                switchScreen(DetailedTermActivity.class, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }
@@ -90,12 +114,14 @@ public class DetailedCourseActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals(SwitchScreen.UPDATE_COURSE_VALUE)) {
-            switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE);
+            switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
+            //Need to pass in the term id
             switchScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         } else if (item.getTitle().equals("Add Note")) {
+            //Need to pass in the term id
             switchScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         }
@@ -107,7 +133,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
            * For update course I need to pass in the course id
            * For add assessment I need to pass in the course id
            * For add note I need to pass in the course id
-           * For view not I need to pass in the selected note id
+           * For view note I need to pass in the selected note id
            * For view assessment I need to pass in the selected assessment id
      */
     void switchScreen(Class className, String keyName, String value) {
@@ -115,7 +141,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(keyName, value);
-        //Note: Need to always start the activity that you're going to
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 
@@ -129,8 +155,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, int idValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
 
@@ -147,7 +172,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         Course course;
 
         try {
-            course = CourseHelper.retrieveCourseFromDatabaseByTermID((ArrayList<Course>) repository.getmAllCourses(), courseId);
+            course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -156,7 +181,6 @@ public class DetailedCourseActivity extends AppCompatActivity {
             return;
         }
 
-        className.setText(course.getTitle());
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
         //instructorName.setText(course.getIn);

@@ -97,7 +97,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     CourseInstructor updateInstructor;
 
                     try {
-                        updateInstructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+                        updateInstructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
 
                         if (updateInstructor == null) {
                             return;
@@ -184,7 +184,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
             return;
         }
 
-        CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+        CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
 
         if (instructor == null) {
             return;

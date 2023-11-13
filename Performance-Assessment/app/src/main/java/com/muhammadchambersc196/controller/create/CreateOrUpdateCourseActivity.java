@@ -80,20 +80,23 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
+                    //Checks if there are any empty input fields
                     if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
                             InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate))  {
                         return;
                     }
 
+                    //Checks if the classes start and end dates are formatted correctly (yyyy-mm-dd)
                     if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                         return;
                     }
 
+                    //Checks if the classes start date is the same or before the classes end date
                     if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                         return;
                     }
 
-                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId);
+                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
 
                     try {
                         //Course start and end dates must be within range of the terms start and end dates
@@ -108,11 +111,10 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(), termId), termId, addCourse)) {
                             return;
                         }
-                        /*
-                            Replace the spinner with a recycler view
-                         */
 
+                        //Adds new course to the database
                         repository.insert(addCourse);
+
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -139,7 +141,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
                     activityCameFrom = activityCameFrom2;
                 }
-
                 switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
@@ -148,7 +149,14 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                /*
+                    Check is needed to set the "activityCameFrom" variable with a reference to the
+                    activity that triggered the create or update course activity.
+                 */
+                if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                    activityCameFrom = activityCameFrom2;
+                }
+                switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }

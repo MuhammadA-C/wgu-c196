@@ -25,6 +25,7 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_assessment);
 
+        //Gets references to the activities input fields
         editBtn = findViewById(R.id.detailed_assessment_edit_btn);
         assessmentName = findViewById(R.id.detailed_assessment_name);
         assessmentType = findViewById(R.id.detailed_assessment_type);

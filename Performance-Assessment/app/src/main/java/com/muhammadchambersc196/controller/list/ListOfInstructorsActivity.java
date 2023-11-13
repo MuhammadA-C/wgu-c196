@@ -63,7 +63,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
 
                 try {
                     //Checks if the course instructor to delete has courses. Only course instructors with no courses can be deleted
-                    if (InstructorHelper.doesInstructorHaveCourses(SelectedListItem.getSelectedInstructor().getCourseInstructorID(), (ArrayList<Course>) repository.getmAllCourses())) {
+                    if (InstructorHelper.doesInstructorHaveCourses(SelectedListItem.getSelectedInstructor().getInstructorID(), (ArrayList<Course>) repository.getmAllCourses())) {
                         return;
                     }
 
@@ -91,7 +91,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
 
                     This is done to clean up things and not have the reference lingering
                  */
-                int instructorId = SelectedListItem.getSelectedInstructor().getCourseInstructorID();
+                int instructorId = SelectedListItem.getSelectedInstructor().getInstructorID();
                 SelectedListItem.setSelectedInstructor(null);
 
                 switchScreen(DetailedInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_INSTRUCTORS_ACTIVITY, SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));

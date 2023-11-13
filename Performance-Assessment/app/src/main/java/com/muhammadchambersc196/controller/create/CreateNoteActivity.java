@@ -29,6 +29,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         //Retrieves the data value/string name that was passed to this intent
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
+        //Gets references to the activities input fields
         createNoteDetails = findViewById(R.id.create_note_details);
         saveBtn = findViewById(R.id.create_note_btn);
         cancelBtn = findViewById(R.id.create_cancel_btn);

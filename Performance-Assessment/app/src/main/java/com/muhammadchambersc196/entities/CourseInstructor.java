@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "course_instructors")
 public class CourseInstructor {
     @PrimaryKey(autoGenerate = true)
-    private int courseInstructorID;
+    private int instructorID;
     private String name;
     private String phoneNumber;
     private String email;
 
 
-    public CourseInstructor(int courseInstructorID, String name, String phoneNumber, String email) {
-        this.setCourseInstructorID(courseInstructorID);
+    public CourseInstructor(int instructorID, String name, String phoneNumber, String email) {
+        this.setInstructorID(instructorID);
         this.setName(name);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
@@ -28,8 +28,8 @@ public class CourseInstructor {
     }
 
 
-    public void setCourseInstructorID(int courseInstructorID) {
-        this.courseInstructorID = courseInstructorID;
+    public void setInstructorID(int instructorID) {
+        this.instructorID = instructorID;
     }
 
     public void setName(String name) {
@@ -44,8 +44,8 @@ public class CourseInstructor {
         this.email = email;
     }
 
-    public int getCourseInstructorID() {
-        return this.courseInstructorID;
+    public int getInstructorID() {
+        return this.instructorID;
     }
 
     public String getName() {

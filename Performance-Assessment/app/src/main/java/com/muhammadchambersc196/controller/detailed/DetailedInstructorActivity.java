@@ -33,12 +33,14 @@ public class DetailedInstructorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         instructorId = Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY));
 
+        //Gets references to the activities input fields
         editBtn = findViewById(R.id.detailed_view_edit_btn);
         name = findViewById(R.id.detailed_view_ci_name);
         email = findViewById(R.id.detailed_view_ci_email);
         phoneNumber = findViewById(R.id.detailed_view_ci_number);
 
         setScreenInfo(instructorId);
+
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

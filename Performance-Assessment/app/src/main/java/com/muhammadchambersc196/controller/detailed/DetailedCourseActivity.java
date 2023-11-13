@@ -45,6 +45,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
 
+        //Gets references to the activities input fields
         className = findViewById(R.id.detailed_class_name);
         viewAssignmentBtn = findViewById(R.id.detailed_class_view_assignment_btn);
         startDate = findViewById(R.id.detailed_class_start_date);
@@ -62,6 +63,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
                 switchScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             }
         });
+
 
         viewNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

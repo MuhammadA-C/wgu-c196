@@ -36,6 +36,7 @@ public class CreateAssessmentActivity extends AppCompatActivity {
         //Retrieves the data value/string name that was passed to this intent
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
+        //Gets references to the activities input fields
         assessmentName = findViewById(R.id.create_assessment_name);
         assessmentInfo = findViewById(R.id.create_assessment_info);
         startDate = findViewById(R.id.create_assessment_start_date);
@@ -43,6 +44,7 @@ public class CreateAssessmentActivity extends AppCompatActivity {
         assessmentType = findViewById(R.id.create_assessment_type);
         saveBtn = findViewById(R.id.create_assessment_save_btn);
         cancelBtn = findViewById(R.id.create_assessment_cancel_btn);
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

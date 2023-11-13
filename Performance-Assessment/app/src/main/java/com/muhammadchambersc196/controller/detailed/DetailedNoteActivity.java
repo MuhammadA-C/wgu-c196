@@ -22,9 +22,11 @@ public class DetailedNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_note);
 
+        //Gets references to the activities input fields
         editBtn = findViewById(R.id.detailed_note_edit_note_btn);
         note = findViewById(R.id.detailed_note_note);
         shareBtn = findViewById(R.id.detailed_note_share_note_btn);
+
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

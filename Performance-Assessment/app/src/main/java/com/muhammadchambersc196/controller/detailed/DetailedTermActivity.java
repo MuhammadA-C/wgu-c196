@@ -47,6 +47,7 @@ public class DetailedTermActivity extends AppCompatActivity {
         Intent intent = getIntent();
         termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
 
+        //Gets references to the activities input fields
         addCourseBtn = findViewById(R.id.detailed_term_add_class_btn);
         viewCourseBtn = findViewById(R.id.detailed_term_view_class_btn);
         deleteCourseBtn = findViewById(R.id.detailed_term_delete_class_btn);
@@ -58,12 +59,14 @@ public class DetailedTermActivity extends AppCompatActivity {
         setScreenInfo(termId);
         setList(termId);
 
+        
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_COURSE_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
+
 
         viewCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

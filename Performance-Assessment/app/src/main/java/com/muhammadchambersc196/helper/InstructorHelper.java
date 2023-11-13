@@ -15,7 +15,7 @@ public class InstructorHelper {
         }
 
         for (CourseInstructor dbInstructor : dbInstructorList) {
-            if (dbInstructor.getCourseInstructorID() == instructorId) {
+            if (dbInstructor.getInstructorID() == instructorId) {
                 return dbInstructor;
             }
         }
@@ -28,7 +28,7 @@ public class InstructorHelper {
         }
 
         for(CourseInstructor dbCourseInstructor : dbCourseInstructorList) {
-            if (dbCourseInstructor.getCourseInstructorID() == addCourseInstructor.getCourseInstructorID()) {
+            if (dbCourseInstructor.getInstructorID() == addCourseInstructor.getInstructorID()) {
                 continue;
             }
 

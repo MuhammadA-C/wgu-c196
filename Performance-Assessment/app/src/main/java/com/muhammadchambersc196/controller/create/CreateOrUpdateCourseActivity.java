@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateValidation;
@@ -23,9 +24,11 @@ import java.util.ArrayList;
 
 public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Repository repository;
+    String addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
+    Spinner selectInstructor;
     EditText startDate;
     EditText endDate;
     Button saveBtn;
@@ -42,14 +45,19 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
-        String addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
+        String activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
+
+
+        if (!activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+            addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
+        }
+
         int termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
 
         //Gets references to the activities input fields
-
         classStatus = findViewById(R.id.create_class_select_status);
         className = findViewById(R.id.create_class_name);
         classInfo = findViewById(R.id.create_class_info);
@@ -58,9 +66,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.create_class_save_btn);
         cancelBtn = findViewById(R.id.create_class_cancel_btn);
         addCIBtn = findViewById(R.id.create_class_add_ci_btn);
+        selectInstructor = findViewById(R.id.create_class_select_ci);
 
         //Sets the class status spinner
         classStatus.setAdapter(createStatusListAdapter());
+        //Sets the course instructor spinner
+        selectInstructor.setAdapter(createInstructorListAdapter());
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +121,23 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
                 }
 
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+            }
+        });
+
+
+        addCIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                System.out.println(activityCameFrom2);
+                switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }
@@ -133,11 +153,37 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptionsList);
     }
 
+    ArrayAdapter<CourseInstructor> createInstructorListAdapter() {
+        ArrayList<CourseInstructor> instructorOptionsList = null;
+
+        try {
+            instructorOptionsList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorOptionsList);
+    }
+
     void switchScreen(Class className, String termIdKey, String termIdValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(termIdKey, termIdValue);
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2, String cameFromValue2, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(cameFromKey1, cameFromValue1);
+        intent.putExtra(cameFromKey2, cameFromValue2);
+        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        intent.putExtra(idKey, idValue);
+
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateInstructorActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.helper.CourseInstructorHelper;
@@ -42,8 +44,7 @@ public class DetailedInstructorActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_INSTRUCTOR_VALUE, SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
             }
         });
     }

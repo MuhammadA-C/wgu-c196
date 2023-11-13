@@ -40,6 +40,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
 
+        //Gets references to the activities input fields
         name = findViewById(R.id.create_ci_name);
         email = findViewById(R.id.create_ci_email);
         phoneNumber = findViewById(R.id.create_ci_phone_number);
@@ -52,14 +53,21 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Checks to see if the input fields are empty
                 if (InputValidation.isInputFieldEmpty(name) || InputValidation.isInputFieldEmpty(email) || InputValidation.isInputFieldEmpty(phoneNumber)) {
                     return;
                 }
 
                 if (addOrUpdate.equals(SwitchScreen.ADD_INSTRUCTOR_VALUE)) {
+
+                    /*
+                        SECTION BELOW: Is for adding creating a new Course Instructor Object
+                     */
+
                     CourseInstructor addInstructor = new CourseInstructor(name.getText().toString(), phoneNumber.getText().toString(), email.getText().toString());
 
                     try {
@@ -74,10 +82,45 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                    if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
+                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.TERM_ID_KEY, intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
+                    } else {
+                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                    }
+                    
                 } else {
-                    //Section for updating instructor
 
+                    /*
+                        SECTION BELOW: Is for updating a Course Instructor object
+                     */
+
+                    CourseInstructor updateInstructor;
+
+                    try {
+                        updateInstructor = CourseInstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+
+                        if (updateInstructor == null) {
+                            return;
+                        }
+
+                        //Updates the values for the course instructor object
+                        updateInstructor.setName(name.getText().toString());
+                        updateInstructor.setEmail(email.getText().toString());
+                        updateInstructor.setPhoneNumber(phoneNumber.getText().toString());
+
+                        //Doesn't allow course instructor to be added if it already exists in the database
+                        if (CourseInstructorHelper.doesCourseInstructorInDatabase(updateInstructor, repository.getmAllCourseInstructors())) {
+                            return;
+                        }
+
+                        //Saves the updated course instructor values in the database
+                        repository.update(updateInstructor);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    //Need to pass in the course instructor id because it is used for the detailed course instructor screen to display the objects info to the screen
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY));
                 }
             }
         });
@@ -85,10 +128,19 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addOrUpdate.equals(SwitchScreen.ADD_INSTRUCTOR_VALUE)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
-                } else {
+                /*
+                    Need to check to see if this screen was opened by the detailed course instructor screen
+                    because then we will need to pass in the course instructor id.
 
+                    Note: The course instructor id is used by the detailed course instructor screen to
+                    display the objects information.
+                 */
+                if (activityCameFrom.equals(SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY)) {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY));
+                } else if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.TERM_ID_KEY, intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
+                } else {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                 }
             }
         });
@@ -102,8 +154,32 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    void switchScreen(Class className, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(idKey, idValue);
+
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2, String cameFromValue2, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(cameFromKey1, cameFromValue1);
+        intent.putExtra(cameFromKey2, cameFromValue2);
+        intent.putExtra(idKey, idValue);
+
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
     void setScreenInfo(String addOrUpdate, Intent intent) throws InterruptedException {
-        if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
+        if (addOrUpdate.equals(SwitchScreen.ADD_INSTRUCTOR_VALUE)) {
             return;
         }
 

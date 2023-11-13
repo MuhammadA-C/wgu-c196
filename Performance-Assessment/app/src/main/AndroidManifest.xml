@@ -34,8 +34,7 @@
             android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
         <activity
             android:name=".controller.create.CreateOrUpdateInstructorActivity"
-            android:exported="false"
-            android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
+            android:exported="false" />
         <activity
             android:name=".controller.create.CreateAssessmentActivity"
             android:exported="false"

@@ -11,17 +11,16 @@ import android.widget.Button;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.InstructorAdapter;
-import com.muhammadchambersc196.controller.adapter.TermAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateInstructorActivity;
-import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedInstructorActivity;
-import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
-import com.muhammadchambersc196.entities.Term;
+import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListOfInstructorsActivity extends AppCompatActivity {
@@ -53,9 +52,29 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         });
 
         deleteCI.setOnClickListener(new View.OnClickListener() {
+            /*
+                Need to test the below code when a course instructor has classes
+             */
             @Override
             public void onClick(View view) {
-                //Need to stop instructor from being deleted if they are assigned to any courses
+                if (SelectedListItem.getSelectedInstructor() == null) {
+                    return;
+                }
+
+                try {
+                    //Checks if the course instructor to delete has courses. Only course instructors with no courses can be deleted
+                    if (InstructorHelper.doesInstructorHaveCourses(SelectedListItem.getSelectedInstructor().getCourseInstructorID(), (ArrayList<Course>) repository.getmAllCourses())) {
+                        return;
+                    }
+
+                    repository.delete(SelectedListItem.getSelectedInstructor());
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                SelectedListItem.setSelectedInstructor(null);
+                setList();
             }
         });
 

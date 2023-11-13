@@ -16,11 +16,9 @@ public class Course {
 
     //Foreign Keys
     private int termID;
-    private String courseInstructorName;
-    private String courseInstructorEmail;
+    private int instructorID;
 
-
-    public Course(int courseID, String title, String status, String information, String startDate, String endDate, int termID, String courseInstructorName, String courseInstructorEmail) {
+    public Course(int courseID, String title, String status, String information, String startDate, String endDate, int termID, int instructorID) {
         this.setCourseID(courseID);
         this.setTitle(title);
         this.setStatus(status);
@@ -28,8 +26,7 @@ public class Course {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
-        this.setCourseInstructorName(courseInstructorName);
-        this.setCourseInstructorEmail(courseInstructorEmail);
+        this.setInstructorID(instructorID);
     }
 
     @Ignore
@@ -40,8 +37,6 @@ public class Course {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
-        this.setCourseInstructorName(courseInstructorName);
-        this.setCourseInstructorEmail(courseInstructorEmail);
     }
 
 
@@ -73,12 +68,8 @@ public class Course {
         this.termID = termID;
     }
 
-    public void setCourseInstructorName(String courseInstructorName) {
-        this.courseInstructorName = courseInstructorName;
-    }
-
-    public void setCourseInstructorEmail(String courseInstructorEmail) {
-        this.courseInstructorName = courseInstructorEmail;
+    public void setInstructorID(int courseInstructorID) {
+        this.instructorID = courseInstructorID;
     }
 
     public int getCourseID() {
@@ -89,12 +80,8 @@ public class Course {
         return this.termID;
     }
 
-    public String getCourseInstructorName() {
-        return this.courseInstructorName;
-    }
-
-    public String getCourseInstructorEmail() {
-        return this.courseInstructorEmail;
+    public int getInstructorID() {
+        return this.instructorID;
     }
 
     public String getTitle() {

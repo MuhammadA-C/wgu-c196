@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateInstructorActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseInstructor;
-import com.muhammadchambersc196.helper.CourseInstructorHelper;
+import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class DetailedInstructorActivity extends AppCompatActivity {
         CourseInstructor instructor;
 
         try {
-            instructor = CourseInstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId);
+            instructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

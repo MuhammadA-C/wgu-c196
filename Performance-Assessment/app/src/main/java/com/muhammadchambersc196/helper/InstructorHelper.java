@@ -8,9 +8,13 @@ import com.muhammadchambersc196.entities.CourseInstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseInstructorHelper {
-    public static CourseInstructor retrieveCourseFromDatabaseByTermID(@NonNull ArrayList<CourseInstructor> dbListOfInstructors, int instructorId) {
-        for (CourseInstructor dbInstructor : dbListOfInstructors) {
+public class InstructorHelper {
+    public static CourseInstructor retrieveCourseFromDatabaseByTermID(ArrayList<CourseInstructor> dbInstructorList, int instructorId) {
+        if (dbInstructorList.size() == 0) {
+            return null;
+        }
+
+        for (CourseInstructor dbInstructor : dbInstructorList) {
             if (dbInstructor.getCourseInstructorID() == instructorId) {
                 return dbInstructor;
             }
@@ -18,12 +22,12 @@ public class CourseInstructorHelper {
         return null;
     }
 
-    public static boolean doesCourseInstructorInDatabase(CourseInstructor addCourseInstructor, List<CourseInstructor> databaseCourseInstructorList) {
-        if (databaseCourseInstructorList.size() == 0) {
+    public static boolean doesCourseInstructorExistInDatabase(CourseInstructor addCourseInstructor, List<CourseInstructor> dbCourseInstructorList) {
+        if (dbCourseInstructorList.size() == 0) {
             return false;
         }
 
-        for(CourseInstructor dbCourseInstructor : databaseCourseInstructorList) {
+        for(CourseInstructor dbCourseInstructor : dbCourseInstructorList) {
             if (dbCourseInstructor.getCourseInstructorID() == addCourseInstructor.getCourseInstructorID()) {
                 continue;
             }
@@ -31,6 +35,19 @@ public class CourseInstructorHelper {
             if(addCourseInstructor.getName().toLowerCase().equals(dbCourseInstructor.getName().toLowerCase()) &&
                     addCourseInstructor.getPhoneNumber().equals(dbCourseInstructor.getPhoneNumber()) &&
                     addCourseInstructor.getEmail().equals(dbCourseInstructor.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean doesInstructorHaveCourses(int instructorId, ArrayList<Course> dbCourseList) {
+        if (dbCourseList.size() == 0) {
+            return false;
+        }
+
+        for (Course dbCourse : dbCourseList) {
+            if (dbCourse.getInstructorID() == instructorId) {
                 return true;
             }
         }

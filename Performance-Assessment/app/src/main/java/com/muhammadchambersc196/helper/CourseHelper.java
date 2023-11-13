@@ -72,8 +72,12 @@ public class CourseHelper {
         return coursesForTerm;
     }
 
-    public static Course retrieveCourseFromDatabaseByTermID(@NonNull ArrayList<Course> dbListOfCourses, int courseId) {
-        for (Course dbCourse : dbListOfCourses) {
+    public static Course retrieveCourseFromDatabaseByTermID(ArrayList<Course> dbCourseList, int courseId) {
+        if (dbCourseList.size() == 0) {
+            return null;
+        }
+
+        for (Course dbCourse : dbCourseList) {
             if (dbCourse.getCourseID() == courseId) {
                 return dbCourse;
             }

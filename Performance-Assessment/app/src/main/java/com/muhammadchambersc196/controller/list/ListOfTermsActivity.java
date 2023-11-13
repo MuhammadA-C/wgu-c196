@@ -62,15 +62,13 @@ public class ListOfTermsActivity extends AppCompatActivity {
                     return;
                 }
 
-                Term term = SelectedListItem.getSelectedTerm();
-                SelectedListItem.setSelectedTerm(null);
-
                 try {
-                    repository.delete(term);
+                    repository.delete(SelectedListItem.getSelectedTerm());
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
+                SelectedListItem.setSelectedTerm(null);
                 setList();
             }
         });

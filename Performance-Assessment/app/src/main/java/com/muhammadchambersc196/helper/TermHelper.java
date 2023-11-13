@@ -24,8 +24,12 @@ public class TermHelper {
         return false;
     }
 
-    public static Term retrieveTermFromDatabaseByTermID(@NonNull ArrayList<Term> databaseListOfTerms, int termId) {
-        for (Term term : databaseListOfTerms) {
+    public static Term retrieveTermFromDatabaseByTermID(ArrayList<Term> dbTermList, int termId) {
+        if (dbTermList.size() == 0) {
+            return null;
+        }
+
+        for (Term term : dbTermList) {
             if (term.getTermID() == termId) {
                 return term;
             }
@@ -33,8 +37,8 @@ public class TermHelper {
         return null;
     }
 
-    public static boolean doesTermDateOverlapWithTermInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, Term term) {
-        if (databaseListOfTerms.size() == 0) {
+    public static boolean doesTermDateOverlapWithTermInDatabase(@NonNull ArrayList<Term> dbTermList, Term term) {
+        if (dbTermList.size() == 0) {
             return false;
         }
 
@@ -43,7 +47,7 @@ public class TermHelper {
 
         int numOfOverlappingDates = 0;
 
-        for (Term termInDatabase : databaseListOfTerms) {
+        for (Term termInDatabase : dbTermList) {
             if (termInDatabase.getTermID() == term.getTermID()) {
                 numOfOverlappingDates--;
                 continue;

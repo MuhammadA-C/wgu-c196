@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseInstructor;
-import com.muhammadchambersc196.helper.CourseInstructorHelper;
+import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -72,7 +72,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
 
                     try {
                         //Doesn't allow instructor to be added if it already exists in the database
-                        if (CourseInstructorHelper.doesCourseInstructorInDatabase(addInstructor, repository.getmAllCourseInstructors())) {
+                        if (InstructorHelper.doesCourseInstructorExistInDatabase(addInstructor, repository.getmAllCourseInstructors())) {
                             return;
                         }
 
@@ -87,7 +87,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     } else {
                         switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                     }
-                    
+
                 } else {
 
                     /*
@@ -97,7 +97,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     CourseInstructor updateInstructor;
 
                     try {
-                        updateInstructor = CourseInstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+                        updateInstructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
 
                         if (updateInstructor == null) {
                             return;
@@ -109,7 +109,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                         updateInstructor.setPhoneNumber(phoneNumber.getText().toString());
 
                         //Doesn't allow course instructor to be added if it already exists in the database
-                        if (CourseInstructorHelper.doesCourseInstructorInDatabase(updateInstructor, repository.getmAllCourseInstructors())) {
+                        if (InstructorHelper.doesCourseInstructorExistInDatabase(updateInstructor, repository.getmAllCourseInstructors())) {
                             return;
                         }
 
@@ -183,7 +183,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
             return;
         }
 
-        CourseInstructor instructor = CourseInstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+        CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByTermID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
 
         if (instructor == null) {
             return;

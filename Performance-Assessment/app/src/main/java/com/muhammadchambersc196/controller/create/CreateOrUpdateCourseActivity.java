@@ -49,23 +49,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Retrieves the data value/string name that was passed to this intent
         activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
-        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
-            try {
-                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            activityCameFrom2 = activityCameFrom;
-        } else {
-            activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
-            termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
-        }
-
-        if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
-            addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
-        } else {
-            addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
-        }
+        setActivityCameFrom2(intent);
+        setTermID(intent);
+        setAddOrUpdate(intent);
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
@@ -125,18 +111,17 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         //Adds new course to the database
                         repository.insert(addCourse);
 
+                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
                 } else {
-
-
                     //This part will be for updating a course
 
-                }
 
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                }
             }
         });
 
@@ -166,7 +151,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
                     activityCameFrom = activityCameFrom2;
                 }
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+
+                if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                } else {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                }
             }
         });
     }
@@ -190,15 +180,24 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorOptionsList);
     }
 
-    void switchScreen(Class className, String termIdKey, String termIdValue) {
+    void switchScreen(Class className, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
-        intent.putExtra(termIdKey, termIdValue);
+        intent.putExtra(idKey, idValue);
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void switchScreen(Class className, String idKey1, String idValue1, String idKey2, String idValue2) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(idKey1, idValue1);
+        intent.putExtra(idKey2, idValue2);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
@@ -212,7 +211,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         intent.putExtra(cameFromKey2, cameFromValue2);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
@@ -231,5 +229,33 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         className.setText(course.getTitle());
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
+    }
+
+    void setAddOrUpdate(Intent intent) {
+        if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+            addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
+        } else {
+            addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
+        }
+    }
+
+    void setTermID(Intent intent) {
+        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+            try {
+                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
+        }
+    }
+
+    void setActivityCameFrom2(Intent intent) {
+        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+            activityCameFrom2 = activityCameFrom;
+        } else {
+            activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
+        }
     }
 }

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Repository repository;
-    String addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
+    String activityCameFrom;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
@@ -44,11 +44,14 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
-        String activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
+        activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
         String activityCameFrom2 = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2);
+        String addOrUpdate;
 
 
-        if (!activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+        if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+            addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
+        } else {
             addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
         }
 
@@ -106,7 +109,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                             return;
                         }
                         /*
-                            Need to redesign this to use a spinner to select course instructors, or create a new one
+                            Replace the spinner with a recycler view
                          */
 
                         repository.insert(addCourse);
@@ -129,14 +132,22 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         addCIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
+                    Need this check because if the user bounces back and forth from the add instructor screen
+                    to the add course screen, the variable "activityCameFrom" will hold a reference to the wrong screen.
+                 */
+                if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                    activityCameFrom = activityCameFrom2;
+                }
+
                 switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
 
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(activityCameFrom2);
                 switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });

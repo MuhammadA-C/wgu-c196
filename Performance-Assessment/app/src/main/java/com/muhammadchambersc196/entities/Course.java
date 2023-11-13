@@ -37,6 +37,7 @@ public class Course {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setTermID(termID);
+        //this.setInstructorID(instructorID);
     }
 
 

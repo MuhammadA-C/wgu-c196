@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Surface;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,13 +78,15 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
                     //Checks if there are any empty input fields
-                    if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) || InputValidation.isInputFieldEmpty(classStatus) ||
-                            InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate))  {
+                    if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) ||
+                            InputValidation.isInputFieldEmpty(classStatus) || InputValidation.isInputFieldEmpty(startDate) ||
+                            InputValidation.isInputFieldEmpty(endDate))  {
                         return;
                     }
 
                     //Checks if the classes start and end dates are formatted correctly (yyyy-mm-dd)
-                    if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                    if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
+                            !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                         return;
                     }
 
@@ -94,7 +95,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         return;
                     }
 
-                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(), classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
+                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
+                            classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
+                            termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
 
                     try {
                         //Course start and end dates must be within range of the terms start and end dates
@@ -106,14 +109,20 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                             Checks to see if the course already exists for the term by comparing the course names.
                             The assumption here is that there shouldn't be duplicate courses for the same term.
                          */
-                        if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(), termId), termId, addCourse)) {
+                        if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(),
+                                termId), termId, addCourse)) {
                             return;
                         }
 
                         //Adds new course to the database
                         repository.insert(addCourse);
 
-                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom2), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                        //Check is needed to set the correct reference to the screen that called the create or update course activity
+                        if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                            activityCameFrom = activityCameFrom2;
+                        }
+
+                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -121,7 +130,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 } else {
                     //This part will be for updating a course
 
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
+                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                 }
             }
         });
@@ -137,7 +147,11 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
                     activityCameFrom = activityCameFrom2;
                 }
-                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY, SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+
+                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY,
+                        SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE,
+                        SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY, addOrUpdate, SwitchScreen.TERM_ID_KEY, String.valueOf(termId),
+                        SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
             }
         });
 
@@ -151,24 +165,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                  */
                 if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
                     activityCameFrom = activityCameFrom2;
-                    System.out.println("Hit 1");
                 }
 
-
-
-                System.out.println("Create Course; Activity came from 2 " + activityCameFrom2);
-
                 if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
-                    System.out.println("Hit 2");
-                    System.out.println("Create Course; Activity came from 1 " + activityCameFrom);
-                    System.out.println("Create Course; Course  ID " + intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
-                    /*
-                        Course ID is null. I need to pass in course id to the add instructor page, and the add instructor page needs to pass the course id back
-                     */
-
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
+                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                 } else {
-                    System.out.println("Hit 3");
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                 }
             }
@@ -216,7 +218,10 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2, String cameFromValue2, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
+    void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2,
+                      String cameFromValue2, String addOrUpdateScreenKey, String addOrUpdateScreenValue,
+                      String cameFromAddOrUpdateScreenKey, String cameFromAddOrUpdateScreenValue, String idKey1,
+                      String idValue1, String idKey2, String idValue2) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
 
@@ -224,7 +229,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         intent.putExtra(cameFromKey1, cameFromValue1);
         intent.putExtra(cameFromKey2, cameFromValue2);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
-        intent.putExtra(idKey, idValue);
+        intent.putExtra(cameFromAddOrUpdateScreenKey, cameFromAddOrUpdateScreenValue);
+        intent.putExtra(idKey1, idValue1);
+        intent.putExtra(idKey2, idValue2);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
@@ -248,7 +255,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
     void setAddOrUpdate(Intent intent) {
         if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
-            addOrUpdate = SwitchScreen.ADD_COURSE_VALUE;
+            addOrUpdate = intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY);
         } else {
             addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
         }
@@ -257,7 +264,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     void setTermID(Intent intent) {
         if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
             try {
-                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
+                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(),
+                        Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

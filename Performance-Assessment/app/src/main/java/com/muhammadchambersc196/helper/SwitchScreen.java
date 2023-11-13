@@ -16,6 +16,7 @@ public class SwitchScreen {
     public static final String CAME_FROM_KEY2 = "came_from2";
     public static final String TERM_ID_KEY = "term_id";
     public static final String ADD_OR_UPDATE_SCREEN_KEY = "add_or_update_screen";
+    public static final String CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY = "came_from_add_or_update_screen";
     public static final String COURSE_ID_KEY = "course_id";
     public static final String INSTRUCTOR_ID_KEY = "instructor_id";
     public static final String UPDATE_TERM_VALUE = "Update Term";

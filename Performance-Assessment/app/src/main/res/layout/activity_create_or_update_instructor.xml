@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
-    tools:context=".controller.update.UpdateAssessmentActivity">
+    tools:context=".controller.create.CreateOrUpdateInstructorActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,36 +21,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView25"
-                android:layout_width="0dp"
+                android:id="@+id/textView55"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/title"
+                android:text="@string/name"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/update_assessment_name"
+                android:id="@+id/create_ci_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="@string/assessment_title_hint"
+                android:hint="@string/ci_name_hint"
                 android:inputType="text"
                 android:textSize="24sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/update_assessment_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,24 +48,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView43"
+                android:id="@+id/textView57"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/information"
+                android:text="@string/email"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/update_assessment_info"
+                android:id="@+id/create_ci_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="@string/add_details_hint"
-                android:inputType="date"
+                android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
                 android:textSize="24sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -85,62 +75,48 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView44"
+                android:id="@+id/textView58"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/start_date"
+                android:text="@string/number"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/update_assessment_start_date"
+                android:id="@+id/create_ci_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:autofillHints="no"
                 android:ems="10"
-                android:hint="@string/date_hint"
-                android:inputType="date"
+                android:hint="@string/number_hint"
+                android:inputType="phone"
                 android:textSize="24sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView45"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/end_date"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/update_assessment_end_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:autofillHints="no"
-                android:ems="10"
-                android:hint="@string/date_hint"
-                android:inputType="date"
-                android:textSize="24sp" />
         </LinearLayout>
     </LinearLayout>
 
     <Button
-        android:id="@+id/update_assessment_save_btn"
-        android:layout_width="414dp"
+        android:id="@+id/create_ci_save_btn"
+        android:layout_width="184dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/save_txt"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/create_ci_cancel_btn"
+        android:layout_width="168dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/cancel_txt"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintStart_toEndOf="@+id/create_ci_save_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

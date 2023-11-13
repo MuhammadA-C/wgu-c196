@@ -87,8 +87,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detailed_class_assessments_list"
-        android:layout_width="420dp"
-        android:layout_height="253dp"
+        android:layout_width="408dp"
+        android:layout_height="271dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -101,7 +101,7 @@
         android:id="@+id/textView20"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:text="@string/assessments_section"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -113,20 +113,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detailed_class_notes_list"
-        android:layout_width="416dp"
-        android:layout_height="225dp"
+        android:layout_width="409dp"
+        android:layout_height="271dp"
         android:layout_marginBottom="96dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView22"
-        app:layout_constraintVertical_bias="0.777" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="88dp"
         android:text="@string/note"
         android:textAlignment="center"
         android:textSize="20sp"

@@ -18,7 +18,7 @@ import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.entities.Term;
 
 //Note: Need to change the database version number when making changes to the database
-@Database(entities = {Assessment.class, Course.class, CourseInstructor.class, CourseNote.class, Term.class}, version = 4, exportSchema = false)
+@Database(entities = {Assessment.class, Course.class, CourseInstructor.class, CourseNote.class, Term.class}, version = 5, exportSchema = false)
 public abstract class DatabaseBuilder extends RoomDatabase {
     public abstract AssessmentDAO assessmentDAO();
     public abstract CourseDAO courseDAO();

@@ -14,37 +14,30 @@
         tools:targetApi="31">
         <activity
             android:name=".controller.detailed.DetailedInstructorActivity"
+            android:label="Detailed Instructor View"
             android:exported="false" />
         <activity
             android:name=".controller.list.ListOfInstructorsActivity"
-            android:exported="false" />
+            android:label="List of Instructors"
+            android:exported="false"
+            android:parentActivityName=".controller.HomeScreenActivity" />
         <activity
             android:name=".controller.detailed.DetailedNoteActivity"
             android:exported="false"
             android:label="Detailed Note View"
             android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
         <activity
-            android:name=".controller.update.UpdateNoteActivity"
-            android:exported="false"
-            android:label="Update Note View" />
-        <activity
             android:name=".controller.create.CreateNoteActivity"
             android:exported="false"
             android:label="Create Note View"
             android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
         <activity
-            android:name=".controller.update.UpdateAssessmentActivity"
+            android:name=".controller.create.CreateOrUpdateInstructorActivity"
             android:exported="false"
-            android:label="Update Assessment View" />
-        <activity
-            android:name=".controller.update.UpdateCourseActivity"
-            android:exported="false"
-            android:label="Update Course View"
             android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
         <activity
             android:name=".controller.create.CreateAssessmentActivity"
             android:exported="false"
-            android:label="Create Assessment View"
             android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
         <activity
             android:name=".controller.create.CreateOrUpdateCourseActivity"

@@ -5,9 +5,8 @@ import com.muhammadchambersc196.controller.detailed.DetailedAssessmentActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedCourseActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedNoteActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
+import com.muhammadchambersc196.controller.list.ListOfInstructorsActivity;
 import com.muhammadchambersc196.controller.list.ListOfTermsActivity;
-import com.muhammadchambersc196.controller.update.UpdateAssessmentActivity;
-import com.muhammadchambersc196.controller.update.UpdateNoteActivity;
 
 public class SwitchScreen {
     public static final String CAME_FROM_KEY = "came_from";
@@ -18,14 +17,14 @@ public class SwitchScreen {
     public static final String UPDATE_COURSE_VALUE = "Update Course";
     public static final String ADD_TERM_VALUE = "Add Term";
     public static final String ADD_COURSE_VALUE = "Add Course";
+    public static final String ADD_INSTRUCTOR_VALUE = "Add Instructor";
     public static final String LIST_OF_TERMS_ACTIVITY = "ListOfTermsActivity";
+    public static final String LIST_OF_INSTRUCTORS_ACTIVITY = "ListOfInstructorsActivity";
     public static final String HOME_SCREEN_ACTIVITY = "HomeScreenActivity";
     public static final String DETAILED_TERM_ACTIVITY = "DetailedTermActivity";
     public static final String DETAILED_NOTE_ACTIVITY = "DetailedNoteActivity";
     public static final String DETAILED_COURSE_ACTIVITY = "DetailedCourseActivity";
     public static final String DETAILED_ASSESSMENT_ACTIVITY = "DetailedAssessmentActivity";
-    public static final String UPDATE_ASSESSMENT_ACTIVITY = "UpdateAssessmentActivity";
-    public static final String UPDATE_NOTE_ACTIVITY = "UpdateNoteActivity";
 
 
     public static Class getActivityClass(String activityName) {
@@ -50,11 +49,8 @@ public class SwitchScreen {
             case DETAILED_ASSESSMENT_ACTIVITY:
                 className = DetailedAssessmentActivity.class;
                 break;
-            case UPDATE_ASSESSMENT_ACTIVITY:
-                className = UpdateAssessmentActivity.class;
-                break;
-            case UPDATE_NOTE_ACTIVITY:
-                className = UpdateNoteActivity.class;
+            case LIST_OF_INSTRUCTORS_ACTIVITY:
+                className = ListOfInstructorsActivity.class;
                 break;
         }
         return className;

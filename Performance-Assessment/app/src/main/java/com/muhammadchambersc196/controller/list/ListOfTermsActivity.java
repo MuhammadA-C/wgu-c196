@@ -91,7 +91,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 int termId = SelectedListItem.getSelectedTerm().getTermID();
                 SelectedListItem.setSelectedTerm(null);
 
-                goToNewScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                switchScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }
@@ -107,7 +107,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void goToNewScreen(Class className, String classNameKey , String classNameValue, String termIdKey, String termIdValue) {
+    void switchScreen(Class className, String classNameKey , String classNameValue, String termIdKey, String termIdValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen

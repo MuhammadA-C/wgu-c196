@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -72,6 +73,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Sets the course instructor spinner
         selectInstructor.setAdapter(createInstructorListAdapter());
 
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +121,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 } else {
                     //This part will be for updating a course
 
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                 }
             }
@@ -150,11 +151,24 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                  */
                 if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
                     activityCameFrom = activityCameFrom2;
+                    System.out.println("Hit 1");
                 }
 
+
+
+                System.out.println("Create Course; Activity came from 2 " + activityCameFrom2);
+
                 if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+                    System.out.println("Hit 2");
+                    System.out.println("Create Course; Activity came from 1 " + activityCameFrom);
+                    System.out.println("Create Course; Course  ID " + intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                    /*
+                        Course ID is null. I need to pass in course id to the add instructor page, and the add instructor page needs to pass the course id back
+                     */
+
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                 } else {
+                    System.out.println("Hit 3");
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                 }
             }
@@ -215,7 +229,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setScreenInfo(String addOrUpdate, Intent intent) throws InterruptedException {
+    void setScreenInfo() throws InterruptedException {
         if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
             return;
         }
@@ -227,6 +241,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         }
 
         className.setText(course.getTitle());
+        classInfo.setText(course.getInformation());
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
     }

@@ -69,12 +69,14 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Checks to ensure that the input fields are NOT empty
-                if(InputValidation.isInputFieldEmpty(termName) || InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate)) {
+                if(InputValidation.isInputFieldEmpty(termName) || InputValidation.isInputFieldEmpty(startDate) ||
+                        InputValidation.isInputFieldEmpty(endDate)) {
                     return;
                 }
 
                 //Checks to ensure that the start and end dates are formatted correctly
-                if(!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                if(!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
+                        !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     return;
                 }
 
@@ -83,22 +85,32 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     return;
                 }
 
+                /*
+                    Determines if a new term object needs to be created if the user is on the "Add Term"
+                    screen, or if the current term object just needs to have its fields updated
+                 */
+                Term term = null;
                 if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
-                    Term addTerm = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
+                    term = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
+                } else {
+                    term = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+                    term.updateFields(termName, startDate, endDate);
+                }
 
-                    //Doesn't allow term to be added if the term name already exists in the database
-                    if (TermHelper.doesTermNameExistInDatabase(dbTermList, addTerm)) {
-                        return;
-                    }
+                //Doesn't allow term to be added if the term name already exists in the database
+                if (TermHelper.doesTermNameExistInDatabase(dbTermList, term)) {
+                    return;
+                }
 
-                    //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                    if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, addTerm)) {
-                        return;
-                    }
+                //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
+                if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, term)) {
+                    return;
+                }
 
+                if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
                     try {
-                        //Adds term to the database
-                        repository.insert(addTerm);
+                        //Adds new term to the database
+                        repository.insert(term);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -106,35 +118,14 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                 } else {
 
-                    Term updateTerm = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
-
-                    if (updateTerm == null) {
-                        return;
-                    }
-
-                    //Updates the values for the term object
-                    updateTerm.setTitle(termName.getText().toString());
-                    updateTerm.setStartDate(startDate.getText().toString());
-                    updateTerm.setEndDate(endDate.getText().toString());
-
-                    //Doesn't allow term to be added if the term name already exists in the database
-                    if (TermHelper.doesTermNameExistInDatabase(dbTermList, updateTerm)) {
-                        return;
-                    }
-
-                    //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                    if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, updateTerm)) {
-                        return;
-                    }
-
                     try {
                         //Saves the updated term values in the database
-                        repository.update(updateTerm);
+                        repository.update(term);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(updateTerm.getTermID()));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(term.getTermID()));
                 }
             }
         });

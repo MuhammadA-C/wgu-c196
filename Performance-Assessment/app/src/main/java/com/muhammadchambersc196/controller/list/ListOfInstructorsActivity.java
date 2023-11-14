@@ -44,12 +44,14 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
 
         setList();
 
+
         addCI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addBtnSwitchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_INSTRUCTORS_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE);
             }
         });
+
 
         deleteCI.setOnClickListener(new View.OnClickListener() {
             /*
@@ -77,6 +79,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
                 setList();
             }
         });
+
 
         viewCI.setOnClickListener(new View.OnClickListener() {
             @Override

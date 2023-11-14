@@ -1,5 +1,7 @@
 package com.muhammadchambersc196.entities;
 
+import android.widget.EditText;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -58,5 +60,11 @@ public class Term {
 
     public String getEndDate() {
         return this.endDate;
+    }
+
+    public void updateFields(EditText termName, EditText startDate, EditText endDate) {
+        this.setTitle(termName.getText().toString());
+        this.setStartDate(startDate.getText().toString());
+        this.setEndDate(endDate.getText().toString());
     }
 }

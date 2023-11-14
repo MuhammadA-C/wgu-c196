@@ -1,5 +1,8 @@
 package com.muhammadchambersc196.entities;
 
+import android.widget.EditText;
+import android.widget.Spinner;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -103,6 +106,16 @@ public class Course {
 
     public String getEndDate() {
         return this.endDate;
+    }
+
+    public void updateFields(EditText className, EditText classInfo, Spinner classStatus, Spinner selectInstructor,
+                             EditText startDate, EditText endDate) {
+        this.setTitle(className.getText().toString());
+        this.setInformation(classInfo.getText().toString());
+        this.setStatus(classStatus.getSelectedItem().toString());
+        this.setInstructorID(((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
+        this.setStartDate(startDate.getText().toString());
+        this.setEndDate(endDate.getText().toString());
     }
 
 }

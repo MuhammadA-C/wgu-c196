@@ -43,8 +43,8 @@ public class ListOfTermsActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
         termsList = findViewById(R.id.list_of_terms_list);
 
-
         setList();
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +52,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 addBtnSwitchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_TERM_VALUE);
             }
         });
+
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             /*
@@ -73,6 +74,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 setList();
             }
         });
+
 
         viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override

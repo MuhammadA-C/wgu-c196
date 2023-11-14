@@ -9,6 +9,7 @@ public class SelectedListItem {
     private static Course selectedCourse = null;
     private static CourseInstructor selectedInstructor = null;
 
+
     public static void setSelectedTerm(Term term) {
         selectedTerm = term;
     }

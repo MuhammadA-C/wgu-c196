@@ -88,59 +88,81 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Sets the course instructor spinner
         selectInstructor.setAdapter(createInstructorListAdapter());
 
-       setSpinnerSelectedInstructor(intent);
-       setScreenInfo(intent);
+       setSpinnerSelectedInstructor();
+       setScreenInfo();
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Checks to ensure that the input fields are NOT empty
+                if (InputValidation.isInputFieldEmpty(className) || InputValidation.isInputFieldEmpty(classInfo) ||
+                        InputValidation.isInputFieldEmpty(classStatus) || InputValidation.isInputFieldEmpty(selectInstructor) ||
+                        InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate)) {
+                    return;
+                }
+
+                //Checks to ensure that the start and end dates are formatted correctly
+                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
+                        !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                    return;
+                }
+
+                //Checks if the classes start date is the same or before the classes end date
+                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                    return;
+                }
+
+                /*
+                    Determines if a new course object needs to be created if the user is on the "Add Course"
+                    screen, or if the current course object just needs to have its fields updated
+                 */
+                Course course = null;
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
-
-
-                    //Checks if the classes start date is the same or before the classes end date
-                    if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
-                        return;
-                    }
-
-                    Course addCourse = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
+                    course = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
                             classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
                             termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
+                } else {
+                    course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
+                    course.updateFields(className, classInfo, classStatus, selectInstructor, startDate, endDate);
+                }
 
-                    //Course start and end dates must be within range of the terms start and end dates
-                    //Term database
-                    if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, dbTermList)) {
-                        return;
-                    }
+                //Course start and end dates must be within range of the terms start and end dates
+                if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(course, termId, dbTermList)) {
+                    return;
+                }
 
-                    /*
-                        Checks to see if the course already exists for the term by comparing the course names.
-                        The assumption here is that there shouldn't be duplicate courses for the same term.
-                     */
-                    if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, addCourse)) {
-                        return;
-                    }
+                /*
+                    Checks to see if the course already exists for the term by comparing the course names.
+                    The assumption here is that there shouldn't be duplicate courses for the same term.
+                 */
+                if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, course)) {
+                    return;
+                }
 
+                //Check is needed to set the correct reference to the screen that called the create or update course activity
+                if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                    activityCameFrom = activityCameFrom2;
+                }
+
+                if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
                     try {
                         //Adds new course to the database
-                        repository.insert(addCourse);
+                        repository.insert(course);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
-                    }
-
-                    //Check is needed to set the correct reference to the screen that called the create or update course activity
-                    if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
-                        activityCameFrom = activityCameFrom2;
                     }
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
 
                 } else {
-                    //This part will be for updating a course
 
-
-
-                    //Need to update changes in database
+                    try {
+                        //Saves the updated course values in the database
+                        repository.update(course);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
                             String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
@@ -263,7 +285,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                       String idValue1, String idKey2, String idValue2) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromKey1, cameFromValue1);
         intent.putExtra(cameFromKey2, cameFromValue2);
@@ -306,24 +327,22 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         }
     }
 
-    void setSpinnerSelectedInstructor(Intent intent) {
+    void setSpinnerSelectedInstructor() {
         //Below check can be moved if I place this inside of another method which sets all of the input fields, and have the check in that bigger method
         if (!activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
             return;
         }
 
         int instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getInstructorID();
-
-        selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(intent, instructorIDForCourse));
+        selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(instructorIDForCourse));
     }
 
-    int getSpinnerSelectedInstructorPosition(Intent intent, int instructorIDForCourse) {
+    int getSpinnerSelectedInstructorPosition(int instructorIDForCourse) {
         if (dbInstructorList.size() == 0) {
             return -1;
         }
 
         int instructorIndex = 0;
-
         for (CourseInstructor dbInstructor : dbInstructorList) {
             if (dbInstructor.getInstructorID() == instructorIDForCourse) {
                 return instructorIndex;
@@ -333,14 +352,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         return -1;
     }
 
-    void setScreenInfo(Intent intent) {
+    void setScreenInfo() {
         if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
             return;
         }
 
-        //Courses database call
         Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-
         if (course == null) {
             return;
         }

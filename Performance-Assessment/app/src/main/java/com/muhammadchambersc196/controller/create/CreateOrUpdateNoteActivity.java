@@ -21,7 +21,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
     Repository repository;
     int courseId;
     String addOrUpdate;
-    EditText createNoteDetails;
+    EditText noteDetails;
     Button saveBtn;
     Button cancelBtn;
     ArrayList<CourseNote> dbNoteList;
@@ -45,7 +45,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
 
         //Gets references to the activities input fields
-        createNoteDetails = findViewById(R.id.create_note_details);
+        noteDetails = findViewById(R.id.create_note_details);
         saveBtn = findViewById(R.id.create_note_btn);
         cancelBtn = findViewById(R.id.create_cancel_btn);
 
@@ -56,16 +56,38 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Checks to ensure that the input fields are NOT empty
-                if(InputValidation.isInputFieldEmpty(createNoteDetails)) {
+                if(InputValidation.isInputFieldEmpty(noteDetails)) {
                     return;
                 }
                 //Note: Need to add two different processes for add or updating
 
-                /*
-                    1. Need to create course note object
-                    2. Need to add the course note to the database
-                 */
-                switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
+                    CourseNote addNote = new CourseNote(noteDetails.getText().toString(), courseId);
+
+                    try {
+                        //Adds new course note to the database
+                        repository.insert(addNote);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY,
+                            String.valueOf(courseId));
+                } else {
+                    CourseNote updateNote = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList,
+                            Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY)));
+
+                    updateNote.setNote(noteDetails.getText().toString());
+
+                    try {
+                        repository.update(updateNote);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY,
+                            intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY));
+                }
             }
         });
 

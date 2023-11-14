@@ -74,7 +74,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
         Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(idKey, idValue);
-        //Note: Need to always start the activity that you're going to
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 

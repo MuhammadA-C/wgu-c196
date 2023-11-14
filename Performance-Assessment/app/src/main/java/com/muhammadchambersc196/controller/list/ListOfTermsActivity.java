@@ -20,11 +20,6 @@ import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.List;
 
-/*
-
-    NOTE: Need to add error messages and confirmation messages to this class
- */
-
 public class ListOfTermsActivity extends AppCompatActivity {
     Repository repository;
     Button addBtn;
@@ -49,7 +44,8 @@ public class ListOfTermsActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addBtnSwitchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_TERM_VALUE);
+                addBtnSwitchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY,
+                        SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_TERM_VALUE);
             }
         });
 
@@ -92,7 +88,8 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 int termId = SelectedListItem.getSelectedTerm().getTermID();
                 SelectedListItem.setSelectedTerm(null);
 
-                switchScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                switchScreen(DetailedTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.LIST_OF_TERMS_ACTIVITY,
+                        SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
     }

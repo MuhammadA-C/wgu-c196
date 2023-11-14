@@ -73,7 +73,8 @@ public class DetailedTermActivity extends AppCompatActivity {
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_COURSE_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
+                        SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_COURSE_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
 
@@ -94,7 +95,8 @@ public class DetailedTermActivity extends AppCompatActivity {
                 String courseId = String.valueOf(SelectedListItem.getSelectedCourse().getCourseID());
                 SelectedListItem.setSelectedCourse(null);
 
-                switchScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, courseId);
+                switchScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
+                        SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, courseId);
             }
         });
     }
@@ -121,21 +123,21 @@ public class DetailedTermActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals(SwitchScreen.UPDATE_TERM_VALUE)) {
-            switchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+            switchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
+                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             return true;
         }
         return false;
     }
 
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,
+                      String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

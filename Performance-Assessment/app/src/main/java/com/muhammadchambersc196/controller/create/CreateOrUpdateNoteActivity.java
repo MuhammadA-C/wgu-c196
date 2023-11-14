@@ -76,7 +76,6 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY,
                             String.valueOf(courseId));
                 } else {
@@ -89,7 +88,6 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
                 }
             }

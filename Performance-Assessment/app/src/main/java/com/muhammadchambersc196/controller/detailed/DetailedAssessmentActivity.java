@@ -39,7 +39,8 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_ASSESSMENT_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Assessment");
+                goToNewScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY,
+                        SwitchScreen.DETAILED_ASSESSMENT_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_ASSESSMENT_VALUE);
             }
         });
     }

@@ -76,16 +76,12 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 InputValidation.isInputFieldEmpty(assessmentType)) {
                     return;
                     //Need to add a check for the spinner/class status input field
-                }
-
-                //Checks to ensure that the start and end dates are formatted correctly
-                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
+                } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                    //Checks to ensure that the start and end dates are formatted correctly
                     return;
-                }
-
-                //Checks to ensure start date is before the end date
-                if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                } else if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                    //Checks to ensure start date is before the end date
                     return;
                 }
 
@@ -105,9 +101,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
-
                 } else {
                    //Assessment updateAssessment = AssessmentHelper.retrieveAssessmentFromDatabaseByAssessmentID()
 
@@ -132,7 +126,6 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
             return;
         }
-
         assessmentId = Integer.valueOf(intent.getStringExtra(SwitchScreen.ASSESSMENT_ID_KEY));
     }
 
@@ -146,6 +139,4 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
-
-
 }

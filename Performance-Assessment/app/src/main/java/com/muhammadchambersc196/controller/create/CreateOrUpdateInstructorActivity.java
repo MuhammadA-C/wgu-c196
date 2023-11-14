@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +48,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
 
         setInstructorId(intent);
-
 
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
@@ -106,7 +104,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     //Need to pass in the course instructor id because it is used for the detailed course instructor screen to display the objects info to the screen
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
                 }
@@ -151,10 +148,8 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
     void switchScreen(Class className, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
@@ -163,12 +158,10 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                       String cameFromValue2, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromKey1, cameFromValue1);
         intent.putExtra(cameFromKey2, cameFromValue2);
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
@@ -178,7 +171,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                       String idKey1, String idValue1, String idKey2, String idValue2) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromKey1, cameFromValue1);
         intent.putExtra(cameFromKey2, cameFromValue2);
@@ -195,10 +187,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         }
 
         CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList, instructorId);
-
-        if (instructor == null) {
-            return;
-        }
 
         name.setText(instructor.getName());
         email.setText(instructor.getEmail());

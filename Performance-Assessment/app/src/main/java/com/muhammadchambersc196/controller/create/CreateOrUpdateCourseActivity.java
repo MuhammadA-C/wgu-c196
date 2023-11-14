@@ -95,48 +95,30 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Checks to ensure that the input fields are NOT empty
                 if (InputValidation.isInputFieldEmpty(className) || InputValidation.isInputFieldEmpty(classInfo) ||
                         InputValidation.isInputFieldEmpty(classStatus) || InputValidation.isInputFieldEmpty(selectInstructor) ||
                         InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate)) {
+                    //Checks to ensure that the input fields are NOT empty
                     return;
-                }
-
-                //Checks to ensure that the start and end dates are formatted correctly
-                if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
+                } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                    //Checks to ensure that the start and end dates are formatted correctly
+                    return;
+                } else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                    //Checks if the classes start date is the same or before the classes end date
                     return;
                 }
 
-                //Checks if the classes start date is the same or before the classes end date
-                if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                Course saveCourse = getCourseForAddOrUpdate();
+
+                if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(saveCourse, termId, dbTermList)) {
+                    //Course start and end dates must be within range of the terms start and end dates
                     return;
-                }
-
-                /*
-                    Determines if a new course object needs to be created if the user is on the "Add Course"
-                    screen, or if the current course object just needs to have its fields updated
-                 */
-                Course course = null;
-                if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
-                    course = new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
-                            classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
-                            termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
-                } else {
-                    course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-                    course.updateFields(className, classInfo, classStatus, selectInstructor, startDate, endDate);
-                }
-
-                //Course start and end dates must be within range of the terms start and end dates
-                if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(course, termId, dbTermList)) {
-                    return;
-                }
-
-                /*
-                    Checks to see if the course already exists for the term by comparing the course names.
-                    The assumption here is that there shouldn't be duplicate courses for the same term.
-                 */
-                if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, course)) {
+                } else if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, saveCourse)) {
+                   /*
+                        Checks to see if the course already exists for the term by comparing the course names.
+                        The assumption here is that there shouldn't be duplicate courses for the same term.
+                    */
                     return;
                 }
 
@@ -148,22 +130,19 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
                     try {
                         //Adds new course to the database
-                        repository.insert(course);
+                        repository.insert(saveCourse);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
 
                 } else {
-
                     try {
                         //Saves the updated course values in the database
-                        repository.update(course);
+                        repository.update(saveCourse);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
                             String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 }
@@ -313,7 +292,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     void setTermID(Intent intent) {
         if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
             termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTermID());
-
         } else {
             termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
         }
@@ -332,9 +310,23 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         if (!activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
             return;
         }
-
         int instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getInstructorID();
+
         selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(instructorIDForCourse));
+    }
+
+    Course getCourseForAddOrUpdate() {
+        if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
+            return new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
+                    classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
+                    termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
+        }
+
+        Course updateCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
+
+        updateCourse.updateFields(className, classInfo, classStatus, selectInstructor, startDate, endDate);
+
+        return updateCourse;
     }
 
     int getSpinnerSelectedInstructorPosition(int instructorIDForCourse) {
@@ -358,9 +350,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         }
 
         Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-        if (course == null) {
-            return;
-        }
 
         className.setText(course.getTitle());
         classInfo.setText(course.getInformation());

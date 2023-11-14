@@ -45,7 +45,9 @@ public class DetailedInstructorActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_INSTRUCTOR_VALUE, SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
+                switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY,
+                        SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY,
+                        SwitchScreen.UPDATE_INSTRUCTOR_VALUE, SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
             }
         });
     }
@@ -59,24 +61,19 @@ public class DetailedInstructorActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        if (instructor == null) {
-            return;
-        }
-
         name.setText(instructor.getName());
         email.setText(instructor.getEmail());
         phoneNumber.setText(instructor.getPhoneNumber());
     }
 
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,
+                      String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }

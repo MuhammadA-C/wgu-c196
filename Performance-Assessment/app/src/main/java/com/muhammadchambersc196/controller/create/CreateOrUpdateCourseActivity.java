@@ -28,6 +28,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     String activityCameFrom2;
     String addOrUpdate;
     int termId;
+    int courseId;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
@@ -37,14 +38,23 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Button saveBtn;
     Button cancelBtn;
     Button addCIBtn;
+    ArrayList<Course> dbCourseList;
+    ArrayList<CourseInstructor> dbInstructorList;
+    ArrayList<Term> dbTermList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_or_update_course);
         repository = new Repository(getApplication());
+
+        //Storing a reference to the database lists that are used to reduce calling them due to crashing app
+        try {
+            setDatabaseListVariables();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
@@ -52,9 +62,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
         setActivityCameFrom2(intent);
-        setTermID(intent);
         setAddOrUpdate(intent);
-
+        courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+        setTermID(intent);
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
 
@@ -75,12 +85,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         selectInstructor.setAdapter(createInstructorListAdapter());
 
        setSpinnerSelectedInstructor(intent);
-
-        try {
-            setScreenInfo(intent);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+       setScreenInfo(intent);
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,41 +114,40 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                             classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
                             termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
 
+                    //Course start and end dates must be within range of the terms start and end dates
+                    //Term database
+                    if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, dbTermList)) {
+                        return;
+                    }
+
+                    /*
+                        Checks to see if the course already exists for the term by comparing the course names.
+                        The assumption here is that there shouldn't be duplicate courses for the same term.
+                     */
+                    if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, addCourse)) {
+                        return;
+                    }
+
                     try {
-                        //Course start and end dates must be within range of the terms start and end dates
-                        if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(addCourse, termId, (ArrayList<Term>) repository.getmAllTerms())) {
-                            return;
-                        }
-
-                        /*
-                            Checks to see if the course already exists for the term by comparing the course names.
-                            The assumption here is that there shouldn't be duplicate courses for the same term.
-                         */
-                        if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm ((ArrayList<Course>) repository.getmAllCourses(),
-                                termId), termId, addCourse)) {
-                            return;
-                        }
-
                         //Adds new course to the database
                         repository.insert(addCourse);
-
-                        //Check is needed to set the correct reference to the screen that called the create or update course activity
-                        if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
-                            activityCameFrom = activityCameFrom2;
-                        }
-
-                        switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
+                    //Check is needed to set the correct reference to the screen that called the create or update course activity
+                    if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                        activityCameFrom = activityCameFrom2;
+                    }
+
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+
                 } else {
                     //This part will be for updating a course
 
-                    System.out.println("Hit 2");
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
-                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 }
             }
         });
@@ -163,7 +167,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 switchScreen(CreateOrUpdateInstructorActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY,
                         SwitchScreen.CAME_FROM_KEY2, activityCameFrom, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_INSTRUCTOR_VALUE,
                         SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY, addOrUpdate, SwitchScreen.TERM_ID_KEY, String.valueOf(termId),
-                        SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                        SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             }
         });
 
@@ -181,7 +185,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
                 if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
-                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                 }
@@ -189,6 +193,20 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         });
     }
 
+    void setDatabaseListVariables() throws InterruptedException {
+        /*
+            Application was crashing when testing and I found the root cause to be due to all of the database calls for this
+            screen which is slowing down the application, which causes it to freeze and stop responding.
+
+            Fix#1: Created this method to store references to the database lists that I use for this screen to reduce
+            the amount of database calls to retrieve the database lists
+
+            Note: I could also decrease the Thread.sleep() time in the repository method
+         */
+        dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
+        dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+        dbTermList = (ArrayList<Term>) repository.getmAllTerms();
+    }
 
     ArrayAdapter<String> createStatusListAdapter() {
         ArrayList<String> statusOptionsList = new ArrayList<>();
@@ -203,14 +221,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     }
 
     ArrayAdapter<CourseInstructor> createInstructorListAdapter() {
-        ArrayList<CourseInstructor> instructorOptionsList = null;
-
-        try {
-            instructorOptionsList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorOptionsList);
+        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dbInstructorList);
     }
 
     void switchScreen(Class className, String idKey, String idValue) {
@@ -260,12 +271,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
     void setTermID(Intent intent) {
         if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
-            try {
-                termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(),
-                        Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getTermID());
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            termId =  (CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTermID());
+
         } else {
             termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
         }
@@ -285,24 +292,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             return;
         }
 
-        ArrayList<CourseInstructor> dbInstructorList;
-        int instructorIDForCourse;
+        int instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getInstructorID();
 
-        try {
-
-            dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
-            instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(),
-                    Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(intent, dbInstructorList, instructorIDForCourse));
+        selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(intent, instructorIDForCourse));
     }
 
-    int getSpinnerSelectedInstructorPosition(Intent intent, ArrayList<CourseInstructor> dbInstructorList, int instructorIDForCourse) {
-
+    int getSpinnerSelectedInstructorPosition(Intent intent, int instructorIDForCourse) {
         if (dbInstructorList.size() == 0) {
             return -1;
         }
@@ -318,12 +313,13 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         return -1;
     }
 
-    void setScreenInfo(Intent intent) throws InterruptedException {
+    void setScreenInfo(Intent intent) {
         if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
             return;
         }
 
-        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY)));
+        //Courses database call
+        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
 
         if (course == null) {
             return;

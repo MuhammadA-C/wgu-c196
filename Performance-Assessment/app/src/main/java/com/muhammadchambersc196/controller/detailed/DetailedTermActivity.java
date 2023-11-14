@@ -36,6 +36,8 @@ public class DetailedTermActivity extends AppCompatActivity {
     RecyclerView classesList;
     TextView startDate;
     TextView endDate;
+    ArrayList<Course> dbCourseList;
+    ArrayList<Term> dbTermList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,13 @@ public class DetailedTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_term);
 
         repository = new Repository(getApplication());
+
+        try {
+            setDatabaseListVariables();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Intent intent = getIntent();
         termId = Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY));
 
@@ -58,17 +67,9 @@ public class DetailedTermActivity extends AppCompatActivity {
         setList(termId);
 
         //Sets the term name at the top in the action bar
-        try {
-            setTitle(TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), termId).getTitle());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        setTitle(TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, termId).getTitle());
 
-        /*
-            Bug: When using the action bar to travel back, this screen will have a null value for the
-            selected term id...
-         */
-        
+
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +97,11 @@ public class DetailedTermActivity extends AppCompatActivity {
                 switchScreen(DetailedCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, courseId);
             }
         });
+    }
+
+    void setDatabaseListVariables() throws InterruptedException {
+        dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
+        dbTermList = (ArrayList<Term>) repository.getmAllTerms();
     }
 
     @Override
@@ -135,13 +141,7 @@ public class DetailedTermActivity extends AppCompatActivity {
     }
 
     void setScreenInfo(int termId) {
-        Term term;
-
-        try {
-            term = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), termId);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Term term = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, termId);
 
         if (term == null) {
             return;
@@ -152,14 +152,7 @@ public class DetailedTermActivity extends AppCompatActivity {
     }
 
     void setList(int termId) {
-        List<Course> allCoursesForTerm;
-
-        try {
-            allCoursesForTerm = CourseHelper.getAllCoursesForTerm((ArrayList<Course>) repository.getmAllCourses(), termId);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        List<Course> allCoursesForTerm = CourseHelper.getAllCoursesForTerm(dbCourseList, termId);
 
         final CourseAdapter courseAdapter = new CourseAdapter(this);
 

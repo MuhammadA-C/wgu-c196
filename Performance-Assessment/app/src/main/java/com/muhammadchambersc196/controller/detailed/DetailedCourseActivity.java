@@ -35,6 +35,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
     TextView instructorName;
     RecyclerView assessmentsList;
     RecyclerView notesList;
+    ArrayList<Course> dbCourseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,13 @@ public class DetailedCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_course);
 
         repository = new Repository(getApplication());
+
+        try {
+            dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Intent intent = getIntent();
         courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
 
@@ -58,11 +66,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.detailed_course_back_btn);
 
         //Sets the course name at the top in the action bar
-        try {
-            setTitle(CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId).getTitle());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        setTitle(CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTitle());
 
 
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +88,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Need to pass in term id because it is used on the detailed term screen to populate it
-                int termId = -1;
-
-                try {
-                    termId = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId).getTermID();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                int termId = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTermID();
 
                 switchScreen(DetailedTermActivity.class, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
@@ -114,7 +112,8 @@ public class DetailedCourseActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals(SwitchScreen.UPDATE_COURSE_VALUE)) {
-            switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+            switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
+                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
         } else if (item.getTitle().equals("Add Assessment")) {
             //Need to pass in the term id
@@ -169,13 +168,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
     }
 
     void setScreenInfo(int termId) {
-        Course course;
-
-        try {
-            course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), courseId);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
 
         if (course == null) {
             return;

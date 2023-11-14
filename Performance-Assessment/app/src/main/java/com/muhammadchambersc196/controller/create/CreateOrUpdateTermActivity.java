@@ -25,6 +25,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
     EditText termName;
     EditText startDate;
     EditText endDate;
+    ArrayList<Term> dbTermList;
 
     /*
         NOTE: Only need to add error messages for this class
@@ -35,6 +36,12 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_update_term);
         repository = new Repository(getApplication());
+
+        try {
+            dbTermList = (ArrayList<Term>) repository.getmAllTerms();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
@@ -79,17 +86,17 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                 if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
                     Term addTerm = new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
 
+                    //Doesn't allow term to be added if the term name already exists in the database
+                    if (TermHelper.doesTermNameExistInDatabase(dbTermList, addTerm)) {
+                        return;
+                    }
+
+                    //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
+                    if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, addTerm)) {
+                        return;
+                    }
+
                     try {
-                        //Doesn't allow term to be added if the term name already exists in the database
-                        if (TermHelper.doesTermNameExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
-                            return;
-                        }
-
-                        //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                        if (TermHelper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), addTerm)) {
-                            return;
-                        }
-
                         //Adds term to the database
                         repository.insert(addTerm);
                     } catch (InterruptedException e) {
@@ -98,30 +105,29 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                 } else {
-                    Term updateTerm;
+
+                    Term updateTerm = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+
+                    if (updateTerm == null) {
+                        return;
+                    }
+
+                    //Updates the values for the term object
+                    updateTerm.setTitle(termName.getText().toString());
+                    updateTerm.setStartDate(startDate.getText().toString());
+                    updateTerm.setEndDate(endDate.getText().toString());
+
+                    //Doesn't allow term to be added if the term name already exists in the database
+                    if (TermHelper.doesTermNameExistInDatabase(dbTermList, updateTerm)) {
+                        return;
+                    }
+
+                    //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
+                    if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, updateTerm)) {
+                        return;
+                    }
 
                     try {
-                        updateTerm = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
-
-                        if (updateTerm == null) {
-                            return;
-                        }
-
-                        //Updates the values for the term object
-                        updateTerm.setTitle(termName.getText().toString());
-                        updateTerm.setStartDate(startDate.getText().toString());
-                        updateTerm.setEndDate(endDate.getText().toString());
-
-                        //Doesn't allow term to be added if the term name already exists in the database
-                        if (TermHelper.doesTermNameExistInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
-                            return;
-                        }
-
-                        //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
-                        if (TermHelper.doesTermDateOverlapWithTermInDatabase((ArrayList<Term>) repository.getmAllTerms(), updateTerm)) {
-                            return;
-                        }
-
                         //Saves the updated term values in the database
                         repository.update(updateTerm);
                     } catch (InterruptedException e) {
@@ -170,7 +176,8 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
             return;
         }
 
-        Term term = TermHelper.retrieveTermFromDatabaseByTermID((ArrayList<Term>) repository.getmAllTerms(), Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
+        //Term database list
+        Term term = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, Integer.valueOf(intent.getStringExtra(SwitchScreen.TERM_ID_KEY)));
 
         if (term == null) {
             return;

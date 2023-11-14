@@ -48,7 +48,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         return mAllAssessments;
     }
@@ -60,7 +60,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         return mAllCourses;
     }
@@ -71,7 +71,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         return mAllCourseInstructors;
     }
@@ -93,7 +93,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         return mAllTerms;
     }

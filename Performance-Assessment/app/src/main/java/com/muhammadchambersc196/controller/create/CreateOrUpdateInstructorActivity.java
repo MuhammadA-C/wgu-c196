@@ -24,12 +24,19 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
     EditText phoneNumber;
     Button saveBtn;
     Button cancelBtn;
+    ArrayList<CourseInstructor> dbInstructorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_update_instructor);
         repository = new Repository(getApplication());
+
+        try {
+            dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();
@@ -47,11 +54,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.create_ci_save_btn);
         cancelBtn = findViewById(R.id.create_ci_cancel_btn);
 
-        try {
-            setScreenInfo(addOrUpdate, intent);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        setScreenInfo(addOrUpdate, intent);
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,12 +75,12 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     CourseInstructor addInstructor = new CourseInstructor(name.getText().toString(),
                             phoneNumber.getText().toString(), email.getText().toString());
 
-                    try {
-                        //Doesn't allow instructor to be added if it already exists in the database
-                        if (InstructorHelper.doesCourseInstructorExistInDatabase(addInstructor, repository.getmAllCourseInstructors())) {
-                            return;
-                        }
+                    //Doesn't allow instructor to be added if it already exists in the database
+                    if (InstructorHelper.doesCourseInstructorExistInDatabase(addInstructor, dbInstructorList)) {
+                        return;
+                    }
 
+                    try {
                         //Adds instructor to the database
                         repository.insert(addInstructor);
                     } catch (InterruptedException e) {
@@ -96,32 +99,28 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     }
 
                 } else {
-
                     /*
                         SECTION BELOW: Is for updating a Course Instructor object
                      */
 
-                    CourseInstructor updateInstructor;
+                    CourseInstructor updateInstructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList,
+                            Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
+
+                    if (updateInstructor == null) {
+                        return;
+                    }
+
+                    //Updates the values for the course instructor object
+                    updateInstructor.setName(name.getText().toString());
+                    updateInstructor.setEmail(email.getText().toString());
+                    updateInstructor.setPhoneNumber(phoneNumber.getText().toString());
+
+                    //Doesn't allow course instructor to be added if it already exists in the database
+                    if (InstructorHelper.doesCourseInstructorExistInDatabase(updateInstructor, dbInstructorList)) {
+                        return;
+                    }
 
                     try {
-                        updateInstructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),
-                                Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
-
-                        if (updateInstructor == null) {
-                            return;
-                        }
-
-                        //Updates the values for the course instructor object
-                        updateInstructor.setName(name.getText().toString());
-                        updateInstructor.setEmail(email.getText().toString());
-                        updateInstructor.setPhoneNumber(phoneNumber.getText().toString());
-
-                        //Doesn't allow course instructor to be added if it already exists in the database
-                        if (InstructorHelper.doesCourseInstructorExistInDatabase(updateInstructor,
-                                repository.getmAllCourseInstructors())) {
-                            return;
-                        }
-
                         //Saves the updated course instructor values in the database
                         repository.update(updateInstructor);
                     } catch (InterruptedException e) {
@@ -212,12 +211,12 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setScreenInfo(String addOrUpdate, Intent intent) throws InterruptedException {
+    void setScreenInfo(String addOrUpdate, Intent intent) {
         if (addOrUpdate.equals(SwitchScreen.ADD_INSTRUCTOR_VALUE)) {
             return;
         }
 
-        CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(),
+        CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList,
                 Integer.valueOf(intent.getStringExtra(SwitchScreen.INSTRUCTOR_ID_KEY)));
 
         if (instructor == null) {

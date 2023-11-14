@@ -43,7 +43,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
         termsList = findViewById(R.id.list_of_terms_list);
 
-        setList();
+        setTermsRecyclerView();
 
 
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 }
 
                 SelectedListItem.setSelectedTerm(null);
-                setList();
+                setTermsRecyclerView();
             }
         });
 
@@ -118,7 +118,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setList() {
+    void setTermsRecyclerView() {
         List<Term> allTerms;
 
         try {

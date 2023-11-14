@@ -42,7 +42,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         viewCI = findViewById(R.id.list_of_instructors_view_ci_btn);
         addCI = findViewById(R.id.list_of_instructors_add_ci_btn);
 
-        setList();
+        setCourseRecyclerView();
 
 
         addCI.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
                 }
 
                 SelectedListItem.setSelectedInstructor(null);
-                setList();
+                setCourseRecyclerView();
             }
         });
 
@@ -122,7 +122,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setList() {
+    void setCourseRecyclerView() {
         List<CourseInstructor> allInstructors;
 
         try {

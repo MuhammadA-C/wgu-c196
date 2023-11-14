@@ -143,10 +143,6 @@ public class DetailedTermActivity extends AppCompatActivity {
     void setScreenInfo(int termId) {
         Term term = TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, termId);
 
-        if (term == null) {
-            return;
-        }
-
         startDate.setText(term.getStartDate());
         endDate.setText(term.getEndDate());
     }

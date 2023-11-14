@@ -1,6 +1,7 @@
 package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -12,15 +13,24 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.adapter.AssessmentAdapter;
+import com.muhammadchambersc196.controller.adapter.NoteAdapter;
+import com.muhammadchambersc196.controller.adapter.TermAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
 import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.entities.CourseInstructor;
+import com.muhammadchambersc196.entities.CourseNote;
+import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
+import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Repository repository;
@@ -36,6 +46,9 @@ public class DetailedCourseActivity extends AppCompatActivity {
     RecyclerView assessmentsList;
     RecyclerView notesList;
     ArrayList<Course> dbCourseList;
+    ArrayList<CourseInstructor> dbInstructorList;
+    List<CourseNote> dbNoteList;
+    List<Assessment> dbAssessmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,9 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
         try {
             dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
+            dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+            dbNoteList = repository.getmAllCourseNotes();
+            dbAssessmentList = repository.getmAllAssessments();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -67,6 +83,9 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
         //Sets the course name at the top in the action bar
         setTitle(CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTitle());
+        setScreenInfo();
+        setAssessmentRecyclerView();
+        setCourseNoteRecyclerView();
 
 
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -150,32 +169,42 @@ public class DetailedCourseActivity extends AppCompatActivity {
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
-        //Note: Need to always start the activity that you're going to
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
-
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
         intent.putExtra(idKey, idValue);
-
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
 
-    void setScreenInfo(int termId) {
+    void setScreenInfo() {
         Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-
-        if (course == null) {
-            return;
-        }
 
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
-        //instructorName.setText(course.getIn);
+        instructorName.setText(InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList, course.getInstructorID()).getName());
+    }
+
+    void setAssessmentRecyclerView() {
+        final AssessmentAdapter termAdapter = new AssessmentAdapter(this);
+
+        assessmentsList.setAdapter(termAdapter);
+        assessmentsList.setLayoutManager(new LinearLayoutManager(this));
+        termAdapter.setAssessments(dbAssessmentList);
+    }
+
+    void setCourseNoteRecyclerView() {
+        final NoteAdapter termAdapter = new NoteAdapter(this);
+
+        notesList.setAdapter(termAdapter);
+        notesList.setLayoutManager(new LinearLayoutManager(this));
+        termAdapter.setNotes(dbNoteList);
     }
 }

@@ -29,7 +29,7 @@ public class Repository {
     private List<CourseInstructor> mAllCourseInstructors;
     private List<CourseNote> mAllCourseNotes;
     private List<Term> mAllTerms;
-    private final int TIME_IN_MILLI_SECONDS = 1000;
+    private final int TIME_IN_MILLI_SECONDS = 800;
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 

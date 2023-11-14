@@ -90,8 +90,16 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SelectedListItem.getSelectedAssessment() == null) {
+                    return;
+                }
+
+                Assessment assessment = SelectedListItem.getSelectedAssessment();
+
+                SelectedListItem.setSelectedAssessment(null);
+
                 switchScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
-                        SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(SelectedListItem.getSelectedAssessment().getAssessmentID()));
+                        SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessment.getAssessmentID()));
             }
         });
 
@@ -99,8 +107,16 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SelectedListItem.getSelectedNote() == null) {
+                    return;
+                }
+
+                CourseNote note = SelectedListItem.getSelectedNote();
+
+                SelectedListItem.setSelectedNote(null);
+
                 switchScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
-                        SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(SelectedListItem.getSelectedNote().getCourseNoteID()));
+                        SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(note.getCourseNoteID()));
             }
         });
 

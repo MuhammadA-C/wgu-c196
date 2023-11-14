@@ -52,6 +52,8 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         setCourseId(intent);
         setTitle(addOrUpdate);
 
+        setScreenInfo(intent);
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,4 +146,17 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY))).getCourseID();
         }
     }
+
+    void setScreenInfo(Intent intent) {
+        if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
+            return;
+        }
+
+        CourseNote note = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList,
+                Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY)));
+
+        noteDetails.setText(note.getNote());
+    }
+
+
 }

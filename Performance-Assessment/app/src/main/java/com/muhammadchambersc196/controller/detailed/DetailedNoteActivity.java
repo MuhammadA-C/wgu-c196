@@ -10,44 +10,83 @@ import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
+import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.CourseNote;
+import com.muhammadchambersc196.helper.CourseNoteHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
+
 public class DetailedNoteActivity extends AppCompatActivity {
+    Repository repository;
     Button editBtn;
     Button shareBtn;
-    TextView note;
+    Button backBtn;
+    TextView notedDetails;
+    int noteId;
+    ArrayList<CourseNote> dbNoteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_note);
 
+        repository = new Repository(getApplication());
+        Intent intent = getIntent();
+        noteId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY));
+
+        try {
+            dbNoteList = (ArrayList<CourseNote>) repository.getmAllCourseNotes();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        CourseNote note = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, noteId);
+
         //Gets references to the activities input fields
         editBtn = findViewById(R.id.detailed_note_edit_note_btn);
-        note = findViewById(R.id.detailed_note_note);
+        notedDetails = findViewById(R.id.detailed_note_note);
         shareBtn = findViewById(R.id.detailed_note_share_note_btn);
+        backBtn = findViewById(R.id.detailed_note_back_btn);
 
-        //Need to add back BUTTON
+        notedDetails.setText(note.getNote());
+
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchScreen(DetailedCourseActivity.class, SwitchScreen.COURSE_ID_KEY, String.valueOf(note.getCourseID()));
+            }
+        });
+
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Note");
+                switchScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_NOTE_ACTIVITY,
+                        SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_NOTE_VALUE, SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
             }
         });
     }
 
-    /*
-        Note:
-           * For edit note I need to pass in the note id
-     */
-    void goToNewScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
+    void switchScreen(Class goToScreen, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, goToScreen);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(idKey, idValue);
+        //Note: Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,
+                      String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen
         intent.putExtra(cameFromScreenKey, cameFromScreenValue);
         intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
-        //Note: Need to always start the activity that you're going to
+        intent.putExtra(idKey, idValue);
+        //Need to always start the activity that you're going to
         startActivity(intent);
     }
 }

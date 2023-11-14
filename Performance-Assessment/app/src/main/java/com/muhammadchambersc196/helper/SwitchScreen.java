@@ -29,6 +29,7 @@ public class SwitchScreen {
     public static final String ADD_ASSESSMENT_VALUE = "Add Assessment";
     public static final String UPDATE_TERM_VALUE = "Update Term";
     public static final String UPDATE_COURSE_VALUE = "Update Course";
+    public static final String UPDATE_NOTE_VALUE = "Update Note";
     public static final String UPDATE_INSTRUCTOR_VALUE = "Update Instructor";
     public static final String TERM_ID_KEY = "term_id";
     public static final String ASSESSMENT_ID_KEY = "assessment_id";

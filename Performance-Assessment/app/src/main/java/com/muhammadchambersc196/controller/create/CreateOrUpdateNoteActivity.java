@@ -20,11 +20,13 @@ import java.util.ArrayList;
 public class CreateOrUpdateNoteActivity extends AppCompatActivity {
     Repository repository;
     int courseId;
+    int noteId;
     String addOrUpdate;
     EditText noteDetails;
     Button saveBtn;
     Button cancelBtn;
     ArrayList<CourseNote> dbNoteList;
+    CourseNote note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,13 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.create_note_btn);
         cancelBtn = findViewById(R.id.create_cancel_btn);
 
+        setNoteId(intent);
+        setNote();
         setCourseId(intent);
         setTitle(addOrUpdate);
 
-        setScreenInfo(intent);
+        setScreenInfo();
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +66,6 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                 if(InputValidation.isInputFieldEmpty(noteDetails)) {
                     return;
                 }
-                //Note: Need to add two different processes for add or updating
 
                 if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
                     CourseNote addNote = new CourseNote(noteDetails.getText().toString(), courseId);
@@ -76,8 +80,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY,
                             String.valueOf(courseId));
                 } else {
-                    CourseNote updateNote = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList,
-                            Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY)));
+                    CourseNote updateNote = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, Integer.valueOf(noteId));
 
                     updateNote.setNote(noteDetails.getText().toString());
 
@@ -87,8 +90,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY,
-                            intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
                 }
             }
         });
@@ -106,17 +108,14 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     course note id since it uses it to display the course note information
                  */
                 if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY,
-                            String.valueOf(courseId));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY,
-                            intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
                 }
             }
         });
-
-
     }
+
 
     void switchScreen(Class className) {
         //Specifies the new activity/screen to go to
@@ -134,6 +133,17 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    void setNoteId(Intent intent) {
+        if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
+            return;
+        }
+        noteId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY));
+    }
+
+    void setNote() {
+       note = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, noteId);
+    }
+
     void setCourseId(Intent intent) {
         /*
             If this is for adding a note, then the course id would have been passed in from the prior screen.
@@ -142,21 +152,17 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
             courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
         } else {
-            courseId = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList,
-                    Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY))).getCourseID();
+            courseId = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, noteId).getCourseID();
         }
     }
 
-    void setScreenInfo(Intent intent) {
+    void setScreenInfo() {
         if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
             return;
         }
 
-        CourseNote note = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList,
-                Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_NOTE_ID_KEY)));
+        CourseNote note = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, noteId);
 
         noteDetails.setText(note.getNote());
     }
-
-
 }

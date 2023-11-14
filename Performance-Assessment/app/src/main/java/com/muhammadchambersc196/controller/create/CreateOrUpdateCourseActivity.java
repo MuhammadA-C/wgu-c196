@@ -74,11 +74,14 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Sets the course instructor spinner
         selectInstructor.setAdapter(createInstructorListAdapter());
 
+       setSpinnerSelectedInstructor(intent);
 
-        /*
-            Need to set the other screen values!
-         */
-        setSpinnerSelectedInstructor(intent);
+        try {
+            setScreenInfo(intent);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,29 +250,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setScreenInfo() throws InterruptedException {
-        if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
-            return;
-        }
-
-        //Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), termId);
-
-        /*
-        if (course == null) {
-            return;
-        }
-
-         */
-
-        /*
-        className.setText(course.getTitle());
-        classInfo.setText(course.getInformation());
-        startDate.setText(course.getStartDate());
-        endDate.setText(course.getEndDate());
-
-         */
-    }
-
     void setAddOrUpdate(Intent intent) {
         if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
             addOrUpdate = intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY);
@@ -336,5 +316,22 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             instructorIndex++;
         }
         return -1;
+    }
+
+    void setScreenInfo(Intent intent) throws InterruptedException {
+        if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
+            return;
+        }
+
+        Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY)));
+
+        if (course == null) {
+            return;
+        }
+
+        className.setText(course.getTitle());
+        classInfo.setText(course.getInformation());
+        startDate.setText(course.getStartDate());
+        endDate.setText(course.getEndDate());
     }
 }

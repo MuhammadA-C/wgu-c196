@@ -43,6 +43,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
         termsList = findViewById(R.id.list_of_terms_list);
 
+
         setList();
 
         addBtn.setOnClickListener(new View.OnClickListener() {

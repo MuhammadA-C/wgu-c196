@@ -48,18 +48,19 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         return mAllAssessments;
     }
 
     public List<Course> getmAllCourses() throws InterruptedException {
+
         databaseExecutor.execute(() -> {
             mAllCourses = mCourseDAO.getAllCourses();
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         return mAllCourses;
     }
@@ -70,7 +71,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         return mAllCourseInstructors;
     }
@@ -81,7 +82,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         return mAllCourseNotes;
     }
@@ -92,7 +93,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         return mAllTerms;
     }
@@ -103,7 +104,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void insert(Course course) throws InterruptedException {
@@ -112,7 +113,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void insert(Assessment assessment) throws InterruptedException {
@@ -121,7 +122,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void insert(CourseNote courseNote) throws InterruptedException {
@@ -130,7 +131,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void insert(CourseInstructor courseInstructor) throws InterruptedException {
@@ -139,7 +140,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void update(Term term) throws InterruptedException {
@@ -148,7 +149,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void update(Course course) throws InterruptedException {
@@ -157,7 +158,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void update(Assessment assessment) throws InterruptedException {
@@ -166,7 +167,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void update(CourseNote courseNote) throws InterruptedException {
@@ -175,7 +176,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void update(CourseInstructor courseInstructor) throws InterruptedException {
@@ -184,7 +185,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void delete(Term term) throws InterruptedException {
@@ -193,7 +194,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void delete(Assessment assessment) throws InterruptedException {
@@ -202,7 +203,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void delete(Course course) throws InterruptedException {
@@ -211,7 +212,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void delete(CourseNote courseNote) throws InterruptedException {
@@ -220,7 +221,7 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     public void delete(CourseInstructor courseInstructor) throws InterruptedException {
@@ -229,6 +230,6 @@ public class Repository {
         });
 
         //This is needed to give the database time to retrieve the information
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 }

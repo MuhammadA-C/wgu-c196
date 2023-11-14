@@ -13,8 +13,6 @@ import com.muhammadchambersc196.controller.list.ListOfTermsActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class HomeScreenActivity extends AppCompatActivity {
-    //Used to add items to the database
-    //Repository repository;
     Button viewAllTermsBtn;
     Button viewAllInstructorsBtn;
 
@@ -23,8 +21,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        //Used to add items to the database
-        //repository = new Repository(getApplication());
 
         viewAllTermsBtn = findViewById(R.id.home_view_all_terms_btn);
         viewAllInstructorsBtn = findViewById(R.id.home_view_all_instructors_btn);

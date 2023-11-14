@@ -50,7 +50,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         cancelBtn = findViewById(R.id.create_cancel_btn);
 
         setCourseId(intent);
-
+        setTitle(addOrUpdate);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

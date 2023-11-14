@@ -190,6 +190,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
     void setAssessmentRecyclerView() {
         final AssessmentAdapter termAdapter = new AssessmentAdapter(this);
 
+        //Need to fix to only show the assessments related to the course
         assessmentsList.setAdapter(termAdapter);
         assessmentsList.setLayoutManager(new LinearLayoutManager(this));
         termAdapter.setAssessments(dbAssessmentList);
@@ -198,7 +199,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
     void setCourseNoteRecyclerView() {
         final NoteAdapter termAdapter = new NoteAdapter(this);
         List<CourseNote> notesForCourse = CourseHelper.getAllNotesForCourse((ArrayList<CourseNote>) dbNoteList, courseId);
-        
+
         notesList.setAdapter(termAdapter);
         notesList.setLayoutManager(new LinearLayoutManager(this));
         termAdapter.setNotes(notesForCourse);

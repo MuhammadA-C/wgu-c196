@@ -18,7 +18,6 @@ import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InputValidation;
-import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     String activityCameFrom2;
     String addOrUpdate;
     int termId;
-    Intent intent;
     EditText className;
     EditText classInfo;
     Spinner classStatus;
@@ -40,6 +38,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     Button cancelBtn;
     Button addCIBtn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +47,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         repository = new Repository(getApplication());
 
         //Retrieves the intent that was passed to this activity/screen
-        intent = getIntent();
+        Intent intent = getIntent();
         //Retrieves the data value/string name that was passed to this intent
         activityCameFrom = intent.getStringExtra(SwitchScreen.CAME_FROM_KEY);
 
@@ -75,6 +74,11 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         //Sets the course instructor spinner
         selectInstructor.setAdapter(createInstructorListAdapter());
 
+
+        /*
+            Need to set the other screen values!
+         */
+        setSpinnerSelectedInstructor(intent);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,38 +186,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
-            int instructorId = -1;
-
-            try {
-                instructorId = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            int index = 0;
-
-            try {
-                index = test(intent);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            selectInstructor.setSelection(index);
-
-            try {
-                System.out.println("Instructor for Course: " + InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), instructorId));
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-    }
 
     ArrayAdapter<String> createStatusListAdapter() {
         ArrayList<String> statusOptionsList = new ArrayList<>();
@@ -327,19 +299,42 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         }
     }
 
-    public int test(Intent intent) throws InterruptedException {
-        ArrayList<CourseInstructor> dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
-        int instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
+    void setSpinnerSelectedInstructor(Intent intent) {
+        //Below check can be moved if I place this inside of another method which sets all of the input fields, and have the check in that bigger method
+        if (!activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+            return;
+        }
+
+        ArrayList<CourseInstructor> dbInstructorList;
+        int instructorIDForCourse;
+
+        try {
+
+            dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
+            instructorIDForCourse = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(),
+                    Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY))).getInstructorID();
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        selectInstructor.setSelection(getSpinnerSelectedInstructorPosition(intent, dbInstructorList, instructorIDForCourse));
+    }
+
+    int getSpinnerSelectedInstructorPosition(Intent intent, ArrayList<CourseInstructor> dbInstructorList, int instructorIDForCourse) {
 
         if (dbInstructorList.size() == 0) {
             return -1;
         }
 
-        for (int instructorIndex = 0; instructorIndex < dbInstructorList.size(); instructorIndex++) {
-                if (dbInstructorList.get(instructorIndex).getInstructorID() == instructorIDForCourse) {
-                    return instructorIndex;
-                }
+        int instructorIndex = 0;
+
+        for (CourseInstructor dbInstructor : dbInstructorList) {
+            if (dbInstructor.getInstructorID() == instructorIDForCourse) {
+                return instructorIndex;
             }
+            instructorIndex++;
+        }
         return -1;
     }
 }

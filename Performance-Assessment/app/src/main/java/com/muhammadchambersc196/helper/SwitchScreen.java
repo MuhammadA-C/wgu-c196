@@ -12,19 +12,6 @@ import com.muhammadchambersc196.controller.list.ListOfInstructorsActivity;
 import com.muhammadchambersc196.controller.list.ListOfTermsActivity;
 
 public class SwitchScreen {
-    public static final String CAME_FROM_KEY = "came_from";
-    public static final String CAME_FROM_KEY2 = "came_from2";
-    public static final String TERM_ID_KEY = "term_id";
-    public static final String ADD_OR_UPDATE_SCREEN_KEY = "add_or_update_screen";
-    public static final String CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY = "came_from_add_or_update_screen";
-    public static final String COURSE_ID_KEY = "course_id";
-    public static final String INSTRUCTOR_ID_KEY = "instructor_id";
-    public static final String UPDATE_TERM_VALUE = "Update Term";
-    public static final String UPDATE_COURSE_VALUE = "Update Course";
-    public static final String UPDATE_INSTRUCTOR_VALUE = "Update Instructor";
-    public static final String ADD_TERM_VALUE = "Add Term";
-    public static final String ADD_COURSE_VALUE = "Add Course";
-    public static final String ADD_INSTRUCTOR_VALUE = "Add Instructor";
     public static final String LIST_OF_TERMS_ACTIVITY = "ListOfTermsActivity";
     public static final String LIST_OF_INSTRUCTORS_ACTIVITY = "ListOfInstructorsActivity";
     public static final String HOME_SCREEN_ACTIVITY = "HomeScreenActivity";
@@ -35,6 +22,21 @@ public class SwitchScreen {
     public static final String DETAILED_ASSESSMENT_ACTIVITY = "DetailedAssessmentActivity";
     public static final String CREATE_OR_UPDATE_COURSE_ACTIVITY = "CreateOrUpdateCourseActivity";
     public static final String CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY = "CreateOrUpdateInstructorActivity";
+    public static final String ADD_TERM_VALUE = "Add Term";
+    public static final String ADD_COURSE_VALUE = "Add Course";
+    public static final String ADD_INSTRUCTOR_VALUE = "Add Instructor";
+    public static final String ADD_NOTE_VALUE = "Add Note";
+    public static final String ADD_ASSESSMENT_VALUE = "Add Assessment";
+    public static final String UPDATE_TERM_VALUE = "Update Term";
+    public static final String UPDATE_COURSE_VALUE = "Update Course";
+    public static final String UPDATE_INSTRUCTOR_VALUE = "Update Instructor";
+    public static final String TERM_ID_KEY = "term_id";
+    public static final String ADD_OR_UPDATE_SCREEN_KEY = "add_or_update_screen";
+    public static final String CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY = "came_from_add_or_update_screen";
+    public static final String COURSE_ID_KEY = "course_id";
+    public static final String INSTRUCTOR_ID_KEY = "instructor_id";
+    public static final String CAME_FROM_KEY = "came_from";
+    public static final String CAME_FROM_KEY2 = "came_from2";
 
 
     public static Class getActivityClass(String activityName) {

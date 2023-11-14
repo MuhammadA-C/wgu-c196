@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.create.CreateAssessmentActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
-import com.muhammadchambersc196.controller.create.CreateNoteActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.CourseHelper;
@@ -115,13 +115,13 @@ public class DetailedCourseActivity extends AppCompatActivity {
             switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
-        } else if (item.getTitle().equals("Add Assessment")) {
+        } else if (item.getTitle().equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
             //Need to pass in the term id
-            switchScreen(CreateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
-        } else if (item.getTitle().equals("Add Note")) {
+        } else if (item.getTitle().equals(SwitchScreen.ADD_NOTE_VALUE)) {
             //Need to pass in the term id
-            switchScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
             return true;
         }
         return false;

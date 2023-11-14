@@ -27,17 +27,14 @@
             android:exported="false"
             android:label="Detailed Note View" />
         <activity
-            android:name=".controller.create.CreateNoteActivity"
-            android:exported="false"
-            android:label="Create Note View"
-            android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
+            android:name=".controller.create.CreateOrUpdateNoteActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.create.CreateOrUpdateInstructorActivity"
             android:exported="false" />
         <activity
-            android:name=".controller.create.CreateAssessmentActivity"
-            android:exported="false"
-            android:parentActivityName=".controller.detailed.DetailedCourseActivity" />
+            android:name=".controller.create.CreateOrUpdateAssessmentActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.create.CreateOrUpdateCourseActivity"
             android:exported="false" />

@@ -18,6 +18,7 @@ import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InputValidation;
+import com.muhammadchambersc196.helper.StatusSpinnerHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
@@ -63,7 +64,10 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
         setActivityCameFrom2(intent);
         setAddOrUpdate(intent);
-        courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+        /*
+            Bug = course id is null sometimes, need to check why
+         */
+        setCourseId(intent);
         setTermID(intent);
         //Sets the action bar title of the screen to say "Add" or "Update" based on if it's supposed to be for adding or updating
         setTitle(addOrUpdate);
@@ -92,18 +96,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
-                    //Checks if there are any empty input fields
-                    if (InputValidation.isInputFieldEmpty(className) ||InputValidation.isInputFieldEmpty(classInfo) ||
-                            InputValidation.isInputFieldEmpty(classStatus) || InputValidation.isInputFieldEmpty(startDate) ||
-                            InputValidation.isInputFieldEmpty(endDate))  {
-                        return;
-                    }
 
-                    //Checks if the classes start and end dates are formatted correctly (yyyy-mm-dd)
-                    if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
-                            !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
-                        return;
-                    }
 
                     //Checks if the classes start date is the same or before the classes end date
                     if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
@@ -145,6 +138,9 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                 } else {
                     //This part will be for updating a course
 
+
+
+                    //Need to update changes in database
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
                             String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
@@ -212,12 +208,30 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         ArrayList<String> statusOptionsList = new ArrayList<>();
 
         //Spinner stores the items in the position that they were added with the same index as the list
-        statusOptionsList.add("Not Started");
-        statusOptionsList.add("In-Progress");
-        statusOptionsList.add("Completed");
-        statusOptionsList.add("Failed");
+        statusOptionsList.add(StatusSpinnerHelper.NOT_STARTED);
+        statusOptionsList.add(StatusSpinnerHelper.IN_PROGRESS);
+        statusOptionsList.add(StatusSpinnerHelper.COMPLETED);
+        statusOptionsList.add(StatusSpinnerHelper.FAILED);
 
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptionsList);
+    }
+
+    int getSpinnerStatusPosition(String status) {
+        /*
+            Note: Due to the current design for this, this method will need to be updated if
+            the order of the items for the status spinner is changed; or more are added.
+         */
+        switch (status) {
+            case StatusSpinnerHelper.NOT_STARTED:
+                return 0;
+            case StatusSpinnerHelper.IN_PROGRESS:
+                return 1;
+            case StatusSpinnerHelper.COMPLETED:
+                return 2;
+            case StatusSpinnerHelper.FAILED:
+                return 3;
+        }
+        return -1;
     }
 
     ArrayAdapter<CourseInstructor> createInstructorListAdapter() {
@@ -266,6 +280,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             addOrUpdate = intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY);
         } else {
             addOrUpdate = intent.getStringExtra(SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY);
+        }
+    }
+
+    void setCourseId(Intent intent) {
+        if (!activityCameFrom.equals(SwitchScreen.DETAILED_TERM_ACTIVITY)) {
+            courseId = Integer.valueOf(intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
         }
     }
 
@@ -327,6 +347,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
         className.setText(course.getTitle());
         classInfo.setText(course.getInformation());
+        classStatus.setSelection(getSpinnerStatusPosition(course.getStatus()));
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
     }

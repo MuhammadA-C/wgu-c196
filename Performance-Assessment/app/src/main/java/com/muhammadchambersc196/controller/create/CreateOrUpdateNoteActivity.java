@@ -12,7 +12,7 @@ import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
-public class CreateNoteActivity extends AppCompatActivity {
+public class CreateOrUpdateNoteActivity extends AppCompatActivity {
     //Note: Need to correctly set the course id by taking the value passed from the course page
     int courseId;
     EditText createNoteDetails;
@@ -22,7 +22,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_note);
+        setContentView(R.layout.activity_create_or_update_note);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();

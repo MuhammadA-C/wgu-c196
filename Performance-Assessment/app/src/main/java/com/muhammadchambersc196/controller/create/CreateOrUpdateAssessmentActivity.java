@@ -15,7 +15,7 @@ import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
-public class CreateAssessmentActivity extends AppCompatActivity {
+public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
     //Note: Need to correctly set the course id by taking the value passed from the course page
     int courseId = 1;
     EditText assessmentName;
@@ -29,7 +29,7 @@ public class CreateAssessmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_assessment);
+        setContentView(R.layout.activity_create_or_update_assessment);
 
         //Retrieves the intent that was passed to this activity/screen
         Intent intent = getIntent();

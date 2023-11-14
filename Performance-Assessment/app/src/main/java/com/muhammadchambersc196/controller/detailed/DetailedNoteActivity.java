@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
-import com.muhammadchambersc196.controller.create.CreateNoteActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class DetailedNoteActivity extends AppCompatActivity {
@@ -32,7 +32,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNewScreen(CreateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Note");
+                goToNewScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_NOTE_ACTIVITY, SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, "Update Note");
             }
         });
     }

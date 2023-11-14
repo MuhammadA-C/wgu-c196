@@ -197,9 +197,10 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
     void setCourseNoteRecyclerView() {
         final NoteAdapter termAdapter = new NoteAdapter(this);
-
+        List<CourseNote> notesForCourse = CourseHelper.getAllNotesForCourse((ArrayList<CourseNote>) dbNoteList, courseId);
+        
         notesList.setAdapter(termAdapter);
         notesList.setLayoutManager(new LinearLayoutManager(this));
-        termAdapter.setNotes(dbNoteList);
+        termAdapter.setNotes(notesForCourse);
     }
 }

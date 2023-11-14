@@ -7,20 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
-    public static boolean doesCourseHaveCourseNotes(int courseId, List<CourseNote> courseNoteList) {
-        int count = 0;
-
-        for(CourseNote courseNote : courseNoteList) {
-            if(courseNote.getCourseID() == courseId) {
-                count++;
-            }
-        }
-
-        if(count == 0) {
-            return false;
-        }
-        return true;
-    }
 
     public static ArrayList<CourseNote> getAllCourseNotesForCourse(int courseId, List<CourseNote> courseNoteList) {
         ArrayList<CourseNote> courseNotesForCourse = new ArrayList<>();

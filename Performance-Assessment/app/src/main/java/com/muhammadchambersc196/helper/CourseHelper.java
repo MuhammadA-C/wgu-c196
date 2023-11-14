@@ -3,10 +3,12 @@ package com.muhammadchambersc196.helper;
 import androidx.annotation.NonNull;
 
 import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.entities.Term;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CourseHelper {
     public static boolean areCourseDatesWithinRangeOfTermDates(Course course, int termId, ArrayList<Term> terms) {
@@ -83,5 +85,36 @@ public class CourseHelper {
             }
         }
         return null;
+    }
+
+    private static boolean doesCourseHaveNotes(ArrayList<CourseNote> dbNoteList, int courseId) {
+        int noteCount = 0;
+
+        for(CourseNote dbNote : dbNoteList) {
+            if(dbNote.getCourseID() == courseId) {
+                noteCount++;
+            }
+        }
+
+        if(noteCount == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public static ArrayList<CourseNote> getAllNotesForCourse(ArrayList<CourseNote> dbNoteList, int courseId) {
+        //If a course does NOT have any notes for it, then an empty array list will be returned
+        if (!doesCourseHaveNotes(dbNoteList, courseId)) {
+            return new ArrayList<>();
+        }
+
+        ArrayList<CourseNote> notesForCourse = new ArrayList<>();
+
+        for(CourseNote dbNote : dbNoteList) {
+            if(dbNote.getCourseID() == courseId) {
+                notesForCourse.add(dbNote);
+            }
+        }
+        return notesForCourse;
     }
 }

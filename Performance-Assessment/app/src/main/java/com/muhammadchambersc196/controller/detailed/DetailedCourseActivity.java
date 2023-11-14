@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.AssessmentAdapter;
 import com.muhammadchambersc196.controller.adapter.NoteAdapter;
-import com.muhammadchambersc196.controller.adapter.TermAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
@@ -24,9 +23,9 @@ import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
-import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.InstructorHelper;
+import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 import java.util.ArrayList;
@@ -91,7 +90,8 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                switchScreen(DetailedAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
+                        SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(SelectedListItem.getSelectedAssessment().getAssessmentID()));
             }
         });
 
@@ -99,10 +99,12 @@ public class DetailedCourseActivity extends AppCompatActivity {
         viewNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+                switchScreen(DetailedNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
+                        SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(SelectedListItem.getSelectedNote().getCourseNoteID()));
             }
         });
 
+        
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,25 +137,17 @@ public class DetailedCourseActivity extends AppCompatActivity {
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
         } else if (item.getTitle().equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
-            //Need to pass in the term id
-            switchScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
+                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_ASSESSMENT_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
         } else if (item.getTitle().equals(SwitchScreen.ADD_NOTE_VALUE)) {
-            //Need to pass in the term id
-            switchScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY);
+            switchScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
+                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_NOTE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
         }
         return false;
     }
-
-    /*
-        Note:
-           * For update course I need to pass in the course id
-           * For add assessment I need to pass in the course id
-           * For add note I need to pass in the course id
-           * For view note I need to pass in the selected note id
-           * For view assessment I need to pass in the selected assessment id
-     */
+    
     void switchScreen(Class className, String keyName, String value) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);
@@ -163,17 +157,18 @@ public class DetailedCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
+    void switchScreen(Class className, String keyName, String value, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, goToScreen);
+        Intent intent = new Intent(this, className);
         //Specifies the data to pass to the new activity/screen
-        intent.putExtra(cameFromScreenKey, cameFromScreenValue);
-        intent.putExtra(addOrUpdateScreenKey, addOrUpdateScreenValue);
+        intent.putExtra(keyName, value);
+        intent.putExtra(idKey, idValue);
         //Need to always start the activity that you're going to
         startActivity(intent);
     }
 
-    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
+    void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue,
+                      String addOrUpdateScreenKey, String addOrUpdateScreenValue, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, goToScreen);
         //Specifies the data to pass to the new activity/screen

@@ -31,6 +31,8 @@ public class SwitchScreen {
     public static final String UPDATE_COURSE_VALUE = "Update Course";
     public static final String UPDATE_INSTRUCTOR_VALUE = "Update Instructor";
     public static final String TERM_ID_KEY = "term_id";
+    public static final String ASSESSMENT_ID_KEY = "assessment_id";
+    public static final String COURSE_NOTE_ID_KEY = "course_note_id";
     public static final String ADD_OR_UPDATE_SCREEN_KEY = "add_or_update_screen";
     public static final String CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY = "came_from_add_or_update_screen";
     public static final String COURSE_ID_KEY = "course_id";

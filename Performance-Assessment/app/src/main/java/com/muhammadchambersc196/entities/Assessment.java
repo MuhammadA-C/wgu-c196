@@ -1,5 +1,9 @@
 package com.muhammadchambersc196.entities;
 
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -93,5 +97,13 @@ public class Assessment {
 
     public int getCourseID() {
         return this.courseID;
+    }
+
+    public void updateInputFields(EditText assessmentName, EditText assessmentInfo, Spinner assessmentType, EditText startDate, EditText endDate) {
+        setTitle(assessmentName.getText().toString());
+        setInformation(assessmentInfo.getText().toString());
+        setType(assessmentType.getSelectedItem().toString());
+        setStartDate(startDate.getText().toString());
+        setEndDate(endDate.getText().toString());
     }
 }

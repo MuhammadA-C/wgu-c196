@@ -71,6 +71,19 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         assessmentType.setAdapter(createAssessmentTypeListAdapter());
 
         setTitle(addOrUpdate);
+        setScreenInfo();
+
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+                } else {
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessmentId));
+                }
+            }
+        });
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,10 +125,19 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
-                   //Assessment updateAssessment = AssessmentHelper.retrieveAssessmentFromDatabaseByAssessmentID()
 
+                    assessment.updateInputFields(assessmentName, assessmentInfo, assessmentType, startDate, endDate);
+
+                    try {
+                        repository.update(assessment);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessmentId));
                 }
             }
         });
@@ -182,5 +204,17 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 return 1;
         }
         return -1;
+    }
+
+    void setScreenInfo() {
+        if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
+            return;
+        }
+
+        assessmentName.setText(assessment.getTitle());
+        assessmentInfo.setText(assessment.getInformation());
+        assessmentType.setSelection(getSpinnerAssessmentTypePosition(assessment.getType()));
+        startDate.setText(assessment.getStartDate());
+        endDate.setText(assessment.getEndDate());
     }
 }

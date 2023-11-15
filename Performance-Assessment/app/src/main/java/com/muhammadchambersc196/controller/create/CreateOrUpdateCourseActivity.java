@@ -209,10 +209,10 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         ArrayList<String> statusOptionsList = new ArrayList<>();
 
         //Spinner stores the items in the position that they were added with the same index as the list
-        statusOptionsList.add(StatusSpinnerHelper.NOT_STARTED);
+        statusOptionsList.add(StatusSpinnerHelper.PLAN_TO_TAKE);
         statusOptionsList.add(StatusSpinnerHelper.IN_PROGRESS);
         statusOptionsList.add(StatusSpinnerHelper.COMPLETED);
-        statusOptionsList.add(StatusSpinnerHelper.FAILED);
+        statusOptionsList.add(StatusSpinnerHelper.DROPPED);
 
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptionsList);
     }
@@ -223,13 +223,13 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             the order of the items for the status spinner is changed; or more are added.
          */
         switch (status) {
-            case StatusSpinnerHelper.NOT_STARTED:
+            case StatusSpinnerHelper.PLAN_TO_TAKE:
                 return 0;
             case StatusSpinnerHelper.IN_PROGRESS:
                 return 1;
             case StatusSpinnerHelper.COMPLETED:
                 return 2;
-            case StatusSpinnerHelper.FAILED:
+            case StatusSpinnerHelper.DROPPED:
                 return 3;
         }
         return -1;

@@ -16,12 +16,19 @@ public class DateValidation {
             return false;
         }
         return true;
+
+        /*
+            Need to add a check to verify if:
+            - the year is a number
+            - the month is a number
+            - the day is a number
+         */
     }
 
     private static boolean isDateCorrectLength(String dateStr) {
         final String dateFormat = "yyyy-mm-dd";
 
-        if(dateStr.length() > dateFormat.length() || dateStr.length() < dateFormat.length()) {
+        if (dateStr.length() > dateFormat.length() || dateStr.length() < dateFormat.length()) {
             return false;
         }
         return true;
@@ -30,9 +37,9 @@ public class DateValidation {
     private static boolean isDateMonthCorrectRange(String dateStr) {
         final int MONTH_JANUARY_INT_VALUE = 01;
         final int MONTH_DECEMBER_INT_VALUE = 12;
-        int dateMonth = Integer.valueOf(dateStr.substring(5,7));
+        int dateMonth = Integer.valueOf(dateStr.substring(5, 7));
 
-        if(dateMonth >= MONTH_JANUARY_INT_VALUE && dateMonth <= MONTH_DECEMBER_INT_VALUE) {
+        if (dateMonth >= MONTH_JANUARY_INT_VALUE && dateMonth <= MONTH_DECEMBER_INT_VALUE) {
             return true;
         }
         return false;
@@ -41,9 +48,9 @@ public class DateValidation {
     private static boolean isDateDayCorrectRange(String dateStr) {
         final int MINIMUM_DAY_INT_VALUE = 01;
         final int MAXIMUM_DAY_INT_VALUE = 31;
-        int dateDay = Integer.valueOf(dateStr.substring(8,10));
+        int dateDay = Integer.valueOf(dateStr.substring(8, 10));
 
-        if(dateDay >= MINIMUM_DAY_INT_VALUE && dateDay <= MAXIMUM_DAY_INT_VALUE) {
+        if (dateDay >= MINIMUM_DAY_INT_VALUE && dateDay <= MAXIMUM_DAY_INT_VALUE) {
             return true;
         }
         return false;
@@ -55,7 +62,7 @@ public class DateValidation {
         String dateDashTwo = String.valueOf(dateStr.toCharArray()[7]);
         //Note: Date format yyyy-mm-dd has two dashes in it located at index 0 and index 7
 
-        if(dateDashOne.equals(dash) && dateDashTwo.equals(dash)) {
+        if (dateDashOne.equals(dash) && dateDashTwo.equals(dash)) {
             return true;
         }
         return false;
@@ -81,5 +88,42 @@ public class DateValidation {
             return true;
         }
         return false;
+    }
+
+    //Need to add this to all classes having a date
+    private static boolean isNumber(String subStr) {
+        char[] charArray = subStr.toCharArray();
+
+        try {
+            //Loops through the substring converting each element in the string to an integer
+            for (char element : charArray) {
+                int parsedNum = Integer.parseInt(String.valueOf(element));
+            }
+            /*
+            for (int i = 0; i < subStr.length(); i++) {
+                int parsedNum = Integer.parseInt(String.valueOf(subStr.charAt(i)));
+            }
+
+             */
+        } catch (NumberFormatException e) {
+            //False is returned if an error is thrown when trying to convert the character in the substring to an integer
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDateANumber(String dateStr) {
+        String dateYear = dateStr.substring(0, 4);
+        String dateMonth = dateStr.substring(5, 7);
+        String dateDay = dateStr.substring(8, 10);
+
+        if (!isNumber(dateYear)) {
+            return false;
+        } else if (!isNumber(dateMonth)) {
+            return false;
+        } else if (!isNumber(dateDay)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -23,6 +23,7 @@ import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
+import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
@@ -205,11 +206,12 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
     void setAssessmentRecyclerView() {
         final AssessmentAdapter termAdapter = new AssessmentAdapter(this);
+        List<Assessment> assessmentsForCourse = AssessmentHelper.getAllAssessmentsForCourse((ArrayList<Assessment>) dbAssessmentList, courseId);
 
         //Need to fix to only show the assessments related to the course
         assessmentsList.setAdapter(termAdapter);
         assessmentsList.setLayoutManager(new LinearLayoutManager(this));
-        termAdapter.setAssessments(dbAssessmentList);
+        termAdapter.setAssessments(assessmentsForCourse);
     }
 
     void setCourseNoteRecyclerView() {

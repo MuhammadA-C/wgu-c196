@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -67,20 +68,31 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         setAssessment();
         setCourseId(intent);
 
+        assessmentType.setAdapter(createAssessmentTypeListAdapter());
+
+        setTitle(addOrUpdate);
+
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Checks to ensure that the input fields are NOT empty
                 if (InputValidation.isInputFieldEmpty(assessmentName) || InputValidation.isInputFieldEmpty(assessmentInfo) ||
                 InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) ||
                 InputValidation.isInputFieldEmpty(assessmentType)) {
+                    //Checks to ensure that the input fields are NOT empty
                     return;
-                    //Need to add a check for the spinner/class status input field
+                } else if (!DateValidation.isDateANumber(startDate.getText().toString())) {
+                    //Checks to ensure that the year, month, and date are numbers
+                    return;
+                } else if (!DateValidation.isDateANumber(endDate.getText().toString())) {
+                    //Checks to ensure that the year, month, and date are numbers
+                    return;
+
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
                     return;
-                } else if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
+                }  else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks to ensure start date is before the end date
                     return;
                 }
@@ -89,7 +101,6 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                     NOTE: Need to add a check to ensure assessment start date is the same or after course start date, but before course end date.
                     And assessment end date the same or before course end date.
                  */
-
 
                 if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
                     Assessment addAssessment = new Assessment(assessmentName.getText().toString(), assessmentType.getSelectedItem().toString(),
@@ -101,7 +112,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
                    //Assessment updateAssessment = AssessmentHelper.retrieveAssessmentFromDatabaseByAssessmentID()
 
@@ -138,5 +149,38 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         Intent intent = new Intent(this, className);
         //Need to always start the activity that you're going to
         startActivity(intent);
+    }
+
+    void switchScreen(Class className, String idKey, String idValue) {
+        //Specifies the new activity/screen to go to
+        Intent intent = new Intent(this, className);
+        //Specifies the data to pass to the new activity/screen
+        intent.putExtra(idKey, idValue);
+        //Need to always start the activity that you're going to
+        startActivity(intent);
+    }
+
+    ArrayAdapter<String> createAssessmentTypeListAdapter() {
+        ArrayList<String> statusOptionsList = new ArrayList<>();
+
+        //Spinner stores the items in the position that they were added with the same index as the list
+        statusOptionsList.add("Performance");
+        statusOptionsList.add("Objective");
+
+        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptionsList);
+    }
+
+    int getSpinnerAssessmentTypePosition(String status) {
+        /*
+            Note: Due to the current design for this, this method will need to be updated if
+            the order of the items for the assessment type spinner is changed; or more are added.
+         */
+        switch (status) {
+            case "Performance":
+                return 0;
+            case "Objective":
+                return 1;
+        }
+        return -1;
     }
 }

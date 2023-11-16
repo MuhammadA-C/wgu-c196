@@ -2,11 +2,9 @@ package com.muhammadchambersc196.helper;
 
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
-import com.muhammadchambersc196.entities.Term;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AssessmentHelper {
     public static Assessment retrieveAssessmentFromDatabaseByAssessmentID(ArrayList<Assessment> dbAssessmentList, int assessmentId) {

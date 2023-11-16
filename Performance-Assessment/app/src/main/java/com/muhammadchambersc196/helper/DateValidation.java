@@ -16,13 +16,6 @@ public class DateValidation {
             return false;
         }
         return true;
-
-        /*
-            Need to add a check to verify if:
-            - the year is a number
-            - the month is a number
-            - the day is a number
-         */
     }
 
     private static boolean isDateCorrectLength(String dateStr) {
@@ -90,7 +83,6 @@ public class DateValidation {
         return false;
     }
 
-    //Need to add this to all classes having a date
     private static boolean isNumber(String subStr) {
         char[] charArray = subStr.toCharArray();
 
@@ -99,12 +91,7 @@ public class DateValidation {
             for (char element : charArray) {
                 int parsedNum = Integer.parseInt(String.valueOf(element));
             }
-            /*
-            for (int i = 0; i < subStr.length(); i++) {
-                int parsedNum = Integer.parseInt(String.valueOf(subStr.charAt(i)));
-            }
 
-             */
         } catch (NumberFormatException e) {
             //False is returned if an error is thrown when trying to convert the character in the substring to an integer
             return false;

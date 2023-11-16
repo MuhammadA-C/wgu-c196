@@ -2,7 +2,6 @@ package com.muhammadchambersc196.entities;
 
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

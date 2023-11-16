@@ -2,12 +2,10 @@ package com.muhammadchambersc196.helper;
 
 import androidx.annotation.NonNull;
 
-import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.Term;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TermHelper {
     public static boolean doesTermNameExistInDatabase(@NonNull ArrayList<Term> databaseListOfTerms, Term term) {
@@ -72,31 +70,5 @@ public class TermHelper {
             return false;
         }
         return true;
-    }
-
-    public static boolean doesTermHaveCourses(int termId, List<Course> courseList) {
-        int count = 0;
-
-        for(Course course : courseList) {
-            if(course.getTermID() == termId) {
-                count++;
-            }
-        }
-
-        if(count == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    public static ArrayList<Course> getAllCoursesForTerm(int termId, List<Course> courseList) {
-        ArrayList<Course> coursesForTerm = new ArrayList<>();
-
-        for(Course course : courseList) {
-            if(course.getTermID() == termId) {
-                coursesForTerm.add(course);
-            }
-        }
-        return coursesForTerm;
     }
 }

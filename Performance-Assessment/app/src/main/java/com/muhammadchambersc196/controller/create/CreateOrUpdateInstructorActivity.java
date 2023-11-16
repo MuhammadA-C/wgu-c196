@@ -155,18 +155,6 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
     }
 
     void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2,
-                      String cameFromValue2, String idKey, String idValue) {
-        //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
-        //Specifies the data to pass to the new activity/screen
-        intent.putExtra(cameFromKey1, cameFromValue1);
-        intent.putExtra(cameFromKey2, cameFromValue2);
-        intent.putExtra(idKey, idValue);
-        //Need to always start the activity that you're going to
-        startActivity(intent);
-    }
-
-    void switchScreen(Class className, String cameFromKey1, String cameFromValue1, String cameFromKey2,
                       String cameFromValue2, String cameFromAddOrUpdateKey, String cameFromAddOrUpdateValue,
                       String idKey1, String idValue1, String idKey2, String idValue2) {
         //Specifies the new activity/screen to go to

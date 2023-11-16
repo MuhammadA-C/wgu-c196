@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
+import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InputValidation;
@@ -33,6 +34,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
     Button cancelBtn;
     String addOrUpdate;
     ArrayList<Assessment> dbAssessmentList;
+    ArrayList<Course> dbCourseList;
     Assessment assessment;
 
     @Override
@@ -94,10 +96,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 InputValidation.isInputFieldEmpty(assessmentType)) {
                     //Checks to ensure that the input fields are NOT empty
                     return;
-                } else if (!DateValidation.isDateANumber(startDate.getText().toString())) {
-                    //Checks to ensure that the year, month, and date are numbers
-                    return;
-                } else if (!DateValidation.isDateANumber(endDate.getText().toString())) {
+                } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
                     //Checks to ensure that the year, month, and date are numbers
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
@@ -109,29 +108,25 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                     return;
                 }
 
-                /*
-                    NOTE: Need to add a check to ensure assessment start date is the same or after course start date, but before course end date.
-                    And assessment end date the same or before course end date.
-                 */
+                Assessment saveAssessment = createAssessment();
+
+                if (!AssessmentHelper.areAssessmentDatesWithinRangeOfCourseDates(saveAssessment, courseId, dbCourseList)) {
+                    //Checks to see if the assessment start and end dates are within range of the courses start and end dates
+                    return;
+                }
 
                 if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
-                    Assessment addAssessment = new Assessment(assessmentName.getText().toString(), assessmentType.getSelectedItem().toString(),
-                            assessmentInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), courseId);
-
                     try {
                         //Adds new assessment to the database
-                        repository.insert(addAssessment);
+                        repository.insert(saveAssessment);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
-
-                    assessment.updateInputFields(assessmentName, assessmentInfo, assessmentType, startDate, endDate);
-
                     try {
-                        repository.update(assessment);
+                        repository.update(saveAssessment);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -142,8 +137,19 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         });
     }
 
+    Assessment createAssessment() {
+        if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
+            return new Assessment(assessmentName.getText().toString(), assessmentType.getSelectedItem().toString(),
+                    assessmentInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), courseId);
+        }
+        assessment.updateInputFields(assessmentName, assessmentInfo, assessmentType, startDate, endDate);
+
+        return assessment;
+    }
+
     void setDatabaseLists() throws InterruptedException {
         dbAssessmentList = (ArrayList<Assessment>) repository.getmAllAssessments();
+        dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
     }
 
     void setCourseId(Intent intent) {
@@ -163,13 +169,6 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
 
     void setAssessment() {
         assessment = AssessmentHelper.retrieveAssessmentFromDatabaseByAssessmentID(dbAssessmentList, assessmentId);
-    }
-
-    void switchScreen(Class className) {
-        //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
-        //Need to always start the activity that you're going to
-        startActivity(intent);
     }
 
     void switchScreen(Class className, String idKey, String idValue) {

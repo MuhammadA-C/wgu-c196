@@ -114,14 +114,6 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         });
     }
 
-
-    void switchScreen(Class className) {
-        //Specifies the new activity/screen to go to
-        Intent intent = new Intent(this, className);
-        //Need to always start the activity that you're going to
-        startActivity(intent);
-    }
-
     void switchScreen(Class className, String idKey, String idValue) {
         //Specifies the new activity/screen to go to
         Intent intent = new Intent(this, className);

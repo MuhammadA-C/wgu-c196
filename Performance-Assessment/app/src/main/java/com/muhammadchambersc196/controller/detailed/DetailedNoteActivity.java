@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
 import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseNote;
+import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.CourseNoteHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -25,6 +27,7 @@ public class DetailedNoteActivity extends AppCompatActivity {
     TextView notedDetails;
     int noteId;
     ArrayList<CourseNote> dbNoteList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,34 @@ public class DetailedNoteActivity extends AppCompatActivity {
                         SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_NOTE_VALUE, SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
             }
         });
+
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String courseTitle;
+
+                try {
+                    courseTitle = CourseHelper.retrieveCourseFromDatabaseByCourseID((ArrayList<Course>) repository.getmAllCourses(), note.getCourseID()).getTitle();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                shareData(courseTitle, note.getNote());
+            }
+        });
+    }
+
+    void shareData(String courseName, String noteBody) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        //Needs to specify the type of data being shared
+        intent.setType("text/plain");
+        //Sets the subject for an email or other application that uses subject line
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Note for course: " + courseName);
+        //Sets the text/body for an email or other application that uses text/body
+        intent.putExtra(Intent.EXTRA_TEXT, noteBody);
+        //Displays a list of applications to pick from
+        startActivity(Intent.createChooser(intent, "Choose a Platform"));
     }
 
     void switchScreen(Class goToScreen, String idKey, String idValue) {

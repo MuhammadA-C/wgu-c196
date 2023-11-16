@@ -3,8 +3,6 @@ package com.muhammadchambersc196.helper;
 import java.time.LocalDate;
 
 public class DateValidation {
-
-
     public static boolean isDateFormattedCorrect(String dateStr) {
         if (!isDateCorrectLength(dateStr)) {
             return false;
@@ -19,9 +17,7 @@ public class DateValidation {
     }
 
     private static boolean isDateCorrectLength(String dateStr) {
-        final String dateFormat = "yyyy-mm-dd";
-
-        if (dateStr.length() > dateFormat.length() || dateStr.length() < dateFormat.length()) {
+        if (dateStr.length() > DateFormat.longDateFormat.length() || dateStr.length() < DateFormat.longDateFormat.length()) {
             return false;
         }
         return true;

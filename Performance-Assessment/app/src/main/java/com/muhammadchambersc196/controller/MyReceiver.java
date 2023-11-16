@@ -20,6 +20,7 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
+
         Toast.makeText(context, intent.getStringExtra("key"), Toast.LENGTH_SHORT).show();
         createNotificationChannel(context, channel_id);
 

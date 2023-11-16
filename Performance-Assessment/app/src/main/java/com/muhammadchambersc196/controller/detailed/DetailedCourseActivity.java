@@ -30,17 +30,22 @@ import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.CourseHelper;
+import com.muhammadchambersc196.helper.DateFormat;
+import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Repository repository;
@@ -95,7 +100,6 @@ public class DetailedCourseActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
 
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,40 +211,50 @@ public class DetailedCourseActivity extends AppCompatActivity {
             return true;
         } else if (item.getTitle().equals(getString(R.string.menu_notify_for_start_date))) {
             Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
+            SimpleDateFormat originalFormatter = new SimpleDateFormat(DateFormat.longDateFormat, Locale.US);
+            SimpleDateFormat targetFormatter = new SimpleDateFormat(DateFormat.shortDateFormat, Locale.US);
 
-            Date startDate = null;
+            Date formattedStartDate = null;
 
             try {
-                startDate = formatter.parse(course.getStartDate());
+                String formattedStartDateStr = targetFormatter.format(originalFormatter.parse(course.getStartDate()));
+                formattedStartDate = targetFormatter.parse(formattedStartDateStr);
+
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
 
-            Long trigger = startDate.getTime();
+            Long trigger = formattedStartDate.getTime();
             Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
             intent.putExtra("key", course.getTitle() + " starts today!");
+
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
             Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
+            SimpleDateFormat originalFormatter = new SimpleDateFormat(DateFormat.longDateFormat, Locale.US);
+            SimpleDateFormat targetFormatter = new SimpleDateFormat(DateFormat.shortDateFormat, Locale.US);
 
-            Date endDate = null;
+            Date formattedEndDate = null;
 
             try {
-                endDate = formatter.parse(course.getEndDate());
+                String formattedEndDateStr = targetFormatter.format(originalFormatter.parse(course.getEndDate()));
+                formattedEndDate = targetFormatter.parse(formattedEndDateStr);
+
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
 
-            Long trigger = endDate.getTime();
+            Long trigger = formattedEndDate.getTime();
             Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
             intent.putExtra("key", course.getTitle() + " ends today!");
+
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }

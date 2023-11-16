@@ -226,7 +226,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
             Long trigger = formattedStartDate.getTime();
             Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
-            intent.putExtra("key", course.getTitle() + " starts today!");
+            intent.putExtra("key", "Class, " + course.getTitle() + ", starts today!");
 
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -250,7 +250,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
             Long trigger = formattedEndDate.getTime();
             Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
-            intent.putExtra("key", course.getTitle() + " ends today!");
+            intent.putExtra("key", "Class, " + course.getTitle() + ", ends today!");
 
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

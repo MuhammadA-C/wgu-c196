@@ -2,6 +2,9 @@ package com.muhammadchambersc196.controller.detailed;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,14 +14,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.HomeScreenActivity;
+import com.muhammadchambersc196.controller.MyReceiver;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
+import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.AssessmentHelper;
+import com.muhammadchambersc196.helper.CourseHelper;
+import com.muhammadchambersc196.helper.DateFormat;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class DetailedAssessmentActivity extends AppCompatActivity {
     Repository repository;
@@ -101,15 +113,56 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         }
 
         if (item.getTitle().equals(getString(R.string.menu_notify_for_start_date))) {
+            SimpleDateFormat originalFormatter = new SimpleDateFormat(DateFormat.longDateFormat, Locale.US);
+            SimpleDateFormat targetFormatter = new SimpleDateFormat(DateFormat.shortDateFormat, Locale.US);
 
+            Date formattedStartDate = null;
+
+            try {
+                String formattedStartDateStr = targetFormatter.format(originalFormatter.parse(assessment.getStartDate()));
+                formattedStartDate = targetFormatter.parse(formattedStartDateStr);
+
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            Long trigger = formattedStartDate.getTime();
+            Intent intent = new Intent(DetailedAssessmentActivity.this, MyReceiver.class);
+            intent.putExtra("key", "Assessment, " + assessment.getTitle() + ", starts today!");
+
+            PendingIntent sender = PendingIntent.getBroadcast(DetailedAssessmentActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
+            SimpleDateFormat originalFormatter = new SimpleDateFormat(DateFormat.longDateFormat, Locale.US);
+            SimpleDateFormat targetFormatter = new SimpleDateFormat(DateFormat.shortDateFormat, Locale.US);
+
+            Date formattedEndDate = null;
+
+            try {
+                String formattedEndDateStr = targetFormatter.format(originalFormatter.parse(assessment.getEndDate()));
+                formattedEndDate = targetFormatter.parse(formattedEndDateStr);
+
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            Long trigger = formattedEndDate.getTime();
+            Intent intent = new Intent(DetailedAssessmentActivity.this, MyReceiver.class);
+            intent.putExtra("key", "Assessment, " + assessment.getTitle() + ", ends today!");
+
+            PendingIntent sender = PendingIntent.getBroadcast(DetailedAssessmentActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
 
             return true;
         }
         return false;
     }
-    
+
 
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,
                        String addOrUpdateScreenValue, String idKey, String idValue) {

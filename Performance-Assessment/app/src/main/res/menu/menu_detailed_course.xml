@@ -16,4 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/menu_add_note" />
+    <item
+        android:id="@+id/menu_notify_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/menu_notify_for_start_date"
+        android:tooltipText="@string/menu_notify_for_end_date" />
+    <item
+        android:id="@+id/menu_notify_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/menu_notify_for_end_date" />
 </menu>

@@ -39,7 +39,7 @@ public class CourseHelper {
         return false;
     }
 
-    public static boolean doesCourseExistForTerm(ArrayList<Course> allCoursesForTerm, int termId, Course addCourse) {
+    public static boolean doesCourseExistForTerm(ArrayList<Course> allCoursesForTerm, Course addCourse) {
         if (allCoursesForTerm == null) {
             return false;
         }
@@ -48,8 +48,12 @@ public class CourseHelper {
          Checks to see if the course already exists for the term by comparing the course names.
          The assumption here is that there shouldn't be duplicate courses for the same term.
         */
-        for(Course course : allCoursesForTerm) {
-            if(addCourse.getTitle().toLowerCase().equals(course.getTitle().toLowerCase())) {
+        for(Course dbCourse : allCoursesForTerm) {
+            if (dbCourse.getCourseID() == addCourse.getCourseID()) {
+                continue;
+            }
+
+            if(addCourse.getTitle().toLowerCase().equals(dbCourse.getTitle().toLowerCase())) {
                 return true;
             }
         }

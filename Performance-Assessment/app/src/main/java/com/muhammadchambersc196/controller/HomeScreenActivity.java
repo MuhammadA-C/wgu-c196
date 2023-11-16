@@ -15,6 +15,7 @@ import com.muhammadchambersc196.helper.SwitchScreen;
 public class HomeScreenActivity extends AppCompatActivity {
     Button viewAllTermsBtn;
     Button viewAllInstructorsBtn;
+    public static int numAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

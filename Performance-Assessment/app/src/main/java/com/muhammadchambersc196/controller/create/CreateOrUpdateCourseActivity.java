@@ -101,13 +101,19 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                     //Checks to ensure that the input fields are NOT empty
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
+                    System.out.println("Hit 1");
+
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
+                    System.out.println("Hit 2");
+
                     return;
                 } else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks if the classes start date is the same or before the classes end date
+                    System.out.println("Hit 3");
+
                     return;
                 }
 
@@ -115,12 +121,15 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
                 if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(saveCourse, termId, dbTermList)) {
                     //Course start and end dates must be within range of the terms start and end dates
+                    System.out.println("Hit 4");
                     return;
-                } else if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), termId, saveCourse)) {
+                } else if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), saveCourse)) {
                    /*
                         Checks to see if the course already exists for the term by comparing the course names.
                         The assumption here is that there shouldn't be duplicate courses for the same term.
                     */
+                    System.out.println("Hit 5");
+
                     return;
                 }
 

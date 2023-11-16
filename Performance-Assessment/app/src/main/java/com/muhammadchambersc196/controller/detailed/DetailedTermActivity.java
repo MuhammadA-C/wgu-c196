@@ -180,7 +180,7 @@ public class DetailedTermActivity extends AppCompatActivity {
             return false;
         }
 
-        if (item.getTitle().equals(SwitchScreen.UPDATE_TERM_VALUE)) {
+        if (item.getTitle().equals(getString(R.string.menu_update_term))) {
             switchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             return true;

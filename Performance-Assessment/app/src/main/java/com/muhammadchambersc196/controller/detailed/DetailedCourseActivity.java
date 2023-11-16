@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
+import com.muhammadchambersc196.controller.HomeScreenActivity;
+import com.muhammadchambersc196.controller.MyReceiver;
 import com.muhammadchambersc196.controller.adapter.AssessmentAdapter;
 import com.muhammadchambersc196.controller.adapter.NoteAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
@@ -29,8 +34,13 @@ import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Repository repository;
@@ -183,17 +193,55 @@ public class DetailedCourseActivity extends AppCompatActivity {
             return false;
         }
 
-        if (item.getTitle().equals(SwitchScreen.UPDATE_COURSE_VALUE)) {
+        if (item.getTitle().equals(getString(R.string.menu_update_course))) {
             switchScreen(CreateOrUpdateCourseActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
-        } else if (item.getTitle().equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
+        } else if (item.getTitle().equals(getString(R.string.menu_add_assessment))) {
             switchScreen(CreateOrUpdateAssessmentActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_ASSESSMENT_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
             return true;
-        } else if (item.getTitle().equals(SwitchScreen.ADD_NOTE_VALUE)) {
+        } else if (item.getTitle().equals(getString(R.string.menu_add_note))) {
             switchScreen(CreateOrUpdateNoteActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_COURSE_ACTIVITY,
                     SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.ADD_NOTE_VALUE, SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+            return true;
+        } else if (item.getTitle().equals(getString(R.string.menu_notify_for_start_date))) {
+            Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
+
+            Date startDate = null;
+
+            try {
+                startDate = formatter.parse(course.getStartDate());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            Long trigger = startDate.getTime();
+            Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
+            intent.putExtra("key", course.getTitle() + " starts today!");
+            PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            return true;
+        } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
+            Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
+
+            Date endDate = null;
+
+            try {
+                endDate = formatter.parse(course.getEndDate());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            Long trigger = endDate.getTime();
+            Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
+            intent.putExtra("key", course.getTitle() + " ends today!");
+            PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }
         return false;

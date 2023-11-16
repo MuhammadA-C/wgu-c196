@@ -67,9 +67,11 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Checks to ensure that the input fields are NOT empty
                 if (InputValidation.isInputFieldEmpty(termName) || InputValidation.isInputFieldEmpty(startDate) ||
                         InputValidation.isInputFieldEmpty(endDate)) {
+                    //Checks to ensure that the input fields are NOT empty
+                    return;
+                } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {

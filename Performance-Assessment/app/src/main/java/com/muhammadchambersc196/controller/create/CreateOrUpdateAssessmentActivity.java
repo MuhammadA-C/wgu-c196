@@ -100,7 +100,6 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 } else if (!DateValidation.isDateANumber(endDate.getText().toString())) {
                     //Checks to ensure that the year, month, and date are numbers
                     return;
-
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly

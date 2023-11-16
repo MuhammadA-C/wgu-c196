@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.helper.AssessmentHelper;
@@ -81,6 +84,32 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detailed_assessment, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+            Note: Need this check because .getTitle() can return null and this can cause the
+            .equals() check to crash the app
+         */
+        if (item.getTitle() == null) {
+            return false;
+        }
+
+        if (item.getTitle().equals(getString(R.string.menu_notify_for_start_date))) {
+
+            return true;
+        } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
+
+            return true;
+        }
+        return false;
+    }
+    
 
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,
                        String addOrUpdateScreenValue, String idKey, String idValue) {

@@ -137,6 +137,30 @@ public class DetailedTermActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detailed_term, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+            Note: Need this check because .getTitle() can return null and this can cause the
+            .equals() check to crash the app
+         */
+        if (item.getTitle() == null) {
+            return false;
+        }
+
+        if (item.getTitle().equals(getString(R.string.menu_update_term))) {
+            switchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
+                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+            return true;
+        }
+        return false;
+    }
+
 
     void deleteAssessmentsForCourse(ArrayList<Assessment> dbAssessmentList, int courseId) throws InterruptedException {
         if (dbAssessmentList.size() == 0) {
@@ -162,30 +186,6 @@ public class DetailedTermActivity extends AppCompatActivity {
                 repository.delete(dbNote);
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detailed_term, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        /*
-            Note: Need this check because .getTitle() can return null and this can cause the
-            .equals() check to crash the app
-         */
-        if (item.getTitle() == null) {
-            return false;
-        }
-
-        if (item.getTitle().equals(getString(R.string.menu_update_term))) {
-            switchScreen(CreateOrUpdateTermActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.DETAILED_TERM_ACTIVITY,
-                    SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_TERM_VALUE, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
-            return true;
-        }
-        return false;
     }
 
     void switchScreen(Class goToScreen, String cameFromScreenKey, String cameFromScreenValue, String addOrUpdateScreenKey,

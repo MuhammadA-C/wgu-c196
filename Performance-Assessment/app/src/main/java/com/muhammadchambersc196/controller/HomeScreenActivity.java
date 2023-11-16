@@ -21,9 +21,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-
         viewAllTermsBtn = findViewById(R.id.home_view_all_terms_btn);
         viewAllInstructorsBtn = findViewById(R.id.home_view_all_instructors_btn);
+
 
         viewAllTermsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +31,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 switchScreen(ListOfTermsActivity.class, SwitchScreen.CAME_FROM_KEY, SwitchScreen.HOME_SCREEN_ACTIVITY);
             }
         });
+
 
         viewAllInstructorsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

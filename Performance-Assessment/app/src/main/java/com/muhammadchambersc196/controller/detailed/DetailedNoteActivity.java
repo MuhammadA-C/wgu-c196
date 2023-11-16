@@ -28,7 +28,6 @@ public class DetailedNoteActivity extends AppCompatActivity {
     int noteId;
     ArrayList<CourseNote> dbNoteList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

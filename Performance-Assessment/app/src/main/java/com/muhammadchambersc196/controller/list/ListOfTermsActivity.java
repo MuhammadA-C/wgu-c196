@@ -14,10 +14,12 @@ import com.muhammadchambersc196.controller.adapter.TermAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListOfTermsActivity extends AppCompatActivity {
@@ -38,7 +40,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
         termsList = findViewById(R.id.list_of_terms_list);
 
-        setTermsRecyclerView();
+        setTermRecyclerView();
 
 
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,9 +53,6 @@ public class ListOfTermsActivity extends AppCompatActivity {
 
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
-            /*
-                Note: Need to add a check to not allow a term to be deleted if it has courses
-             */
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedTerm() == null) {
@@ -61,13 +60,18 @@ public class ListOfTermsActivity extends AppCompatActivity {
                 }
 
                 try {
+                    //Checks to see if the term has any courses. Only terms with no courses can be deleted
+                    if (doesTermHaveCourses((ArrayList<Course>) repository.getmAllCourses(), SelectedListItem.getSelectedTerm().getTermID())) {
+                        return;
+                    }
+
                     repository.delete(SelectedListItem.getSelectedTerm());
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
                 SelectedListItem.setSelectedTerm(null);
-                setTermsRecyclerView();
+                setTermRecyclerView();
             }
         });
 
@@ -94,6 +98,24 @@ public class ListOfTermsActivity extends AppCompatActivity {
         });
     }
 
+    boolean doesTermHaveCourses(ArrayList<Course> dbCourseList, int termId) {
+        if (dbCourseList.size() == 0) {
+            return false;
+        }
+
+        /*
+            Loops through the list of courses to find if the term has any courses.
+             * If the term has any courses, then true will be returned
+             * If the term does NOT have any courses, then false will be returned
+         */
+        for (Course dbCourse : dbCourseList) {
+            if (dbCourse.getTermID() == termId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     void addBtnSwitchScreen(Class className, String keyName, String value, String addOrUpdateScreenKey, String addOrUpdateScreenValue) {
         //Specifies the new activity/screen to go to
@@ -115,7 +137,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setTermsRecyclerView() {
+    void setTermRecyclerView() {
         List<Term> allTerms;
 
         try {

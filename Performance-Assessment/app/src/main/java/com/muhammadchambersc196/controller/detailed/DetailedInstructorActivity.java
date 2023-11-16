@@ -24,6 +24,7 @@ public class DetailedInstructorActivity extends AppCompatActivity {
     TextView name;
     TextView email;
     TextView phoneNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

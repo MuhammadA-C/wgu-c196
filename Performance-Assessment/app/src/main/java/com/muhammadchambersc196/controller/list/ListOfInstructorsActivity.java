@@ -55,9 +55,6 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
 
 
         deleteCI.setOnClickListener(new View.OnClickListener() {
-            /*
-                Need to test the below code when a course instructor has classes
-             */
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedInstructor() == null) {

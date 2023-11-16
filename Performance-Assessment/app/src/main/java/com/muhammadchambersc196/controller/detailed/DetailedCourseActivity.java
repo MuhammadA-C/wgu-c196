@@ -46,9 +46,6 @@ public class DetailedCourseActivity extends AppCompatActivity {
     RecyclerView assessmentsList;
     RecyclerView notesList;
     ArrayList<Course> dbCourseList;
-    ArrayList<CourseInstructor> dbInstructorList;
-    List<CourseNote> dbNoteList;
-    List<Assessment> dbAssessmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +56,6 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
         try {
             dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
-            dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
-            dbNoteList = repository.getmAllCourseNotes();
-            dbAssessmentList = repository.getmAllAssessments();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -83,9 +77,14 @@ public class DetailedCourseActivity extends AppCompatActivity {
 
         //Sets the course name at the top in the action bar
         setTitle(CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTitle());
-        setScreenInfo();
-        setAssessmentRecyclerView();
-        setCourseNoteRecyclerView();
+
+        try {
+            setScreenInfo();
+            setAssessmentRecyclerView();
+            setCourseNoteRecyclerView();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
         viewAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +128,41 @@ public class DetailedCourseActivity extends AppCompatActivity {
                 int termId = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTermID();
 
                 switchScreen(DetailedTermActivity.class, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+            }
+        });
+
+
+        deleteNoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SelectedListItem.getSelectedNote() == null) {
+                    return;
+                }
+
+                try {
+                    repository.delete(SelectedListItem.getSelectedNote());
+                    SelectedListItem.setSelectedNote(null);
+                    setCourseNoteRecyclerView();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        deleteAssessmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SelectedListItem.getSelectedAssessment() == null) {
+                    return;
+                }
+
+                try {
+                    repository.delete(SelectedListItem.getSelectedAssessment());
+                    SelectedListItem.setSelectedAssessment(null);
+                    setAssessmentRecyclerView();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
@@ -196,27 +230,28 @@ public class DetailedCourseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void setScreenInfo() {
+    void setScreenInfo() throws InterruptedException {
         Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
 
         startDate.setText(course.getStartDate());
         endDate.setText(course.getEndDate());
-        instructorName.setText(InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList, course.getInstructorID()).getName());
+        instructorName.setText(InstructorHelper.retrieveCourseFromDatabaseByInstructorID((ArrayList<CourseInstructor>) repository.getmAllCourseInstructors(), course.getInstructorID()).getName());
     }
 
-    void setAssessmentRecyclerView() {
+    void setAssessmentRecyclerView() throws InterruptedException {
         final AssessmentAdapter termAdapter = new AssessmentAdapter(this);
-        List<Assessment> assessmentsForCourse = AssessmentHelper.getAllAssessmentsForCourse((ArrayList<Assessment>) dbAssessmentList, courseId);
 
-        //Need to fix to only show the assessments related to the course
+        List<Assessment> assessmentsForCourse = AssessmentHelper.getAllAssessmentsForCourse((ArrayList<Assessment>)repository.getmAllAssessments(), courseId);
+
         assessmentsList.setAdapter(termAdapter);
         assessmentsList.setLayoutManager(new LinearLayoutManager(this));
         termAdapter.setAssessments(assessmentsForCourse);
     }
 
-    void setCourseNoteRecyclerView() {
+    void setCourseNoteRecyclerView() throws InterruptedException {
         final NoteAdapter termAdapter = new NoteAdapter(this);
-        List<CourseNote> notesForCourse = CourseHelper.getAllNotesForCourse((ArrayList<CourseNote>) dbNoteList, courseId);
+
+        List<CourseNote> notesForCourse = CourseHelper.getAllNotesForCourse( (ArrayList<CourseNote>) repository.getmAllCourseNotes(), courseId);
 
         notesList.setAdapter(termAdapter);
         notesList.setLayoutManager(new LinearLayoutManager(this));

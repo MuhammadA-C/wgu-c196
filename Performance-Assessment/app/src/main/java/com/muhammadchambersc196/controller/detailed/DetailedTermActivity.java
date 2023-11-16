@@ -17,7 +17,9 @@ import com.muhammadchambersc196.controller.adapter.CourseAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
+import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
+import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
@@ -36,7 +38,6 @@ public class DetailedTermActivity extends AppCompatActivity {
     RecyclerView classesList;
     TextView startDate;
     TextView endDate;
-    ArrayList<Course> dbCourseList;
     ArrayList<Term> dbTermList;
 
     @Override
@@ -47,7 +48,7 @@ public class DetailedTermActivity extends AppCompatActivity {
         repository = new Repository(getApplication());
 
         try {
-            setDatabaseListVariables();
+            dbTermList = (ArrayList<Term>) repository.getmAllTerms();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +65,12 @@ public class DetailedTermActivity extends AppCompatActivity {
         endDate = findViewById(R.id.detailed_term_end_date);
 
         setScreenInfo(termId);
-        setList(termId);
+
+        try {
+            setCourseRecyclerView(termId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Sets the term name at the top in the action bar
         setTitle(TermHelper.retrieveTermFromDatabaseByTermID(dbTermList, termId).getTitle());
@@ -99,11 +105,63 @@ public class DetailedTermActivity extends AppCompatActivity {
                         SwitchScreen.ADD_OR_UPDATE_SCREEN_KEY, SwitchScreen.UPDATE_COURSE_VALUE, SwitchScreen.COURSE_ID_KEY, courseId);
             }
         });
+
+
+        deleteCourseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SelectedListItem.getSelectedCourse() == null) {
+                    return;
+                }
+
+                Course course = SelectedListItem.getSelectedCourse();
+
+                SelectedListItem.setSelectedCourse(null);
+
+                try {
+                    //Note: Prior to deleting the course, all of the assessments and course notes are deleted
+
+                    ArrayList<Assessment> dbAssessmentList = (ArrayList<Assessment>) repository.getmAllAssessments();
+                    ArrayList<CourseNote> dbNoteList = (ArrayList<CourseNote>) repository.getmAllCourseNotes();
+
+                    deleteAssessmentsForCourse(dbAssessmentList, course.getCourseID());
+                    deleteNotesForCourse(dbNoteList, course.getCourseID());
+
+                    repository.delete(course);
+                    setCourseRecyclerView(termId);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
     }
 
-    void setDatabaseListVariables() throws InterruptedException {
-        dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
-        dbTermList = (ArrayList<Term>) repository.getmAllTerms();
+
+    void deleteAssessmentsForCourse(ArrayList<Assessment> dbAssessmentList, int courseId) throws InterruptedException {
+        if (dbAssessmentList.size() == 0) {
+            return;
+        }
+
+        //Finds all assessments for the course and deletes them
+        for (Assessment dbAssessment : dbAssessmentList) {
+            if (dbAssessment.getCourseID() == courseId) {
+                repository.delete(dbAssessment);
+            }
+        }
+    }
+
+    void deleteNotesForCourse(ArrayList<CourseNote> dbNoteList, int courseId) throws InterruptedException {
+        if (dbNoteList.size() == 0) {
+            return;
+        }
+
+        //Finds all notes for the course and deletes them
+        for (CourseNote dbNote : dbNoteList) {
+            if (dbNote.getCourseID() == courseId) {
+                repository.delete(dbNote);
+            }
+        }
     }
 
     @Override
@@ -149,8 +207,8 @@ public class DetailedTermActivity extends AppCompatActivity {
         endDate.setText(term.getEndDate());
     }
 
-    void setList(int termId) {
-        List<Course> allCoursesForTerm = CourseHelper.getAllCoursesForTerm(dbCourseList, termId);
+    void setCourseRecyclerView(int termId) throws InterruptedException {
+        List<Course> allCoursesForTerm = CourseHelper.getAllCoursesForTerm((ArrayList<Course>) repository.getmAllCourses(), termId);
 
         final CourseAdapter courseAdapter = new CourseAdapter(this);
 

@@ -6,177 +6,177 @@
     android:layout_height="match_parent"
     tools:context=".controller.create.CreateOrUpdateCourseActivity">
 
-  <LinearLayout
-      android:id="@+id/linearLayout"
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/course_title"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_name"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/class_title_hint"
-          android:inputType="text"
-          android:textSize="24sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/information"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_info"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/course_info_hint"
-          android:inputType="text"
-          android:textSize="24sp" />
-    </LinearLayout>
-
-    <Spinner
-        android:id="@+id/create_class_select_status"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:minHeight="48dp" />
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/course_title"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/create_class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints="no"
+            android:ems="10"
+            android:hint="@string/class_title_hint"
+            android:inputType="text"
+            android:textSize="24sp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/information"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/create_class_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints="no"
+            android:ems="10"
+            android:hint="@string/course_info_hint"
+            android:inputType="text"
+            android:textSize="24sp" />
+      </LinearLayout>
+
+      <Spinner
+          android:id="@+id/create_class_select_status"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:minHeight="48dp" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/start_date"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/create_class_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints="no"
+            android:ems="10"
+            android:hint="@string/date_hint"
+            android:inputType="date"
+            android:textSize="24sp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/end_date"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/create_class_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints="no"
+            android:ems="10"
+            android:hint="@string/date_hint"
+            android:inputType="date"
+            android:textSize="24sp" />
+
+      </LinearLayout>
+
+      <Spinner
+          android:id="@+id/create_class_select_ci"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:layout_weight="1"
+          android:autofillHints="tex" />
 
       <TextView
-          android:layout_width="wrap_content"
+          android:id="@+id/textView"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/start_date"
-          android:textSize="20sp"
-          android:textStyle="bold" />
+          android:text="@string/create_instructor_note" />
 
-      <EditText
-          android:id="@+id/create_class_start_date"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/date_hint"
-          android:inputType="date"
-          android:textSize="24sp" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/create_class_add_ci_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/create_instructor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="200dp"
+            android:orientation="horizontal">
+
+          <Button
+              android:id="@+id/create_class_save_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="50dp"
+              android:text="@string/save_txt"
+              android:textSize="20sp" />
+
+          <Button
+              android:id="@+id/create_class_cancel_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/cancel_txt"
+              android:textSize="20sp" />
+
+        </LinearLayout>
+      </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/end_date"
-          android:textSize="20sp"
-          android:textStyle="bold" />
-
-      <EditText
-          android:id="@+id/create_class_end_date"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:autofillHints="no"
-          android:ems="10"
-          android:hint="@string/date_hint"
-          android:inputType="date"
-          android:textSize="24sp" />
-
-    </LinearLayout>
-
-    <Spinner
-        android:id="@+id/create_class_select_ci"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_weight="1"
-        android:autofillHints="tex" />
-
-  </LinearLayout>
-
-  <Button
-      android:id="@+id/create_class_cancel_btn"
-      android:layout_width="151dp"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="16dp"
-      android:text="@string/cancel_txt"
-      android:textSize="20sp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.807"
-      app:layout_constraintStart_toEndOf="@+id/create_class_add_ci_btn" />
-
-  <Button
-      android:id="@+id/create_class_save_btn"
-      android:layout_width="184dp"
-      android:layout_height="0dp"
-      android:layout_marginStart="16dp"
-      android:layout_marginBottom="16dp"
-      android:text="@string/save_txt"
-      android:textSize="20sp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
-
-  <TextView
-      android:id="@+id/textView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:text="@string/create_instructor_note"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-  <Button
-      android:id="@+id/create_class_add_ci_btn"
-      android:layout_width="193dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="84dp"
-      android:layout_marginBottom="16dp"
-      android:text="@string/create_instructor"
-      android:textSize="20sp"
-      android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/create_class_save_btn" />
+  </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

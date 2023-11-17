@@ -127,7 +127,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Displays a confirmation box for the user to confirm if they want to cancel
-                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                builder.setTitle(DialogMessages.CONFIRMATION)
                         .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
                         .setCancelable(true)
                         .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
@@ -218,13 +218,13 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
 
     CourseInstructor getInstructorForAddOrUpdate() {
         if (addOrUpdate.equals(SwitchScreen.ADD_INSTRUCTOR_VALUE)) {
-            return new CourseInstructor(name.getText().toString(),
+            return new CourseInstructor(name.getText().toString().trim(),
                     phoneNumber.getText().toString(), email.getText().toString());
         }
         CourseInstructor instructor = InstructorHelper.retrieveCourseFromDatabaseByInstructorID(dbInstructorList, Integer.valueOf(instructorId));
 
         //Updates the values for the course instructor object
-        instructor.setName(name.getText().toString());
+        instructor.setName(name.getText().toString().trim());
         instructor.setEmail(email.getText().toString());
         instructor.setPhoneNumber(phoneNumber.getText().toString());
 

@@ -133,7 +133,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Displays a confirmation box for the user to confirm if they want to cancel
-                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                builder.setTitle(DialogMessages.CONFIRMATION)
                         .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
                         .setCancelable(true)
                         .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
@@ -199,7 +199,7 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
 
     Term getTermForAddOrUpdate() {
         if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
-            return new Term(termName.getText().toString(), startDate.getText().toString(), endDate.getText().toString());
+            return new Term(termName.getText().toString().trim(), startDate.getText().toString(), endDate.getText().toString());
         }
         Term updateTerm = term;
 

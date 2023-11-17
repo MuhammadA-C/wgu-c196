@@ -99,8 +99,8 @@ public class Assessment {
     }
 
     public void updateInputFields(EditText assessmentName, EditText assessmentInfo, Spinner assessmentType, EditText startDate, EditText endDate) {
-        setTitle(assessmentName.getText().toString());
-        setInformation(assessmentInfo.getText().toString());
+        setTitle(assessmentName.getText().toString().trim());
+        setInformation(assessmentInfo.getText().toString().trim());
         setType(assessmentType.getSelectedItem().toString());
         setStartDate(startDate.getText().toString());
         setEndDate(endDate.getText().toString());

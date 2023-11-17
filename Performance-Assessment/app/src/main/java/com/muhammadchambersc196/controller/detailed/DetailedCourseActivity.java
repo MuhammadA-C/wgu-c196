@@ -1,5 +1,6 @@
 package com.muhammadchambersc196.controller.detailed;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
@@ -23,6 +26,7 @@ import com.muhammadchambersc196.controller.adapter.NoteAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
+import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
@@ -32,6 +36,7 @@ import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateFormat;
 import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
@@ -61,6 +66,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
     RecyclerView assessmentsList;
     RecyclerView notesList;
     ArrayList<Course> dbCourseList;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_course);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             dbCourseList = (ArrayList<Course>) repository.getmAllCourses();
@@ -105,6 +112,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedAssessment() == null) {
+                    Toast.makeText(DetailedCourseActivity.this, DialogMessages.NEED_TO_SELECT_AN_ASSESSMENT + " view", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -122,6 +130,7 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedNote() == null) {
+                    Toast.makeText(DetailedCourseActivity.this, DialogMessages.NEED_TO_SELECT_A_NOTE + " view", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -141,6 +150,9 @@ public class DetailedCourseActivity extends AppCompatActivity {
                 //Need to pass in term id because it is used on the detailed term screen to populate it
                 int termId = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId).getTermID();
 
+                SelectedListItem.setSelectedNote(null);
+                SelectedListItem.setSelectedAssessment(null);
+
                 switchScreen(DetailedTermActivity.class, SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
             }
         });
@@ -150,16 +162,34 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedNote() == null) {
+                    Toast.makeText(DetailedCourseActivity.this, DialogMessages.NEED_TO_SELECT_A_NOTE + " delete", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                try {
-                    repository.delete(SelectedListItem.getSelectedNote());
-                    SelectedListItem.setSelectedNote(null);
-                    setCourseNoteRecyclerView();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CONFIRMATION)
+                        .setMessage(DialogMessages.DELETE_CONFIRMATION_MESSAGE + "the note?")
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    Toast.makeText(DetailedCourseActivity.this, "Deleted note", Toast.LENGTH_SHORT).show();
+                                    repository.delete(SelectedListItem.getSelectedNote());
+                                    SelectedListItem.setSelectedNote(null);
+                                    setCourseNoteRecyclerView();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -167,16 +197,34 @@ public class DetailedCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedAssessment() == null) {
+                    Toast.makeText(DetailedCourseActivity.this, DialogMessages.NEED_TO_SELECT_AN_ASSESSMENT + " delete", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                try {
-                    repository.delete(SelectedListItem.getSelectedAssessment());
-                    SelectedListItem.setSelectedAssessment(null);
-                    setAssessmentRecyclerView();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CONFIRMATION)
+                        .setMessage(DialogMessages.DELETE_CONFIRMATION_MESSAGE + SelectedListItem.getSelectedAssessment().getTitle() + "?")
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    Toast.makeText(DetailedCourseActivity.this, "Deleted " + SelectedListItem.getSelectedAssessment().getTitle(), Toast.LENGTH_SHORT).show();
+                                    repository.delete(SelectedListItem.getSelectedAssessment());
+                                    SelectedListItem.setSelectedAssessment(null);
+                                    setAssessmentRecyclerView();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
     }

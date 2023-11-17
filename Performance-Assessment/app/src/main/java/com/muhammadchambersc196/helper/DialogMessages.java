@@ -1,8 +1,9 @@
 package com.muhammadchambersc196.helper;
 
 public class DialogMessages {
-    public static final String CANCEL_CONFIRMATION = "Confirmation";
+    public static final String CONFIRMATION = "Confirmation";
     public static final String CANCEL_CONFORMATION_MESSAGE = "Are you sure you want to close this screen?";
+    public static final String DELETE_CONFIRMATION_MESSAGE = "Are you sure you want to delete ";
     public static final String YES = "Yes";
     public static final String NO = "No";
     public static final String EMPTY_INPUT_FIELDS = "You must fill out all input fields prior to saving";
@@ -15,5 +16,9 @@ public class DialogMessages {
     public static final String INSTRUCTOR_ALREADY_EXISTS = "Course Instructor already exists";
     public static final String TERM_ALREADY_EXISTS = "Term already exists. Try changing the term name";
     public static final String TERM_DATES_OVERLAP_WITH_ANOTHER_TERMS_DATES = "The dates that you entered for this term overlaps with another terms dates";
+    public static final String NEED_TO_SELECT_A_NOTE = "You need to select a note from the list prior to clicking";
+    public static final String NEED_TO_SELECT_AN_ASSESSMENT = "You need to select an assessment from the list prior to clicking";
+    public static final String NEED_TO_SELECT_A_COURSE = "You need to select a course from the list prior to clicking";
+
 
 }

@@ -1,9 +1,11 @@
 package com.muhammadchambersc196.controller.detailed;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.CourseAdapter;
@@ -22,6 +25,7 @@ import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 import com.muhammadchambersc196.helper.TermHelper;
@@ -39,6 +43,7 @@ public class DetailedTermActivity extends AppCompatActivity {
     TextView startDate;
     TextView endDate;
     ArrayList<Term> dbTermList;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class DetailedTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_term);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             dbTermList = (ArrayList<Term>) repository.getmAllTerms();
@@ -89,6 +95,7 @@ public class DetailedTermActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedCourse() == null) {
+                    Toast.makeText(DetailedTermActivity.this, DialogMessages.NEED_TO_SELECT_A_COURSE + " view", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -111,28 +118,46 @@ public class DetailedTermActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedCourse() == null) {
+                    Toast.makeText(DetailedTermActivity.this, DialogMessages.NEED_TO_SELECT_A_COURSE + " delete", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Course course = SelectedListItem.getSelectedCourse();
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CONFIRMATION)
+                        .setMessage(DialogMessages.DELETE_CONFIRMATION_MESSAGE + SelectedListItem.getSelectedCourse().getTitle() + "? " +
+                                "Note: Deleting the course will delete all of its notes and assessments")
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Course course = SelectedListItem.getSelectedCourse();
 
-                SelectedListItem.setSelectedCourse(null);
+                                SelectedListItem.setSelectedCourse(null);
 
-                try {
-                    //Note: Prior to deleting the course, all of the assessments and course notes are deleted
+                                try {
+                                    //Note: Prior to deleting the course, all of the assessments and course notes are deleted
 
-                    ArrayList<Assessment> dbAssessmentList = (ArrayList<Assessment>) repository.getmAllAssessments();
-                    ArrayList<CourseNote> dbNoteList = (ArrayList<CourseNote>) repository.getmAllCourseNotes();
+                                    ArrayList<Assessment> dbAssessmentList = (ArrayList<Assessment>) repository.getmAllAssessments();
+                                    ArrayList<CourseNote> dbNoteList = (ArrayList<CourseNote>) repository.getmAllCourseNotes();
 
-                    deleteAssessmentsForCourse(dbAssessmentList, course.getCourseID());
-                    deleteNotesForCourse(dbNoteList, course.getCourseID());
+                                    deleteAssessmentsForCourse(dbAssessmentList, course.getCourseID());
+                                    deleteNotesForCourse(dbNoteList, course.getCourseID());
 
-                    repository.delete(course);
-                    setCourseRecyclerView(termId);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
+                                    Toast.makeText(DetailedTermActivity.this, "Deleted " + course.getTitle(), Toast.LENGTH_SHORT).show();
+                                    repository.delete(course);
+                                    setCourseRecyclerView(termId);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
     }

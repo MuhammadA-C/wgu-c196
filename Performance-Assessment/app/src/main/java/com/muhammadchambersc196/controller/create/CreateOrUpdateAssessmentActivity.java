@@ -86,7 +86,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Displays a confirmation box for the user to confirm if they want to cancel
-                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                builder.setTitle(DialogMessages.CONFIRMATION)
                         .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
                         .setCancelable(true)
                         .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
@@ -167,8 +167,8 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
 
     Assessment createAssessment() {
         if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
-            return new Assessment(assessmentName.getText().toString(), assessmentType.getSelectedItem().toString(),
-                    assessmentInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(), courseId);
+            return new Assessment(assessmentName.getText().toString().trim(), assessmentType.getSelectedItem().toString(),
+                    assessmentInfo.getText().toString().trim(), startDate.getText().toString(), endDate.getText().toString(), courseId);
         }
         assessment.updateInputFields(assessmentName, assessmentInfo, assessmentType, startDate, endDate);
 

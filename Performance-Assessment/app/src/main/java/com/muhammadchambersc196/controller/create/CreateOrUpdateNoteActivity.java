@@ -77,7 +77,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                 }
 
                 if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
-                    CourseNote addNote = new CourseNote(noteDetails.getText().toString(), courseId);
+                    CourseNote addNote = new CourseNote(noteDetails.getText().toString().trim(), courseId);
 
                     try {
                         //Adds new course note to the database
@@ -92,7 +92,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                 } else {
                     CourseNote updateNote = CourseNoteHelper.retrieveNoteFromDatabaseByNoteID(dbNoteList, Integer.valueOf(noteId));
 
-                    updateNote.setNote(noteDetails.getText().toString());
+                    updateNote.setNote(noteDetails.getText().toString().trim());
 
                     try {
                         repository.update(updateNote);
@@ -111,7 +111,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Displays a confirmation box for the user to confirm if they want to cancel
-                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                builder.setTitle(DialogMessages.CONFIRMATION)
                         .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
                         .setCancelable(true)
                         .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {

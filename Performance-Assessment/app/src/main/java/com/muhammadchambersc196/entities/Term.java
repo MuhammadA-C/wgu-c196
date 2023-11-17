@@ -63,7 +63,7 @@ public class Term {
     }
 
     public void updateFields(EditText termName, EditText startDate, EditText endDate) {
-        this.setTitle(termName.getText().toString());
+        this.setTitle(termName.getText().toString().trim());
         this.setStartDate(startDate.getText().toString());
         this.setEndDate(endDate.getText().toString());
     }

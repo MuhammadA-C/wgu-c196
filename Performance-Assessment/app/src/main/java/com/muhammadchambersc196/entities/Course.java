@@ -110,8 +110,8 @@ public class Course {
 
     public void updateFields(EditText className, EditText classInfo, Spinner classStatus, Spinner selectInstructor,
                              EditText startDate, EditText endDate) {
-        this.setTitle(className.getText().toString());
-        this.setInformation(classInfo.getText().toString());
+        this.setTitle(className.getText().toString().trim());
+        this.setInformation(classInfo.getText().toString().trim());
         this.setStatus(classStatus.getSelectedItem().toString());
         this.setInstructorID(((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
         this.setStartDate(startDate.getText().toString());

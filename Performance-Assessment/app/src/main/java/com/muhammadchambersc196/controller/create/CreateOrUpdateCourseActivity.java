@@ -192,7 +192,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Displays a confirmation box for the user to confirm if they want to cancel
-                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                builder.setTitle(DialogMessages.CONFIRMATION)
                         .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
                         .setCancelable(true)
                         .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
@@ -352,8 +352,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
     Course getCourseForAddOrUpdate() {
         if (addOrUpdate.equals(SwitchScreen.ADD_COURSE_VALUE)) {
-            return new Course(className.getText().toString(), classStatus.getSelectedItem().toString(),
-                    classInfo.getText().toString(), startDate.getText().toString(), endDate.getText().toString(),
+            return new Course(className.getText().toString().trim(), classStatus.getSelectedItem().toString(),
+                    classInfo.getText().toString().trim(), startDate.getText().toString(), endDate.getText().toString(),
                     termId, ((CourseInstructor) selectInstructor.getSelectedItem()).getInstructorID());
         }
 

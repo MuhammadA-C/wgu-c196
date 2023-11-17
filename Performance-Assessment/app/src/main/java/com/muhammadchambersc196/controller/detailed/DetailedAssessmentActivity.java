@@ -17,12 +17,9 @@ import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
 import com.muhammadchambersc196.controller.MyReceiver;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
-import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
-import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.AssessmentHelper;
-import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateFormat;
 import com.muhammadchambersc196.helper.SwitchScreen;
 

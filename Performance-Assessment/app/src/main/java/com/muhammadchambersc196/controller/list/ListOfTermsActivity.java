@@ -1,13 +1,16 @@
 package com.muhammadchambersc196.controller.list;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.TermAdapter;
@@ -16,6 +19,7 @@ import com.muhammadchambersc196.controller.detailed.DetailedTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.Term;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -28,6 +32,8 @@ public class ListOfTermsActivity extends AppCompatActivity {
     Button viewBtn;
     Button deleteBtn;
     RecyclerView termsList;
+    AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class ListOfTermsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_terms);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
+
         addBtn = findViewById(R.id.list_of_terms_add_term_btn);
         viewBtn = findViewById(R.id.list_of_terms_view_term_btn);
         deleteBtn = findViewById(R.id.list_of_terms_delete_term_btn);
@@ -58,22 +66,44 @@ public class ListOfTermsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedTerm() == null) {
+                    Toast.makeText(ListOfTermsActivity.this, DialogMessages.NEED_TO_SELECT_A_TERM + " delete", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 try {
                     //Checks to see if the term has any courses. Only terms with no courses can be deleted
                     if (doesTermHaveCourses((ArrayList<Course>) repository.getmAllCourses(), SelectedListItem.getSelectedTerm().getTermID())) {
+                        Toast.makeText(ListOfTermsActivity.this, "You cannot delete the term because it has courses. Remove the courses first then delete the term.", Toast.LENGTH_LONG).show();
                         return;
                     }
-
-                    repository.delete(SelectedListItem.getSelectedTerm());
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
-                SelectedListItem.setSelectedTerm(null);
-                setTermRecyclerView();
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CONFIRMATION)
+                        .setMessage(DialogMessages.DELETE_CONFIRMATION_MESSAGE + SelectedListItem.getSelectedTerm().getTitle() + "?")
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    Toast.makeText(ListOfTermsActivity.this, "Deleted " + SelectedListItem.getSelectedTerm().getTitle(), Toast.LENGTH_SHORT).show();
+                                    repository.delete(SelectedListItem.getSelectedTerm());
+                                    SelectedListItem.setSelectedTerm(null);
+                                    setTermRecyclerView();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -82,6 +112,7 @@ public class ListOfTermsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedTerm() == null) {
+                    Toast.makeText(ListOfTermsActivity.this, DialogMessages.NEED_TO_SELECT_A_TERM + " view", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -19,6 +19,8 @@ public class DialogMessages {
     public static final String NEED_TO_SELECT_A_NOTE = "You need to select a note from the list prior to clicking";
     public static final String NEED_TO_SELECT_AN_ASSESSMENT = "You need to select an assessment from the list prior to clicking";
     public static final String NEED_TO_SELECT_A_COURSE = "You need to select a course from the list prior to clicking";
+    public static final String NEED_TO_SELECT_A_TERM = "You need to select a term from the list prior to clicking";
+    public static final String NEED_TO_SELECT_AN_INSTRUCTOR = "You need to select a course instructor from the list prior to clicking";
 
 
 }

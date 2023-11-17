@@ -1,13 +1,16 @@
 package com.muhammadchambersc196.controller.list;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.adapter.InstructorAdapter;
@@ -16,6 +19,7 @@ import com.muhammadchambersc196.controller.detailed.DetailedInstructorActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.entities.CourseInstructor;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
@@ -29,6 +33,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
     Button deleteCI;
     Button viewCI;
     Button addCI;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_instructors);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         instructorsList = findViewById(R.id.list_of_instructors_ci_list);
         deleteCI = findViewById(R.id.list_of_instructors_delete_ci_btn);
@@ -58,6 +64,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedInstructor() == null) {
+                    Toast.makeText(ListOfInstructorsActivity.this, DialogMessages.NEED_TO_SELECT_AN_INSTRUCTOR + " delete", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -65,17 +72,37 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
                     //Checks if the course instructor to delete has courses. Only course instructors with no courses can be deleted
                     if (InstructorHelper.doesInstructorHaveCourses(SelectedListItem.getSelectedInstructor().getInstructorID(),
                             (ArrayList<Course>) repository.getmAllCourses())) {
+                        Toast.makeText(ListOfInstructorsActivity.this, "You cannot delete " + SelectedListItem.getSelectedInstructor() + " because they are assigned to courses.", Toast.LENGTH_LONG).show();
                         return;
                     }
-
-                    repository.delete(SelectedListItem.getSelectedInstructor());
-
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
-                SelectedListItem.setSelectedInstructor(null);
-                setCourseRecyclerView();
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CONFIRMATION)
+                        .setMessage(DialogMessages.DELETE_CONFIRMATION_MESSAGE + SelectedListItem.getSelectedInstructor().getName() + "?")
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    Toast.makeText(ListOfInstructorsActivity.this, "Deleted " + SelectedListItem.getSelectedInstructor(), Toast.LENGTH_LONG).show();
+                                    repository.delete(SelectedListItem.getSelectedInstructor());
+                                    SelectedListItem.setSelectedInstructor(null);
+                                    setCourseRecyclerView();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -84,6 +111,7 @@ public class ListOfInstructorsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (SelectedListItem.getSelectedInstructor() == null) {
+                    Toast.makeText(ListOfInstructorsActivity.this, DialogMessages.NEED_TO_SELECT_AN_INSTRUCTOR + " view", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

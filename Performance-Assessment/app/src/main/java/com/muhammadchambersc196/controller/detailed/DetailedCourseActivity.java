@@ -26,7 +26,6 @@ import com.muhammadchambersc196.controller.adapter.NoteAdapter;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateAssessmentActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateCourseActivity;
 import com.muhammadchambersc196.controller.create.CreateOrUpdateNoteActivity;
-import com.muhammadchambersc196.controller.create.CreateOrUpdateTermActivity;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
@@ -35,22 +34,17 @@ import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateFormat;
-import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class DetailedCourseActivity extends AppCompatActivity {
     Repository repository;

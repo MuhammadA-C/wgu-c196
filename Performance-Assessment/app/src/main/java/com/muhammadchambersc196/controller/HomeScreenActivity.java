@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.list.ListOfInstructorsActivity;
 import com.muhammadchambersc196.controller.list.ListOfTermsActivity;
+import com.muhammadchambersc196.helper.SelectedListItem;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -24,6 +25,9 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         viewAllTermsBtn = findViewById(R.id.home_view_all_terms_btn);
         viewAllInstructorsBtn = findViewById(R.id.home_view_all_instructors_btn);
+
+        SelectedListItem.setSelectedTerm(null);
+        SelectedListItem.setSelectedInstructor(null);
 
 
         viewAllTermsBtn.setOnClickListener(new View.OnClickListener() {

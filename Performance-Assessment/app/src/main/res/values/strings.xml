@@ -54,7 +54,6 @@
     <string name="menu_notify_for_start_date">Notify for Start Date</string>
     <string name="menu_notify_for_end_date">Notify for End Date</string>
 
-
     <string name="list_item">List Item</string>
     <string name="create_instructor_note">Note: Add Instructor if no names populate or cannot find instructors name</string>
     <string name="create_instructor">Add Instructor</string>

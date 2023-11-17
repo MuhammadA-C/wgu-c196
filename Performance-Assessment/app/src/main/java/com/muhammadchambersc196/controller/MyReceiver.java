@@ -27,8 +27,7 @@ public class MyReceiver extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentText(intent.getStringExtra("key"))
-                //Need to change the content title to the app name
-                .setContentTitle("Notification Test").build();
+                .setContentTitle("Degree Tracker").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(notificationID++, notification);

@@ -35,8 +35,8 @@
 
     <Button
         android:id="@+id/detailed_note_share_note_btn"
-        android:layout_width="171dp"
-        android:layout_height="49dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/share_note"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -44,6 +44,5 @@ public class MyReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-
     }
 }

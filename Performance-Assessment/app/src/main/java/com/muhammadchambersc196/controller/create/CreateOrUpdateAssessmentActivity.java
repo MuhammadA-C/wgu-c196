@@ -1,7 +1,9 @@
 package com.muhammadchambersc196.controller.create;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
@@ -16,6 +19,7 @@ import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.AssessmentHelper;
 import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -36,6 +40,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
     ArrayList<Assessment> dbAssessmentList;
     ArrayList<Course> dbCourseList;
     Assessment assessment;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_update_assessment);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             setDatabaseLists();
@@ -79,11 +85,27 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
-                } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessmentId));
-                }
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                        .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (addOrUpdate.equals(SwitchScreen.ADD_ASSESSMENT_VALUE)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+                                } else {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessmentId));
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                               dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -123,6 +145,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, "Saved " + saveAssessment.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
                     try {
@@ -131,6 +154,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, "Updated " + saveAssessment.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.ASSESSMENT_ID_KEY, String.valueOf(assessmentId));
                 }
             }

@@ -1,7 +1,9 @@
 package com.muhammadchambersc196.controller.create;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
@@ -17,6 +20,7 @@ import com.muhammadchambersc196.entities.CourseInstructor;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.CourseHelper;
 import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.StatusSpinnerHelper;
 import com.muhammadchambersc196.helper.SwitchScreen;
@@ -42,14 +46,17 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
     ArrayList<Course> dbCourseList;
     ArrayList<CourseInstructor> dbInstructorList;
     ArrayList<Term> dbTermList;
+    AlertDialog.Builder builder;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_update_course);
-        repository = new Repository(getApplication());
 
+        repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
+        
         //Storing a reference to the database lists that are used to reduce calling them due to crashing app
         try {
             setDatabaseListVariables();
@@ -101,19 +108,13 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                     //Checks to ensure that the input fields are NOT empty
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
-                    System.out.println("Hit 1");
-
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
-                    System.out.println("Hit 2");
-
                     return;
                 } else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks if the classes start date is the same or before the classes end date
-                    System.out.println("Hit 3");
-
                     return;
                 }
 
@@ -121,15 +122,12 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
                 if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(saveCourse, termId, dbTermList)) {
                     //Course start and end dates must be within range of the terms start and end dates
-                    System.out.println("Hit 4");
                     return;
                 } else if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), saveCourse)) {
                    /*
                         Checks to see if the course already exists for the term by comparing the course names.
                         The assumption here is that there shouldn't be duplicate courses for the same term.
                     */
-                    System.out.println("Hit 5");
-
                     return;
                 }
 
@@ -145,6 +143,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, "Saved " + saveCourse.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
 
                 } else {
@@ -154,6 +154,8 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, "Updated " + saveCourse.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
                             String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 }
@@ -183,20 +185,37 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    Check is needed to set the "activityCameFrom" variable with a reference to the
-                    activity that triggered the create or update course activity.
-                 */
-                if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
-                    activityCameFrom = activityCameFrom2;
-                }
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                        .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                    Check is needed to set the "activityCameFrom" variable with a reference to the
+                                    activity that triggered the create or update course activity.
+                                 */
+                                if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY)) {
+                                    activityCameFrom = activityCameFrom2;
+                                }
 
-                if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
-                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
-                } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
-                }
+                                if (activityCameFrom.equals(SwitchScreen.DETAILED_COURSE_ACTIVITY)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY,
+                                            String.valueOf(termId), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+                                } else {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                                }
+
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
     }

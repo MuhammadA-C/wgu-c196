@@ -21,12 +21,13 @@ public class MyReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
 
-        Toast.makeText(context, intent.getStringExtra("key"), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, intent.getStringExtra("key"), Toast.LENGTH_LONG).show();
         createNotificationChannel(context, channel_id);
 
         Notification notification = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentText(intent.getStringExtra("key"))
+                //Need to change the content title to the app name
                 .setContentTitle("Notification Test").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 

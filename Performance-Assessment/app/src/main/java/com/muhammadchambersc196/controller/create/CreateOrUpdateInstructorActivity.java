@@ -1,16 +1,20 @@
 package com.muhammadchambersc196.controller.create;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseInstructor;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InstructorHelper;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
@@ -27,6 +31,8 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
     ArrayList<CourseInstructor> dbInstructorList;
     String addOrUpdate;
     int instructorId;
+    AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_update_instructor);
 
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             dbInstructorList = (ArrayList<CourseInstructor>) repository.getmAllCourseInstructors();
@@ -68,13 +75,15 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                 //Checks to see if the input fields are empty
                 if (InputValidation.isInputFieldEmpty(name) || InputValidation.isInputFieldEmpty(email) ||
                         InputValidation.isInputFieldEmpty(phoneNumber)) {
+                    Toast.makeText(CreateOrUpdateInstructorActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 CourseInstructor saveInstructor = getInstructorForAddOrUpdate();
 
-                //Doesn't allow instructor to be added if it already exists in the database
                 if (InstructorHelper.doesCourseInstructorExistInDatabase(saveInstructor, dbInstructorList)) {
+                    //Doesn't allow instructor to be added if it already exists in the database
+                    Toast.makeText(CreateOrUpdateInstructorActivity.this, DialogMessages.INSTRUCTOR_ALREADY_EXISTS, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -87,6 +96,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     }
 
                     if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
+                        Toast.makeText(CreateOrUpdateInstructorActivity.this, "Created " + saveInstructor.getName(), Toast.LENGTH_SHORT).show();
                         switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY,
                                 SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2,
                                 intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY,
@@ -94,6 +104,7 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                                 intent.getStringExtra(SwitchScreen.TERM_ID_KEY), SwitchScreen.COURSE_ID_KEY,
                                 intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
                     } else {
+                        Toast.makeText(CreateOrUpdateInstructorActivity.this, "Created " + saveInstructor.getName(), Toast.LENGTH_SHORT).show();
                         switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                     }
 
@@ -104,7 +115,8 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    //Need to pass in the course instructor id because it is used for the detailed course instructor screen to display the objects info to the screen
+
+                    Toast.makeText(CreateOrUpdateInstructorActivity.this, "Updated " + saveInstructor.getName(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
                 }
             }
@@ -114,25 +126,41 @@ public class CreateOrUpdateInstructorActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    Need to check to see if this screen was opened by the detailed course instructor screen
-                    because then we will need to pass in the course instructor id.
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                        .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                    Need to check to see if this screen was opened by the detailed course instructor screen
+                                    because then we will need to pass in the course instructor id.
 
-                    Note: The course instructor id is used by the detailed course instructor screen to
-                    display the objects information.
-                 */
-                if (activityCameFrom.equals(SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
-                } else if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY,
-                            SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2,
-                            intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY,
-                            intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY), SwitchScreen.TERM_ID_KEY,
-                            intent.getStringExtra(SwitchScreen.TERM_ID_KEY), SwitchScreen.COURSE_ID_KEY,
-                            intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
-                } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
-                }
+                                    Note: The course instructor id is used by the detailed course instructor screen to
+                                    display the objects information.
+                                 */
+                                if (activityCameFrom.equals(SwitchScreen.DETAILED_INSTRUCTOR_ACTIVITY)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.INSTRUCTOR_ID_KEY, String.valueOf(instructorId));
+                                } else if (activityCameFrom.equals(SwitchScreen.CREATE_OR_UPDATE_COURSE_ACTIVITY)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.CAME_FROM_KEY,
+                                            SwitchScreen.CREATE_OR_UPDATE_INSTRUCTOR_ACTIVITY, SwitchScreen.CAME_FROM_KEY2,
+                                            intent.getStringExtra(SwitchScreen.CAME_FROM_KEY2), SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY,
+                                            intent.getStringExtra(SwitchScreen.CAME_FROM_ADD_OR_UPDATE_SCREEN_KEY), SwitchScreen.TERM_ID_KEY,
+                                            intent.getStringExtra(SwitchScreen.TERM_ID_KEY), SwitchScreen.COURSE_ID_KEY,
+                                            intent.getStringExtra(SwitchScreen.COURSE_ID_KEY));
+                                } else {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 

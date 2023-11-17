@@ -117,16 +117,19 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate) ||
                 InputValidation.isInputFieldEmpty(assessmentType)) {
                     //Checks to ensure that the input fields are NOT empty
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
                     //Checks to ensure that the year, month, and date are numbers
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.INVALID_INPUT_FOR_DATE, Toast.LENGTH_SHORT).show();
                     return;
-                } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
-                        !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
+                } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) || !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.DATE_IS_FORMATTED_INCORRECTLY, Toast.LENGTH_SHORT).show();
                     return;
                 }  else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks to ensure start date is before the end date
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.START_DATE_IS_AFTER_END_DATE, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -134,6 +137,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
 
                 if (!AssessmentHelper.areAssessmentDatesWithinRangeOfCourseDates(saveAssessment, courseId, dbCourseList)) {
                     //Checks to see if the assessment start and end dates are within range of the courses start and end dates
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.ASSESSMENT_DATES_NOT_IN_RANGE_OF_COURSE_DATES, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -145,7 +149,7 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
-                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, "Saved " + saveAssessment.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, "Created " + saveAssessment.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
                 } else {
                     try {

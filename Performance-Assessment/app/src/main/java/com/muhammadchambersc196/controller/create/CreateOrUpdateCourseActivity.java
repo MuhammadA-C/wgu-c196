@@ -56,7 +56,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
         repository = new Repository(getApplication());
         builder = new AlertDialog.Builder(this);
-        
+
         //Storing a reference to the database lists that are used to reduce calling them due to crashing app
         try {
             setDatabaseListVariables();
@@ -106,15 +106,19 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         InputValidation.isInputFieldEmpty(classStatus) || InputValidation.isInputFieldEmpty(selectInstructor) ||
                         InputValidation.isInputFieldEmpty(startDate) || InputValidation.isInputFieldEmpty(endDate)) {
                     //Checks to ensure that the input fields are NOT empty
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.INVALID_INPUT_FOR_DATE, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.DATE_IS_FORMATTED_INCORRECTLY, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isStartDateTheSameOrBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks if the classes start date is the same or before the classes end date
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.START_DATE_IS_AFTER_END_DATE, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -122,12 +126,14 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
 
                 if (!CourseHelper.areCourseDatesWithinRangeOfTermDates(saveCourse, termId, dbTermList)) {
                     //Course start and end dates must be within range of the terms start and end dates
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.COURSE_DATES_NOT_IN_RANGE_OF_TERM_DATES, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (CourseHelper.doesCourseExistForTerm(CourseHelper.getAllCoursesForTerm (dbCourseList, termId), saveCourse)) {
                    /*
                         Checks to see if the course already exists for the term by comparing the course names.
                         The assumption here is that there shouldn't be duplicate courses for the same term.
                     */
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, DialogMessages.COURSE_ALREADY_EXISTS_FOR_TERM, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -144,7 +150,7 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
-                    Toast.makeText(CreateOrUpdateCourseActivity.this, "Saved " + saveCourse.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateOrUpdateCourseActivity.this, "Created " + saveCourse.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
 
                 } else {
@@ -206,7 +212,6 @@ public class CreateOrUpdateCourseActivity extends AppCompatActivity {
                                 } else {
                                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                                 }
-
                             }
                         })
                         .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {

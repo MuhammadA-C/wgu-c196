@@ -1,17 +1,21 @@
 package com.muhammadchambersc196.controller.create;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Term;
 import com.muhammadchambersc196.helper.DateValidation;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 import com.muhammadchambersc196.helper.TermHelper;
@@ -29,13 +33,16 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
     Term term;
     String addOrUpdate;
     int termId;
+    AlertDialog.Builder builder;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_update_term);
+
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             dbTermList = (ArrayList<Term>) repository.getmAllTerms();
@@ -70,15 +77,19 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                 if (InputValidation.isInputFieldEmpty(termName) || InputValidation.isInputFieldEmpty(startDate) ||
                         InputValidation.isInputFieldEmpty(endDate)) {
                     //Checks to ensure that the input fields are NOT empty
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.INVALID_INPUT_FOR_DATE, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateFormattedCorrect(startDate.getText().toString()) ||
                         !DateValidation.isDateFormattedCorrect(endDate.getText().toString())) {
                     //Checks to ensure that the start and end dates are formatted correctly
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.DATE_IS_FORMATTED_INCORRECTLY, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isStartDateBeforeEndDate(startDate.getText().toString(), endDate.getText().toString())) {
                     //Checks to ensure start date is before the end date
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.START_DATE_IS_AFTER_END_DATE, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -86,9 +97,11 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
 
                 //Doesn't allow term to be added if the term name already exists in the database
                 if (TermHelper.doesTermNameExistInDatabase(dbTermList, saveTerm)) {
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.TERM_ALREADY_EXISTS, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (TermHelper.doesTermDateOverlapWithTermInDatabase(dbTermList, saveTerm)) {
                     //Doesn't allow the term to be added if the start and end dates overlaps with a term in the database
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.TERM_DATES_OVERLAP_WITH_ANOTHER_TERMS_DATES, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -99,6 +112,8 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateTermActivity.this, "Created " + saveTerm.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
                 } else {
                     try {
@@ -107,6 +122,8 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateTermActivity.this, "Updated " + saveTerm.getTitle(), Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
                 }
             }
@@ -115,15 +132,31 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    Need this check because if the screen is for updating the term then we need to pass
-                    in the term id when switching back because the detailed term activity uses it
-                 */
-                if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
-                } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
-                }
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                        .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                    Need this check because if the screen is for updating the term then we need to pass
+                                    in the term id when switching back because the detailed term activity uses it
+                                 */
+                                if (addOrUpdate.equals(SwitchScreen.ADD_TERM_VALUE)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom));
+                                } else {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.TERM_ID_KEY, String.valueOf(termId));
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
     }

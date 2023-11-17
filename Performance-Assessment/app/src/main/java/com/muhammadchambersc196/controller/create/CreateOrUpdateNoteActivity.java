@@ -1,17 +1,21 @@
 package com.muhammadchambersc196.controller.create;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.CourseNote;
 import com.muhammadchambersc196.helper.CourseNoteHelper;
+import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InputValidation;
 import com.muhammadchambersc196.helper.SwitchScreen;
 
@@ -27,12 +31,16 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
     Button cancelBtn;
     ArrayList<CourseNote> dbNoteList;
     CourseNote note;
+    AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_update_note);
+
         repository = new Repository(getApplication());
+        builder = new AlertDialog.Builder(this);
 
         try {
             dbNoteList = (ArrayList<CourseNote>) repository.getmAllCourseNotes();
@@ -64,6 +72,7 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Checks to ensure that the input fields are NOT empty
                 if(InputValidation.isInputFieldEmpty(noteDetails)) {
+                    Toast.makeText(CreateOrUpdateNoteActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -76,6 +85,8 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateNoteActivity.this, "Created note", Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY,
                             String.valueOf(courseId));
                 } else {
@@ -88,6 +99,8 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+
+                    Toast.makeText(CreateOrUpdateNoteActivity.this, "Updated note", Toast.LENGTH_SHORT).show();
                     switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
                 }
             }
@@ -97,19 +110,35 @@ public class CreateOrUpdateNoteActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                    * If this screen was for adding a note, then we must pass in the course id
-                    * If this screen was not for updating a note, then we must pass in the course note id
+                //Displays a confirmation box for the user to confirm if they want to cancel
+                builder.setTitle(DialogMessages.CANCEL_CONFIRMATION)
+                        .setMessage(DialogMessages.CANCEL_CONFORMATION_MESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton(DialogMessages.YES, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                    * If this screen was for adding a note, then we must pass in the course id
+                                    * If this screen was not for updating a note, then we must pass in the course note id
 
-                    Note: Due to the only screen being able to call the update course note screen is
-                    from the detailed course note screen, the detailed course note screen will need the
-                    course note id since it uses it to display the course note information
-                 */
-                if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
-                } else {
-                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
-                }
+                                    Note: Due to the only screen being able to call the update course note screen is
+                                    from the detailed course note screen, the detailed course note screen will need the
+                                    course note id since it uses it to display the course note information
+                                 */
+                                if (addOrUpdate.equals(SwitchScreen.ADD_NOTE_VALUE)) {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_ID_KEY, String.valueOf(courseId));
+                                } else {
+                                    switchScreen(SwitchScreen.getActivityClass(activityCameFrom), SwitchScreen.COURSE_NOTE_ID_KEY, String.valueOf(noteId));
+                                }
+                            }
+                        })
+                        .setNegativeButton(DialogMessages.NO, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
             }
         });
     }

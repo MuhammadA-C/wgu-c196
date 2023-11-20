@@ -79,6 +79,9 @@ public class CreateOrUpdateTermActivity extends AppCompatActivity {
                     //Checks to ensure that the input fields are NOT empty
                     Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
                     return;
+                } else if (!DateValidation.isDateCorrectLength(startDate.getText().toString()) || !DateValidation.isDateCorrectLength(endDate.getText().toString())) {
+                    Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.DATE_IS_INCORRECT_LENGTH, Toast.LENGTH_SHORT).show();
+                    return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
                     Toast.makeText(CreateOrUpdateTermActivity.this, DialogMessages.INVALID_INPUT_FOR_DATE, Toast.LENGTH_SHORT).show();
                     return;

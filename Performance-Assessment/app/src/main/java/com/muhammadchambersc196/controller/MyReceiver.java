@@ -28,10 +28,10 @@ public class MyReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentText(intent.getStringExtra("key"))
                 .setContentTitle("Degree Tracker").build();
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(notificationID++, notification);
-
     }
 
     private void createNotificationChannel(Context context, String channel_id) {

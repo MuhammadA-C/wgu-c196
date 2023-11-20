@@ -18,6 +18,7 @@ import com.muhammadchambersc196.database.Repository;
 import com.muhammadchambersc196.entities.Assessment;
 import com.muhammadchambersc196.entities.Course;
 import com.muhammadchambersc196.helper.AssessmentHelper;
+import com.muhammadchambersc196.helper.DateFormat;
 import com.muhammadchambersc196.helper.DateValidation;
 import com.muhammadchambersc196.helper.DialogMessages;
 import com.muhammadchambersc196.helper.InputValidation;
@@ -118,6 +119,9 @@ public class CreateOrUpdateAssessmentActivity extends AppCompatActivity {
                 InputValidation.isInputFieldEmpty(assessmentType)) {
                     //Checks to ensure that the input fields are NOT empty
                     Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.EMPTY_INPUT_FIELDS, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (!DateValidation.isDateCorrectLength(startDate.getText().toString()) || !DateValidation.isDateCorrectLength(endDate.getText().toString())) {
+                    Toast.makeText(CreateOrUpdateAssessmentActivity.this, DialogMessages.DATE_IS_INCORRECT_LENGTH, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!DateValidation.isDateANumber(startDate.getText().toString()) || !DateValidation.isDateANumber(endDate.getText().toString())) {
                     //Checks to ensure that the year, month, and date are numbers

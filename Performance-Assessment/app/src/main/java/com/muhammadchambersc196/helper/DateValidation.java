@@ -4,9 +4,7 @@ import java.time.LocalDate;
 
 public class DateValidation {
     public static boolean isDateFormattedCorrect(String dateStr) {
-        if (!isDateCorrectLength(dateStr)) {
-            return false;
-        } else if (!doesDateContainDashes(dateStr)) {
+        if (!doesDateContainDashes(dateStr)) {
             return false;
         } else if (!isDateMonthCorrectRange(dateStr)) {
             return false;
@@ -16,7 +14,7 @@ public class DateValidation {
         return true;
     }
 
-    private static boolean isDateCorrectLength(String dateStr) {
+    public static boolean isDateCorrectLength(String dateStr) {
         if (dateStr.length() > DateFormat.longDateFormat.length() || dateStr.length() < DateFormat.longDateFormat.length()) {
             return false;
         }

@@ -273,7 +273,9 @@ public class DetailedCourseActivity extends AppCompatActivity {
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            Toast.makeText(DetailedCourseActivity.this, "Alert was set!", Toast.LENGTH_SHORT).show();
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
             Course course = CourseHelper.retrieveCourseFromDatabaseByCourseID(dbCourseList, courseId);
@@ -291,13 +293,16 @@ public class DetailedCourseActivity extends AppCompatActivity {
             }
 
             Long trigger = formattedEndDate.getTime();
+
             Intent intent = new Intent(DetailedCourseActivity.this, MyReceiver.class);
             intent.putExtra("key", "Class, " + course.getTitle() + ", ends today!");
 
             PendingIntent sender = PendingIntent.getBroadcast(DetailedCourseActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            Toast.makeText(DetailedCourseActivity.this, "Alert was set!", Toast.LENGTH_SHORT).show();
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }
         return false;

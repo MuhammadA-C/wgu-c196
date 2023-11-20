@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muhammadchambersc196.R;
 import com.muhammadchambersc196.controller.HomeScreenActivity;
@@ -130,7 +131,8 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
             PendingIntent sender = PendingIntent.getBroadcast(DetailedAssessmentActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            Toast.makeText(DetailedAssessmentActivity.this, "Alert was set!", Toast.LENGTH_SHORT).show();
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         } else if (item.getTitle().equals(getString(R.string.menu_notify_for_end_date))) {
             SimpleDateFormat originalFormatter = new SimpleDateFormat(DateFormat.longDateFormat, Locale.US);
@@ -153,8 +155,8 @@ public class DetailedAssessmentActivity extends AppCompatActivity {
             PendingIntent sender = PendingIntent.getBroadcast(DetailedAssessmentActivity.this, ++HomeScreenActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
-
+            Toast.makeText(DetailedAssessmentActivity.this, "Alert was set!", Toast.LENGTH_SHORT).show();
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }
         return false;

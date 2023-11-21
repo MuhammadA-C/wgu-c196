@@ -59,5 +59,10 @@ WGU C196 Mobile Application Development
 
 ## Software Packages
 
-*Note: Below are the versions of the software that were used*
-
+* Android Studio Programming Language: Java
+* Android Studio Build Configuration Language: Kotlin DSL
+* Application was designed for Pixel 7 for API 33
+* Android Studio Giraffe 2022.3.1
+  * Runtime version: 17.0.6+0-17.0.6b829.9-10027231 aarch64
+* Android Studio Minimum SDK 29
+* Android Studio Maximum SDK 34

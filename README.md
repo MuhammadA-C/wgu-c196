@@ -1,5 +1,5 @@
 # wgu-c196
-WGU C196 Mobile Application Development
+WGU C196 - Degree Program Tracker
 
 ---
 
